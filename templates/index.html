@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <h1>Current Portfolio for {{ session.user_name }}</h1>
+    <br>
+    <table align="center">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Purchase Price</th>
+                <th>Position</th>
+                <th>Purchased on:</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nowrecords in nowrecords %}
+            <tr>
+                <td> {{ nowrecords.stock_symbol}}  </td>
+                <td> {{ nowrecords.stock_name}} </td>
+                <td> {{ nowrecords.stock_amount}} </td>
+                <td> {{ usdstockprice[nowrecords.stock_price]}} </td>
+                <td> {{ usdstockprice[nowrecords.stock_amount * nowrecords.stock_price] }} </td>
+                <td> {{ nowrecords.time}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+    <h1>Portfolio Breakdown</h1>
+    <table align="center">
+        <thead>
+            <tr>
+                <th>Total Portfolio <Worth></Worth></th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> Current Investments </td>
+                <td> {{ usd }} </td>
+            </tr>
+            <tr>
+                <td> Current Free Funding </td>
+                <td> {{session.user_balance}} </td>
+            </tr>
+            <tr>
+                <td> Total Net Worth </td>
+                <td> {{ust}} </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <h2>
+        Server Date/Time is {{ session.current_time }}
+    </h2>
+
+
+{% endblock %}

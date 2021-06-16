@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <h1>Purchase History for {{ session.user_name }}</h1>
+    <br>
+    <table align="center">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Purchase Price ($)</th>
+                <th>Purchased on:</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for buyrecords in buyrecords %}
+            <tr>
+                <td> {{ buyrecords.stock_symbol}}  </td>
+                <td> {{ buyrecords.stock_name}} </td>
+                <td> {{ buyrecords.stock_amount}} </td>
+                <td> {{ buyrecords.stock_price}} </td>
+                <td> {{ buyrecords.time}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+    <h1>Sales History for {{ session.user_name }}</h1>
+    <br>
+    <table align="center">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Sale Price ($)</th>
+                <th>Sold on:</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sellrecords in sellrecords %}
+            <tr>
+                <td> {{ sellrecords.stock_symbol}}  </td>
+                <td> {{ sellrecords.stock_name}} </td>
+                <td> {{ sellrecords.stock_amount}} </td>
+                <td> {{ sellrecords.stock_price}} </td>
+                <td> {{ sellrecords.time}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <h2>
+        Server Date/Time is {{ session.current_time }}
+    </h2>
+
+
+{% endblock %}
