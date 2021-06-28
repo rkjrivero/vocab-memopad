@@ -1,3 +1,4 @@
+### DISCLAIMER: GENERAL APPLICATION FOUNDATION IS BUILT UPON THE APPLICATION.PY FILE OF CS50 PSET 9
 import os
 import re
 from cs50 import SQL
@@ -8,8 +9,9 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 import secrets
 from helpers import apology, login_required, lookup, usd
-
 from datetime import datetime
+
+# NOTE TO SELF - INSPECT IMPORT LIST AND REMOVE THOSE NOT RELEVANT EVENTUALLY !!!
 
 # Configure application
 app = Flask(__name__)
@@ -31,7 +33,8 @@ app = Flask(__name__)
 # https://flask-session.readthedocs.io/en/latest/
 # note - read up on jwt authentication
 
-# NOTE TO SELF - DISABLED THE ENTIRE BLOCK ABOVE DUE TO WORKAROUND BY DISABLING MKDTEMP() ALONE GETS THE APP TO WORK
+# NOTE TO SELF - DISABLED THE ENTIRE BLOCK ABOVE DUE TO WORKAROUND BY DISABLING MKDTEMP() ALONE GETS THE APP TO WORK 
+# REFACTOR TO A BETTER SESSION-HANDLING METHOD ONCE PRIMARY FUNCTIONALITY IS ESTABLISHED
 
 
 # Ensure templates are auto-reloaded
@@ -45,9 +48,11 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-
+# NOTE CS50PSET9 CODE FOR REMOVAL !!!
+"""
 # Custom filter
 app.jinja_env.filters["usd"] = usd
+"""
 
 # Commented-out block to return to using signed cookies for heroku compatibility
 # Configure session to use filesystem (instead of signed cookies)
@@ -59,17 +64,19 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use postgresql (heroku integration)
+# NOTE TO SELF: TRANSITION TO SQLALCHEMY ONCE MAIN FUNCTIONALITY IS ESTABLISHED
 db_uri = os.getenv("DATABASE_URL")
 # https://help.heroku.com/ZKNTJQSK/why-is-sqlalchemy-1-4-x-not-connecting-to-heroku-postgres
 if db_uri.startswith("postgres://"):
     db_uri = db_uri.replace("postgres://", "postgresql://", 1)
 db = SQL(db_uri)
 
-
+# NOTE CS50PSET9 CODE FOR REMOVAL !!!
+"""
 # Make sure API key is set
 if not os.environ.get("API_KEY"):
     raise RuntimeError("API_KEY not set")
-
+"""
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -140,16 +147,19 @@ def login():
             return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
-        session["user_id"] = rows[0]["id"]
+        session["user_id"] = rows[0]["userid"]
 
         # (additional - remember user name / budget)
         session["user_name"] = rows[0]["username"]
+
+        # NOTE CS50PSET9 CODE FOR REMOVAL !!!
+        """
         # note - user_name / user_balance is primarily for display in layout.html
         session["user_balance"] = usd(rows[0]["cash"])
         session["user_fund"] = rows[0]["cash"]
         # update current display time - display format: dd/mm/YY H:M:S
         session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
+        """
 
         # Redirect user to home page
         return redirect("/")
@@ -173,11 +183,12 @@ def logout():
 @app.route("/")
 @login_required
 def index():
-    """Show portfolio of stocks"""
-
+    """Show INDEX.html"""
     # update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
+    # NOTE CS50PSET9 CODE FOR REMOVAL !!!
+    """    
     # RETRIEVE FROM DATABASE
     nowrecords = db.execute("SELECT * FROM nowrecords where user_id = ?", session["user_id"])
     tmprecords = nowrecords
@@ -192,15 +203,15 @@ def index():
     print("usdstockprice", usdstockprice)
     usdposition = usd(userposition)
     usdtotalpos = usd(userposition + session["user_fund"])
-
-
-
+    """
+    # NOTE - REPLACE render_template args !!!
     return render_template("index.html", nowrecords=nowrecords, usdstockprice=usdstockprice, usr=userposition, usd=usdposition, ust=usdtotalpos)
 
+# NOTE CS50PSET9 CODE FOR REMOVAL !!!
+"""
 @app.route("/quote", methods=["GET", "POST"])
 @login_required
 def quote():
-    """Get stock quote."""
 
     # update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
@@ -215,14 +226,7 @@ def quote():
         # Lookup quote for a symbol
         quote = lookup(request.form.get("symbol"))
         print("quote", quote)
-        # note to self - lookup(symbol) output is a dictionary with 3 keys:
-        """
-            return {
-                "name": quote["companyName"],
-                "price": float(quote["latestPrice"]),
-                "symbol": quote["symbol"]
-            }
-        """
+
         empty = ""
         if quote == None:
             return apology("no stock found", 400)
@@ -237,11 +241,9 @@ def quote():
     else:
         return render_template("quote.html")
 
-
 @app.route("/buy", methods=["GET", "POST"])
 @login_required
 def buy():
-    """Buy shares of stock"""
 
     # update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
@@ -262,14 +264,7 @@ def buy():
         # Lookup quote for a symbol
         buy_quote = lookup(request.form.get("symbol"))
         print("buy_quote", buy_quote)
-        # note to self - lookup(symbol) output is a dictionary with 3 keys:
-        """
-            return {
-                "name": quote["companyName"],
-                "price": float(quote["latestPrice"]),
-                "symbol": quote["symbol"]
-            }
-        """
+
         empty = ""
         if buy_quote == None:
             return apology("no stock found", 400)
@@ -337,7 +332,6 @@ def buy():
 @app.route("/sell", methods=["GET", "POST"])
 @login_required
 def sell():
-    """Sell shares of stock"""
 
     # update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
@@ -393,14 +387,7 @@ def sell():
         # Lookup quote for a symbol
         sell_quote = lookup(userheld_stocksymbol)
         print("sell_quote:", sell_quote)
-        # note to self - lookup(symbol) output is a dictionary with 3 keys:
-        """
-            return {
-                "name": quote["companyName"],
-                "price": float(quote["latestPrice"]),
-                "symbol": quote["symbol"]
-            }
-        """
+
         # Compute costs
         sellstockprice = float(sell_quote["price"])
         sellstockamount = float(request.form.get("shares"))
@@ -471,11 +458,9 @@ def sell():
         print("user_held:", user_held)
         return render_template("sell.html", user_held=user_held)
 
-
 @app.route("/history")
 @login_required
 def history():
-    """Show history of transactions"""
 
     # update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
@@ -487,11 +472,12 @@ def history():
     print("sellrecords:", sellrecords)
 
     return render_template("history.html", buyrecords=buyrecords, sellrecords=sellrecords)
-
+"""
 
 @app.route("/profile")
 @login_required
 def profile():
+    # NOTE CS50 CODE RETAINED FOR NOW, REVISE AS NECESSARY LATER !!!
     """CUSTOM: Profile Page"""
 
     # update current display time - display format: dd/mm/YY H:M:S
@@ -502,6 +488,7 @@ def profile():
 @app.route("/changepw", methods=["GET", "POST"])
 @login_required
 def changepw():
+    # NOTE CS50 CODE RETAINED FOR NOW, REVISE AS NECESSARY LATER !!!
     """CUSTOM: Change Password Page"""
 
     # update current display time - display format: dd/mm/YY H:M:S
@@ -538,11 +525,11 @@ def changepw():
     else:
         return render_template("changepw.html")
 
-
+# NOTE CS50PSET9 CODE FOR REMOVAL !!!
+"""
 @app.route("/addfunds", methods=["GET", "POST"])
 @login_required
 def addfunds():
-    """CUSTOM: Add Funds Page"""
 
     # update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
@@ -571,8 +558,8 @@ def addfunds():
         # Actually just fluff tbh
         fundsource = ["VISA", "MASTERCARD", "AMEX"]
         return render_template("addfunds.html", fundsource=fundsource)
-
-
+"""
+# NOTE CS50PSET9 BASE CODE BELOW RETAINED
 def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):
@@ -583,7 +570,3 @@ def errorhandler(e):
 # Listen for errors
 for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
-
-
-# NOTE TO SELF!!! Run below before "flask run"
-# export API_KEY=pk_c0938103f4af4a089faf5a1ccc4be20c
