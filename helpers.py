@@ -1,5 +1,4 @@
-
-
+### NOTE / DISCLAIMER: GENERAL APPLICATION FOUNDATION IS BUILT UPON THE HELPERS.PY FILE OF CS50 PSET 9
 import os
 import requests
 import urllib.parse
@@ -8,8 +7,11 @@ from flask import redirect, render_template, request, session
 from functools import wraps
 
 
+# TODO RETAIN CS50 APOLOGY FUNCTIONALITY, BUT REPLACE LINKED IMAGE IN APOLOGY.HTML !!!
 def apology(message, code=400):
-    """Render message as an apology to user."""
+    # NOTE - APOLOGY DEFINITION ORIGINALLY FROM CS50PSET9, WITHOUT MODIFICATIONS
+    """Render message as an apology to user."""    
+    
     def escape(s):
         """
         Escape special characters.
@@ -24,6 +26,7 @@ def apology(message, code=400):
 
 
 def login_required(f):
+    # NOTE - LOGIN_REQUIRED DEFINITION ORIGINALLY FROM CS50PSET9, WITHOUT MODIFICATIONS
     """
     Decorate routes to require login.
 
@@ -36,9 +39,10 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-
+# NOTE CS50PSET9 CODE FOR REMOVAL !!!
+"""
 def lookup(symbol):
-    """Look up quote for symbol."""
+
 
     # Contact API
     try:
@@ -62,8 +66,6 @@ def lookup(symbol):
 
 
 def usd(value):
-    """Format value as USD."""
-    return f"${value:,.2f}"
 
-# NOTE TO SELF!!! Run below before "flask run"
-# export API_KEY=pk_c0938103f4af4a089faf5a1ccc4be20c
+    return f"${value:,.2f}"
+"""

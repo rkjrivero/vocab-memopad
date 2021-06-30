@@ -1,17 +1,17 @@
-### DISCLAIMER: GENERAL APPLICATION FOUNDATION IS BUILT UPON THE APPLICATION.PY FILE OF CS50 PSET 9
+### NOTE / DISCLAIMER: GENERAL APPLICATION FOUNDATION IS BUILT UPON THE APPLICATION.PY FILE OF CS50 PSET 9
 import os
-import re
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
-from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
-import secrets
-from helpers import apology, login_required, lookup, usd
+from helpers import apology, login_required
 from datetime import datetime
+import re # UNUSED RN
+from tempfile import mkdtemp #UNUSED RN
+import secrets #UNUSED RN
 
-# NOTE TO SELF - INSPECT IMPORT LIST AND REMOVE THOSE NOT RELEVANT EVENTUALLY !!!
+# TODO - INSPECT IMPORT LIST AND REMOVE THOSE NOT RELEVANT EVENTUALLY !!!
 
 # Configure application
 app = Flask(__name__)
@@ -80,6 +80,7 @@ if not os.environ.get("API_KEY"):
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    # NOTE - REGISTER DEFINITION ORIGINALLY FROM CS50PSET9, WITHOUT MODIFICATION
     """Register user"""
 
     # User reached route via POST (as by submitting a form via POST)
@@ -121,8 +122,10 @@ def register():
     else:
         return render_template("register.html")
 
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    # NOTE - LOGIN DEFINITION ORIGINALLY FROM CS50PSET9, WITH MODIFICATIONS
     """Log user in"""
 
     # Forget any user_id
@@ -171,6 +174,7 @@ def login():
 
 @app.route("/logout")
 def logout():
+    # NOTE - LOGOUT DEFINITION ORIGINALLY FROM CS50PSET9, WITHOUT MODIFICATION
     """Log user out"""
 
     # Forget any user_id
@@ -180,12 +184,67 @@ def logout():
     return redirect("/")
 
 
+@app.route("/profile")
+@login_required
+def profile():
+    # NOTE FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
+    """CUSTOM: Profile Page"""
+
+    # update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    return render_template("profile.html")
+
+@app.route("/changepw", methods=["GET", "POST"])
+@login_required
+def changepw():
+    # NOTE FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
+    """CUSTOM: Change Password Page"""
+
+    # update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure username was submitted
+        if not request.form.get("oldpw"):
+            return apology("must provide old password", 403)
+
+        # Ensure password was submitted
+        elif not request.form.get("newpw"):
+            return apology("must provide new password", 403)
+
+        # Query database for username
+        userdb = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
+        print("userdb[0][hash]:", userdb[0]["hash"])
+
+        # Ensure old password is correct
+        if check_password_hash(userdb[0]["hash"], request.form.get("oldpw")) == False:
+            return apology("invalid old password", 403)
+
+        else:
+            changepass = generate_password_hash(request.form.get("newpw"), method='pbkdf2:sha256', salt_length=8)
+            db.execute("UPDATE users SET hash = ? WHERE id = ?", changepass, session["user_id"])
+            flash("Password Changed", category="message")
+
+        # Redirect user to home page
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("changepw.html")
+
 @app.route("/")
 @login_required
 def index():
+    # NOTE - INDEX DEFINITION ORIGINALLY FROM CS50PSET9, WITH MODIFICATIONS
     """Show INDEX.html"""
+
     # update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # TODO - REVISE AS NECESSARY LATER
 
     # NOTE CS50PSET9 CODE FOR REMOVAL !!!
     """    
@@ -203,11 +262,32 @@ def index():
     print("usdstockprice", usdstockprice)
     usdposition = usd(userposition)
     usdtotalpos = usd(userposition + session["user_fund"])
-    """
-    # NOTE - REPLACE render_template args !!!
+    
     return render_template("index.html", nowrecords=nowrecords, usdstockprice=usdstockprice, usr=userposition, usd=usdposition, ust=usdtotalpos)
+    """
+    return render_template("index.html")
 
-# NOTE CS50PSET9 CODE FOR REMOVAL !!!
+# NOTE - ADD NEW app.route DEFINITIONS FOLLOWING THIS LINE !!!
+# TODO - CREATE DEFINITIONS FOR THE FOLLOWING FUNCTIONS:
+# def input(): - to input word/phrase, etc
+# def review(): - to review results of inputted word/phrase, etc
+# def recall_summary(): - to view summary of all word/phrase entries, NOTE: check if overlapping with index()
+# def recall_full(): - to view full list of saved word/phrase entries
+# def recall_pinned(): - to view pinned list of saved word/phrase entries
+
+# NOTE CS50PSET9 BASE CODE BELOW RETAINED
+def errorhandler(e):
+    """Handle error"""
+    if not isinstance(e, HTTPException):
+        e = InternalServerError()
+    return apology(e.name, e.code)
+
+# Listen for errors
+for code in default_exceptions:
+    app.errorhandler(code)(errorhandler)
+
+# NOTE ENTIRE CODEBLOCK BELOW IS CS50PSET9 CODE FOR REMOVAL !!!
+# NOTE COMMENTED-OUT BUT NOT REMOVED FOR TEMPORARY SYNTAX GUDIE ONLY !!!
 """
 @app.route("/quote", methods=["GET", "POST"])
 @login_required
@@ -472,61 +552,7 @@ def history():
     print("sellrecords:", sellrecords)
 
     return render_template("history.html", buyrecords=buyrecords, sellrecords=sellrecords)
-"""
 
-@app.route("/profile")
-@login_required
-def profile():
-    # NOTE CS50 CODE RETAINED FOR NOW, REVISE AS NECESSARY LATER !!!
-    """CUSTOM: Profile Page"""
-
-    # update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
-    return render_template("profile.html")
-
-@app.route("/changepw", methods=["GET", "POST"])
-@login_required
-def changepw():
-    # NOTE CS50 CODE RETAINED FOR NOW, REVISE AS NECESSARY LATER !!!
-    """CUSTOM: Change Password Page"""
-
-    # update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-
-        # Ensure username was submitted
-        if not request.form.get("oldpw"):
-            return apology("must provide old password", 403)
-
-        # Ensure password was submitted
-        elif not request.form.get("newpw"):
-            return apology("must provide new password", 403)
-
-        # Query database for username
-        userdb = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
-        print("userdb[0][hash]:", userdb[0]["hash"])
-
-        # Ensure old password is correct
-        if check_password_hash(userdb[0]["hash"], request.form.get("oldpw")) == False:
-            return apology("invalid old password", 403)
-
-        else:
-            changepass = generate_password_hash(request.form.get("newpw"), method='pbkdf2:sha256', salt_length=8)
-            db.execute("UPDATE users SET hash = ? WHERE id = ?", changepass, session["user_id"])
-            flash("Password Changed", category="message")
-
-        # Redirect user to home page
-        return redirect("/")
-
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("changepw.html")
-
-# NOTE CS50PSET9 CODE FOR REMOVAL !!!
-"""
 @app.route("/addfunds", methods=["GET", "POST"])
 @login_required
 def addfunds():
@@ -559,14 +585,3 @@ def addfunds():
         fundsource = ["VISA", "MASTERCARD", "AMEX"]
         return render_template("addfunds.html", fundsource=fundsource)
 """
-# NOTE CS50PSET9 BASE CODE BELOW RETAINED
-def errorhandler(e):
-    """Handle error"""
-    if not isinstance(e, HTTPException):
-        e = InternalServerError()
-    return apology(e.name, e.code)
-
-
-# Listen for errors
-for code in default_exceptions:
-    app.errorhandler(code)(errorhandler)
