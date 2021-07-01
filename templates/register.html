@@ -8,16 +8,16 @@
     <h1>Register an account</h1>
     <form action="/register" method="post">
         <div class="container-sm">
-            <div class="form-group">
+            <div class="mb-3">
                 <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
             </div>
-            <div class="form-group">
+            <div class="mb-3">
                 <input class="form-control" name="password" placeholder="Password" type="password">
             </div>
-            <div class="form-group">
+            <div class="mb-3">
                 <input class="form-control" name="confirmation" placeholder="Repeat Password" type="password">
             </div>
-            <div class="dropdown" class="min-vw-50" name="targetlang">
+            <div class="dropdown" class="mb-3" name="targetlang">
                     <select class="form-select" aria-label="Target Language">
                         <option selected disabled>Select Target Language</option>
                         <option value="EN">English [EN]</option>
@@ -25,7 +25,7 @@
                         <option value="EO">Esperanto [EO]</option>
                     </select>
             </div>
-            <div class="form-group" class="min-vw-50" >
+            <div class="mb-3" >
                 <div class="dropdown" name="originlang">
                     <select class="form-select" aria-label="Origin Language">
                         <option selected disabled>Select Origin Language</option>
@@ -35,7 +35,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group" class="min-vw-66" >
+            <div class="mb-3" >
                 <div class="form-check form-switch" name="autotrans">
                     <label class="form-check-label" for="check_autotrans">Automatically translate input?</label>
                     <input class="form-check-input" type="checkbox" id="check_autotrans" checked>                    
