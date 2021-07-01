@@ -7,7 +7,7 @@
 {% block main %}
     <h1>Register an account</h1>
     <form action="/register" method="post">
-        <div class="container">
+        <div class="jumbotron">
             <div class="form-group">
                 <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
             </div>
@@ -20,7 +20,7 @@
             <div class="form-group" class="col-xs-2">
                 <div class="dropdown" name="targetlang">
                     <select class="form-select" aria-label="Target Language">
-                        <option selected>Select Target Language</option>
+                        <option selected disabled>Select Target Language</option>
                         <option value="EN">English [EN]</option>
                         <option value="JP">Japanese [JP]</option>
                         <option value="EO">Esperanto [EO]</option>
@@ -30,7 +30,7 @@
             <div class="form-group" class="col-xs-2">
                 <div class="dropdown" name="originlang">
                     <select class="form-select" aria-label="Origin Language">
-                        <option selected>Select Origin Language</option>
+                        <option selected disabled>Select Origin Language</option>
                         <option value="EN">English [EN]</option>
                         <option value="JP">Japanese [JP]</option>
                         <option value="EO">Esperanto [EO]</option>
