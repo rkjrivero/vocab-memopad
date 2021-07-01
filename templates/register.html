@@ -7,41 +7,43 @@
 {% block main %}
     <h1>Register an account</h1>
     <form action="/register" method="post">
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
-        </div>
-        <div class="form-group">
-            <input class="form-control" name="password" placeholder="Password" type="password">
-        </div>
-        <div class="form-group">
-            <input class="form-control" name="confirmation" placeholder="Repeat Password" type="password">
-        </div>
-        <div class="form-group">
-            <div class="dropdown" name="targetlang">
-                <select class="form-select" aria-label="Target Language">
-                    <option selected>Select Target Language</option>
-                    <option value="EN">English [EN]</option>
-                    <option value="JP">Japanese [JP]</option>
-                    <option value="EO">Esperanto [EO]</option>
-                </select>
+        <div class="container">
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
             </div>
-        </div>
-        <div class="form-group">
-            <div class="dropdown" name="originlang">
-                <select class="form-select" aria-label="Origin Language">
-                    <option selected>Select Origin Language</option>
-                    <option value="EN">English [EN]</option>
-                    <option value="JP">Japanese [JP]</option>
-                    <option value="EO">Esperanto [EO]</option>
-                </select>
+            <div class="form-group">
+                <input class="form-control" name="password" placeholder="Password" type="password">
             </div>
-        </div>
-        <div>
-            <div class="form-check form-switch" name="autotrans">
-                <input class="form-check-input" type="checkbox" id="check_autotrans" checked>
-                <label class="form-check-label" for="check_autotrans">Automatically translate input?</label>
+            <div class="form-group">
+                <input class="form-control" name="confirmation" placeholder="Repeat Password" type="password">
             </div>
+            <div class="form-group">
+                <div class="dropdown" name="targetlang">
+                    <select class="form-select" aria-label="Target Language">
+                        <option selected>Select Target Language</option>
+                        <option value="EN">English [EN]</option>
+                        <option value="JP">Japanese [JP]</option>
+                        <option value="EO">Esperanto [EO]</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="dropdown" name="originlang">
+                    <select class="form-select" aria-label="Origin Language">
+                        <option selected>Select Origin Language</option>
+                        <option value="EN">English [EN]</option>
+                        <option value="JP">Japanese [JP]</option>
+                        <option value="EO">Esperanto [EO]</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-check form-switch" name="autotrans">
+                    <input class="form-check-input" type="checkbox" id="check_autotrans" checked>
+                    <label class="form-check-label" for="check_autotrans">Automatically translate input?</label>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Register</button>
         </div>
-        <button class="btn btn-primary" type="submit">Register</button>
     </form>
 {% endblock %}
