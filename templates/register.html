@@ -7,7 +7,7 @@
 {% block main %}
     <h1>Register an account</h1>
     <form action="/register" method="post">
-        <div class="jumbotron">
+        <div class="container-sm">
             <div class="form-group">
                 <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
             </div>
@@ -40,7 +40,6 @@
             <div class="form-group" class="min-vw-66" >
                 <div class="form-check form-switch" name="autotrans">
                     <label class="form-check-label" for="check_autotrans">Automatically translate input?</label>
-                    <br>
                     <input class="form-check-input" type="checkbox" id="check_autotrans" checked>                    
                 </div>
             </div>
