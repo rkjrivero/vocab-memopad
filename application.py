@@ -132,13 +132,10 @@ def register():
 
         else:
             newpass = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8)
-
-            #TODO - edit insertion to include tgtlang, orglang, autotrans, wordcount (default 0), pincount (default 0)
-            #NOTE - try studying sqlalchemy if possible
-            # prior variant for reference - db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", request.form.get("username"), newpass)
-            print("test username:", request.form.get("username") ," hash:", newpass," tgtlang:", tgtlang," orglang:", 
+            # print test
+            print("TEST /register input: username:", request.form.get("username") ," hash:", newpass," tgtlang:", tgtlang," orglang:", 
                 orglang, " autotrans (raw):", request.form.get("autotrans")," autotrans (if/else):", autotrans)
-
+            # NOTE - try studying sqlalchemy if possible
             db.execute("INSERT INTO users (username, hash, tgtlang, orglang, autotrans, wordcount, pincount) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 request.form.get("username"), newpass, tgtlang, orglang, autotrans, 0, 0)            
             flash("User registered", category="message")
