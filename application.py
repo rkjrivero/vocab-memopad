@@ -111,7 +111,7 @@ def register():
         tgtlang = request.form.get("targetlang")
     
         # Ensure origin language was selected
-        if not request.form.get("orglang"):
+        if not request.form.get("originlang"):
             return apology("must select origin Language", 400)
         orglang = request.form.get("orglang")
 
