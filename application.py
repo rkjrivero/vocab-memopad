@@ -116,7 +116,7 @@ def register():
         orglang = request.form.get("originlang")
 
         # Assign boolean value based on auto-translate checkbox
-        if request.form.get("orglang") == "true":
+        if request.form.get("autotrans") == "true":
             autotrans = True
         else:
             autotrans = False
