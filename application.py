@@ -103,6 +103,7 @@ def register():
         elif not request.form.get("confirmation") == request.form.get("password"):
             return apology("passwords must match", 400)
 
+        # TODO - add code to check if tgtlang, orglang was selected
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = ?;", request.form.get("username"))
@@ -114,6 +115,10 @@ def register():
 
         else:
             newpass = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8)
+
+            #TODO - edit insertion to include tgtlang, orglang, autotrans, pincount (default 0), wordcount (default 0)
+            #NOTE - try studyin sqlalchemy if possible
+
             db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", request.form.get("username"), newpass)
             flash("User registered", category="message")
 
