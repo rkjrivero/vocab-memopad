@@ -8,6 +8,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required
 from datetime import datetime
 
+import sqlalchemy # provisional
+# https://www.learndatasci.com/tutorials/using-databases-python-postgres-sqlalchemy-and-alembic/
 
 import re # UNUSED RN
 from tempfile import mkdtemp #UNUSED RN
@@ -103,7 +105,22 @@ def register():
         elif not request.form.get("confirmation") == request.form.get("password"):
             return apology("passwords must match", 400)
 
-        # TODO - add code to check if tgtlang, orglang was selected
+        # Ensure target language was selected
+        if not request.form.get("targetlang"):
+            return apology("must select target Language", 400)
+        tgtlang = request.form.get("targetlang")
+    
+        # Ensure origin language was selected
+        if not request.form.get("orglang"):
+            return apology("must select origin Language", 400)
+        orglang = request.form.get("orglang")
+
+        # Assign boolean value based on auto-translate checkbox
+        if request.from.get("orglang") == "true":
+            autotrans = True
+        else:
+            autotrans = False
+    
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = ?;", request.form.get("username"))
@@ -116,10 +133,12 @@ def register():
         else:
             newpass = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8)
 
-            #TODO - edit insertion to include tgtlang, orglang, autotrans, pincount (default 0), wordcount (default 0)
-            #NOTE - try studyin sqlalchemy if possible
-
-            db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", request.form.get("username"), newpass)
+            #TODO - edit insertion to include tgtlang, orglang, autotrans, wordcount (default 0), pincount (default 0)
+            #NOTE - try studying sqlalchemy if possible
+            # prior variant for reference - db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", request.form.get("username"), newpass)
+            
+            db.execute("INSERT INTO users (username, hash, tgtlang, orglang, autotrans, wordcount, pincount) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                request.form.get("username"), newpass, tgtlang, orglang, autotrans, 0, 0)            
             flash("User registered", category="message")
 
         # Redirect user to home page
