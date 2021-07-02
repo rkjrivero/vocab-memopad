@@ -180,14 +180,8 @@ def login():
         # (additional - remember user name / budget)
         session["user_name"] = rows[0]["username"]
 
-        # NOTE CS50PSET9 CODE FOR REMOVAL !!!
-        """
-        # note - user_name / user_balance is primarily for display in layout.html
-        session["user_balance"] = usd(rows[0]["cash"])
-        session["user_fund"] = rows[0]["cash"]
         # update current display time - display format: dd/mm/YY H:M:S
         session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-        """
 
         # Redirect user to home page
         return redirect("/")
