@@ -137,7 +137,7 @@ def register():
             #NOTE - try studying sqlalchemy if possible
             # prior variant for reference - db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", request.form.get("username"), newpass)
             print("test username:", request.form.get("username") ," hash:", newpass," tgtlang:", tgtlang," orglang:", 
-                orglang, " autotrans (raw):", request.form.get("orglang")," autotrans (if/else):", autotrans)
+                orglang, " autotrans (raw):", request.form.get("autotrans")," autotrans (if/else):", autotrans)
 
             db.execute("INSERT INTO users (username, hash, tgtlang, orglang, autotrans, wordcount, pincount) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 request.form.get("username"), newpass, tgtlang, orglang, autotrans, 0, 0)            
