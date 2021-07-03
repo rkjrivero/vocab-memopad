@@ -169,6 +169,8 @@ def login():
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+        print("test, query-username: ", request.form.get("username"))
+        print("test, query-rows: ", rows)
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
@@ -262,6 +264,12 @@ def index():
 
     # update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # RETRIEVE FROM DATABASE
+    # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
+
+         
+
 
     # TODO - REVISE AS NECESSARY LATER
 
