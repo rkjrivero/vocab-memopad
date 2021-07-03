@@ -169,8 +169,10 @@ def login():
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
-        print("test, query-username: ", request.form.get("username"))
         print("test, query-rows: ", rows)
+        print("test, query-username: ", request.form.get("username"))
+        print("test, password-hash: ", generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8))
+        print("test, check_password_hash: ",check_password_hash(rows[0]["hash"], request.form.get("password")) )
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
