@@ -123,11 +123,11 @@ def register():
     
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = ?;", request.form.get("username"))
-        print(rows)
+        usertable = db.execute("SELECT * FROM users WHERE username = ?;", request.form.get("username"))
+        print(usertable)
         # Check if username exists
 
-        if len(rows) != 0:
+        if len(usertable) != 0:
             return apology("existing user detected", 400)
 
         else:
@@ -153,7 +153,7 @@ def login():
     # NOTE - LOGIN DEFINITION ORIGINALLY FROM CS50PSET9, WITH MODIFICATIONS
     """Log user in"""
 
-    # Forget any user_id
+    # Forget any userid
     session.clear()
 
     # User reached route via POST (as by submitting a form via POST)
@@ -168,21 +168,30 @@ def login():
             return apology("must provide password", 403)
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
-        print("test, query-rows: ", rows)
+        usertable = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+        print("test, query-usertable: ", usertable)
         print("test, query-username: ", request.form.get("username"))
         print("test, password-hash: ", generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8))
-        print("test, check_password_hash: ",check_password_hash(rows[0]["hash"], request.form.get("password")) )
+        print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+        if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("password")):
             return apology("invalid username and/or password", 403)
 
-        # Remember which user has logged in
-        session["user_id"] = rows[0]["userid"]
-
-        # (additional - remember user name / budget)
-        session["user_name"] = rows[0]["username"]
+        # Establish session[] array based on "user" table on database
+        # NOTE: usertable = userid, username, hash, tgtlang, orglang, autotrans, pincount, wordcount
+        # NOTE "user_id/user_name" instead of userid/username is both to distinctly identify a session[] variable as well as prior-html/py-code compatibility (less work)
+        
+        # user_id and user_name utilized for database recall, and are static (permanent)
+        session["user_id"] = usertable[0]["userid"]
+        session["user_name"] = usertable[0]["username"]
+        # user_tgtlang/orglang/autotrans are used for layout display, and are dynamic (manually changed in profile options)
+        session["user_tgtlang"] = usertable[0]["tgtlang"]
+        session["user_orglang"] = usertable[0]["orglang"]
+        session["user_autotrans"] = usertable[0]["autotrans"]
+        # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+        session["user_wordcount"] = usertable[0]["wordcount"]
+        session["user_pincount"] = usertable[0]["pincount"]
 
         # update current display time - display format: dd/mm/YY H:M:S
         session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
@@ -200,7 +209,7 @@ def logout():
     # NOTE - LOGOUT DEFINITION ORIGINALLY FROM CS50PSET9, WITHOUT MODIFICATION
     """Log user out"""
 
-    # Forget any user_id
+    # Forget any userid
     session.clear()
 
     # Redirect user to login form
@@ -268,17 +277,17 @@ def index():
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
     # RETRIEVE FROM DATABASE
+
+    # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
     # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
+    vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
 
-         
-
-
-    # TODO - REVISE AS NECESSARY LATER
+    # TODO - add in code for remaining database queries and update along with index.html
 
     # NOTE CS50PSET9 CODE FOR REMOVAL !!!
     """    
     # RETRIEVE FROM DATABASE
-    nowrecords = db.execute("SELECT * FROM nowrecords where user_id = ?", session["user_id"])
+    nowrecords = db.execute("SELECT * FROM nowrecords where userid = ?", session["user_id"])
     tmprecords = nowrecords
     userposition = 0
     usdstockprice = {}
@@ -411,13 +420,13 @@ def buy():
 
         # Insert into table of all stock purchases
         db.execute(
-            "INSERT INTO buyrecords (user_id, stock_symbol, stock_name, stock_amount, stock_price, time) VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO buyrecords (userid, stock_symbol, stock_name, stock_amount, stock_price, time) VALUES (?, ?, ?, ?, ?, ?)",
             session["user_id"], buy_quote["symbol"], buy_quote["name"], buystockamount, buystockprice, datetime.now().strftime("%Y/%m/%d %H:%M:%S")
             )
 
         # Insert into table of all currently-owned stocks
         db.execute(
-        	"INSERT INTO nowrecords (user_id, stock_symbol, stock_name, stock_amount, stock_price, time) VALUES (?, ?, ?, ?, ?, ?)",
+        	"INSERT INTO nowrecords (userid, stock_symbol, stock_name, stock_amount, stock_price, time) VALUES (?, ?, ?, ?, ?, ?)",
         	session["user_id"], buy_quote["symbol"], buy_quote["name"], buystockamount, buystockprice, datetime.now().strftime("%Y/%m/%d %H:%M:%S")
         	)
 
@@ -449,7 +458,7 @@ def sell():
     if request.method == "POST":
 
         # Obtain list of user-held stocks
-        userheld = db.execute("SELECT * FROM nowrecords where user_id = ?", session["user_id"])
+        userheld = db.execute("SELECT * FROM nowrecords where userid = ?", session["user_id"])
         print("userheld:", userheld)
 
         # Ensure stock symbol and amount was submitted
@@ -531,7 +540,7 @@ def sell():
 
         # Insert into table of all stock sales
         db.execute(
-            "INSERT INTO sellrecords (user_id, stock_symbol, stock_name, stock_amount, stock_price, time) VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO sellrecords (userid, stock_symbol, stock_name, stock_amount, stock_price, time) VALUES (?, ?, ?, ?, ?, ?)",
             session["user_id"], sell_quote["symbol"], sell_quote["name"], sellstockamount, sellstockprice, datetime.now().strftime("%Y/%m/%d %H:%M:%S")
             )
 
@@ -563,7 +572,7 @@ def sell():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         # Obtain list of user-held stocks
-        user_held = db.execute("SELECT * FROM nowrecords where user_id = ?", session["user_id"])
+        user_held = db.execute("SELECT * FROM nowrecords where userid = ?", session["user_id"])
         print("user_held:", user_held)
         return render_template("sell.html", user_held=user_held)
 
@@ -575,8 +584,8 @@ def history():
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
     # RETRIEVE FROM DATABASE
-    buyrecords = db.execute("SELECT * FROM buyrecords where user_id = ?", session["user_id"])
-    sellrecords = db.execute("SELECT * FROM sellrecords where user_id = ?", session["user_id"])
+    buyrecords = db.execute("SELECT * FROM buyrecords where userid = ?", session["user_id"])
+    sellrecords = db.execute("SELECT * FROM sellrecords where userid = ?", session["user_id"])
     print("buyrecords:", buyrecords)
     print("sellrecords:", sellrecords)
 
