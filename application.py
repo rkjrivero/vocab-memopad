@@ -282,6 +282,7 @@ def index():
     # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
     vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
 
+
     # TODO - add in code for remaining database queries and update along with index.html
 
     # NOTE CS50PSET9 CODE FOR REMOVAL !!!
@@ -303,7 +304,7 @@ def index():
     
     return render_template("index.html", nowrecords=nowrecords, usdstockprice=usdstockprice, usr=userposition, usd=usdposition, ust=usdtotalpos)
     """
-    return render_template("index.html")
+    return render_template("index.html", vocabtable=vocabtable)
 
 # NOTE - ADD NEW app.route DEFINITIONS FOLLOWING THIS LINE !!!
 # TODO - CREATE DEFINITIONS FOR THE FOLLOWING FUNCTIONS:

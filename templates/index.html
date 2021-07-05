@@ -15,19 +15,19 @@
         <thead>
             <tr>
                 <th>Original Language: </th>
-                <th> orglang </th>
+                <th> {{ session.user_orglang }} </th>
             </tr>
             <tr>
                 <th>Target Language: </th>
-                <th> tgtlang </th>
+                <th> {{ session.user_tgtlang }} </th>
             </tr>
             <tr>
                 <th>Total Word/Phrase Entry Count: </th>
-                <th> wordcount </th>
+                <th> {{ session.user_wordcount }} </th>
             </tr>
             <tr>
                 <th>Pinned Word/Phrase Entry Count: </th>
-                <th> pincount </th>
+                <th> {{ session.user_pincount }} </th>
             </tr>
         </thead>
     </table>
@@ -48,12 +48,12 @@
         <tbody>
             <!-- {% for var in var %} -->
             <tr>
-                <td> strinput  </td>
-                <td> langinput </td>
-                <td> strtrans </td>
-                <td> lantrans </td>
-                <td> time </td>
-                <td> rating </td>
+                <td> {{ vocabtable.strinput }}  </td>
+                <td> {{ vocabtable.langinput }} </td>
+                <td> {{ vocabtable.strtrans }} </td>
+                <td> {{ vocabtable.lantrans }} </td>
+                <td> {{ vocabtable.time }} </td>
+                <td> {{ vocabtable.rating }} </td>
             </tr>
             <!-- {% endfor %} -->
         </tbody>
@@ -75,12 +75,12 @@
         <tbody>
             <!-- {% for var in var %} -->
             <tr>
-                <td> strinput  </td>
-                <td> langinput </td>
-                <td> strtrans </td>
-                <td> lantrans </td>
-                <td> time </td>
-                <td> rating </td>
+                <td> {{ vocabtable.strinput }}  </td>
+                <td> {{ vocabtable.langinput }} </td>
+                <td> {{ vocabtable.strtrans }} </td>
+                <td> {{ vocabtable.lantrans }} </td>
+                <td> {{ vocabtable.time }} </td>
+                <td> {{ vocabtable.rating }} </td>
             </tr>
             <!-- {% endfor %} -->
         </tbody>
