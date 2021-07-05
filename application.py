@@ -281,7 +281,15 @@ def index():
     # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
     # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
     vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
+    #allvocabtable = ()
+    #pinvocabtable = ()
 
+    # Filter out for allvocabtable
+#    for (key,value) in vocabtable:
+#        if key ==  
+
+    # PRINT TEST
+    print("test, vocabtable{}: ", vocabtable)
 
     # TODO - add in code for remaining database queries and update along with index.html
 
