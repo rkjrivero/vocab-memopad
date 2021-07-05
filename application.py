@@ -285,7 +285,7 @@ def index():
     # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
     vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
     allvocabtable = ()
-    #pinvocabtable = ()
+    pinvocabtable = ()
     # PRINT TEST
     print("test, vocabtable[{}]: ", vocabtable)
 
@@ -305,11 +305,24 @@ def index():
                     # PRINT TEST
                     print("test, allvocabtable{}: ", allvocabtable)
 
+    # Filter out for pinvocabtable
+    # NOTE: go through all dictionary items within the list that db.execute returns
+    for vocabtable_list in vocabtable:
+        # PRINT TEST
+        print("test, vocabtable_list{}: ", vocabtable_list)                
+        for (vt_key, vt_value) in vocabtable_list:            
+            # NOTE: go through all key/value pairs and search if they're for the current user
+            if vt_key == "userlink" and vt_value == session["user_id"]:
+                # PRINT TEST
+                print("test, vocabtable_list {userlink:user_id} match: ", vocabtable_list)
+                # NOTE: go through all key/value pairs and search if they're pinned or not
+                if vt_key == "pin" and vt_value == True:
+                    pinvocabtable[vt_key] = vt_value
+                    # PRINT TEST
+                    print("test, allvocabtable{}: ", allvocabtable)
 
 
-    
-
-    # TODO - add in code for remaining database queries and update along with index.html
+    # NOTE/TODO NEED TO VERIFY IF ABOVE FUNCTIONS actually work (need to either get /insert route functional or insert dummy data)
 
     # NOTE CS50PSET9 CODE FOR REMOVAL !!!
     """    
@@ -330,7 +343,7 @@ def index():
     
     return render_template("index.html", nowrecords=nowrecords, usdstockprice=usdstockprice, usr=userposition, usd=usdposition, ust=usdtotalpos)
     """
-    return render_template("index.html", vocabtable = vocabtable, allvocabtable = allvocabtable)
+    return render_template("index.html", vocabtable = vocabtable, allvocabtable = allvocabtable, pinvocabtable = pinvocabtable)
 
 # NOTE - ADD NEW app.route DEFINITIONS FOLLOWING THIS LINE !!!
 # TODO - CREATE DEFINITIONS FOR THE FOLLOWING FUNCTIONS:
