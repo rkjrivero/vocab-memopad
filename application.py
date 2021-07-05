@@ -278,18 +278,36 @@ def index():
 
     # RETRIEVE FROM DATABASE
 
+    # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
+    # inside of which are keys and values representing a table’s fields and cells, respectively.
+
     # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
     # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
     vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
-    #allvocabtable = ()
+    allvocabtable = ()
     #pinvocabtable = ()
+    # PRINT TEST
+    print("test, vocabtable[{}]: ", vocabtable)
 
     # Filter out for allvocabtable
-#    for (key,value) in vocabtable:
-#        if key ==  
+    # NOTE: go through all dictionary items within the list that db.execute returns
+    for vocabtable_list in vocabtable:
+        # PRINT TEST
+        print("test, vocabtable_list{}: ", vocabtable_list)                
+        for (vt_key, vt_value) in vocabtable_list:            
+            # NOTE: go through all key/value pairs and search if they're for the current user
+            if vt_key == "userlink" and vt_value == session["user_id"]:
+                # PRINT TEST
+                print("test, vocabtable_list {userlink:user_id} match: ", vocabtable_list)
+                # NOTE: go through all key/value pairs and search if they're pinned or not
+                if vt_key == "pin" and vt_value == False:
+                    allvocabtable[vt_key] = vt_value
+                    # PRINT TEST
+                    print("test, allvocabtable{}: ", allvocabtable)
 
-    # PRINT TEST
-    print("test, vocabtable{}: ", vocabtable)
+
+
+    
 
     # TODO - add in code for remaining database queries and update along with index.html
 
@@ -312,7 +330,7 @@ def index():
     
     return render_template("index.html", nowrecords=nowrecords, usdstockprice=usdstockprice, usr=userposition, usd=usdposition, ust=usdtotalpos)
     """
-    return render_template("index.html", vocabtable=vocabtable)
+    return render_template("index.html", vocabtable = vocabtable, allvocabtable = allvocabtable)
 
 # NOTE - ADD NEW app.route DEFINITIONS FOLLOWING THIS LINE !!!
 # TODO - CREATE DEFINITIONS FOR THE FOLLOWING FUNCTIONS:
