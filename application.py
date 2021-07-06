@@ -335,28 +335,20 @@ def index():
                         print("test, pinvocabtable.append: ", pinvocabtable)
     print("test, pinvocabtable (after): ", pinvocabtable)
 
+    # NOTE / TODO: 'time': datetime.datetime(2021, 7, 6, 3, 17, 38, 52335, tzinfo=datetime.timezone.utc)
+    # "what you obtained from the select query is a datetime object in class datetime, or datetime.datetime object
+    # you can then use strftime() method on it to format it into a string that you want"
+
+    # NOTE:
+    # test, allvocabtable (after):  [{'wordid': 2, 'userlink': 6, 'strinput': 'testerinput2', 'strtrans': 'testeroutput2', 'langinput': 'EO', 'langtrans': 'EN', 'time': datetime.datetime(2021, 7, 6, 3, 17, 38, 52335, tzinfo=datetime.timezone.utc), 'rating': 3, 'pin': False}]
+    # test, pinvocabtable (after):  [{'wordid': 1, 'userlink': 6, 'strinput': 'testerinput', 'strtrans': 'testeroutput', 'langinput': 'EN', 'langtrans': 'EO', 'time': datetime.datetime(2021, 7, 6, 3, 17, 14, 273918, tzinfo=datetime.timezone.utc), 'rating': 1, 'pin': True}]
+
+
     # NOTE/TODO NEED TO VERIFY IF ABOVE FUNCTIONS actually work (need to either get /insert route functional or insert dummy data)
 
     # NOTE CS50PSET9 CODE FOR REMOVAL !!!
-    """    
-    # RETRIEVE FROM DATABASE
-    nowrecords = db.execute("SELECT * FROM nowrecords where userid = ?", session["user_id"])
-    tmprecords = nowrecords
-    userposition = 0
-    usdstockprice = {}
-    for tmprecords in tmprecords :
-        userposition = userposition + (tmprecords["stock_price"] * tmprecords["stock_amount"] )
-        #usdstockprice.append(usd(tmprecords["stock_price"]))
-        usdstockprice[tmprecords["stock_price"]]=usd(tmprecords["stock_price"])
-        usdstockprice[tmprecords["stock_price"] * tmprecords["stock_amount"]]=usd(tmprecords["stock_price"] * tmprecords["stock_amount"])
-    print("userposition", userposition)
-    print("usdstockprice", usdstockprice)
-    usdposition = usd(userposition)
-    usdtotalpos = usd(userposition + session["user_fund"])
-    
-    return render_template("index.html", nowrecords=nowrecords, usdstockprice=usdstockprice, usr=userposition, usd=usdposition, ust=usdtotalpos)
-    """
-    return render_template("index.html", vocabtable = vocabtable, allvocabtable = allvocabtable, pinvocabtable = pinvocabtable)
+
+    return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable)
 
 # NOTE - ADD NEW app.route DEFINITIONS FOLLOWING THIS LINE !!!
 # TODO - CREATE DEFINITIONS FOR THE FOLLOWING FUNCTIONS:
