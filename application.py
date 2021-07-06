@@ -306,7 +306,7 @@ def index():
                 #print("test, vocabtable_list {userlink:user_id} match: ", vocabtable_list)
                 for (vt_key, vt_value) in testvtlist:
                 # NOTE: go through all key/value pairs and search if they're pinned or not
-                if vt_key == "pin" and vt_value == False:
+                    if vt_key == "pin" and vt_value == False:
                     print("pin match")
                     allvocabtable[vt_key] = vt_value
                     # PRINT TEST
