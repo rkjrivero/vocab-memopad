@@ -342,9 +342,7 @@ def index():
     # NOTE:
     # test, allvocabtable (after):  [{'wordid': 2, 'userlink': 6, 'strinput': 'testerinput2', 'strtrans': 'testeroutput2', 'langinput': 'EO', 'langtrans': 'EN', 'time': datetime.datetime(2021, 7, 6, 3, 17, 38, 52335, tzinfo=datetime.timezone.utc), 'rating': 3, 'pin': False}]
     # test, pinvocabtable (after):  [{'wordid': 1, 'userlink': 6, 'strinput': 'testerinput', 'strtrans': 'testeroutput', 'langinput': 'EN', 'langtrans': 'EO', 'time': datetime.datetime(2021, 7, 6, 3, 17, 14, 273918, tzinfo=datetime.timezone.utc), 'rating': 1, 'pin': True}]
-
-
-    # NOTE/TODO NEED TO VERIFY IF ABOVE FUNCTIONS actually work (need to either get /insert route functional or insert dummy data)
+    # NOTE/ TODO: allvocabtable/pinvocabtable isn't being passed to index.html
 
     # NOTE CS50PSET9 CODE FOR REMOVAL !!!
 

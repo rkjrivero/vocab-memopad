@@ -46,7 +46,7 @@
             </tr>
         </thead>
         <tbody>
-            <!-- {% for var in var %} -->
+            {% for pinvocabtable in pinvocabtable %}
             <tr>
                 <td> {{ pinvocabtable.strinput }}  </td>
                 <td> {{ pinvocabtable.langinput }} </td>
@@ -55,7 +55,7 @@
                 <td> {{ pinvocabtable.time }} </td>
                 <td> {{ pinvocabtable.rating }} </td>
             </tr>
-            <!-- {% endfor %} -->
+            {% endfor %}
         </tbody>
     </table>
     <br><br>
@@ -73,7 +73,7 @@
             </tr>
         </thead>
         <tbody>
-            <!-- {% for var in var %} -->
+            {% for allvocabtable in allvocabtable %}
             <tr>
                 <td> {{ allvocabtable.strinput }}  </td>
                 <td> {{ allvocabtable.langinput }} </td>
@@ -82,7 +82,7 @@
                 <td> {{ allvocabtable.time }} </td>
                 <td> {{ allvocabtable.rating }} </td>
             </tr>
-            <!-- {% endfor %} -->
+            {% endfor %}
         </tbody>
     </table>
     <br>
