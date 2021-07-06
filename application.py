@@ -298,11 +298,15 @@ def index():
         for (vt_key, vt_value) in testvtlist:            
             # NOTE: go through all key/value pairs and search if they're for the current user
             print("test, testvtlist: ", testvtlist)
+            print("vt_key: ", vt_key)
+            print("vt_value: ", vt_value)
             if vt_key == "userlink" and vt_value == session["user_id"]:
                 # PRINT TEST
+                print("userlink match")
                 print("test, vocabtable_list {userlink:user_id} match: ", vocabtable_list)
                 # NOTE: go through all key/value pairs and search if they're pinned or not
                 if vt_key == "pin" and vt_value == False:
+                    print("pin match")
                     allvocabtable[vt_key] = vt_value
                     # PRINT TEST
                     print("test, allvocabtable{}: ", allvocabtable)
