@@ -307,10 +307,10 @@ def index():
                 for (vt_key, vt_value) in testvtlist:
                 # NOTE: go through all key/value pairs and search if they're pinned or not
                     if vt_key == "pin" and vt_value == False:
-                    print("pin match")
-                    allvocabtable[vt_key] = vt_value
-                    # PRINT TEST
-                    print("test, allvocabtable{}: ", allvocabtable)
+                        print("pin match")
+                        allvocabtable[vt_key] = vt_value
+                        # PRINT TEST
+                        print("test, allvocabtable{}: ", allvocabtable)
     print("test, allvocabtable (after): ", allvocabtable)
     """
     # Filter out for pinvocabtable
