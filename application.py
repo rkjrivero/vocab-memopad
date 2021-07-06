@@ -280,7 +280,6 @@ def index():
 
     # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
     # inside of which are keys and values representing a table’s fields and cells, respectively.
-
     # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
     # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
     vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
@@ -334,17 +333,6 @@ def index():
                         # PRINT TEST
                         print("test, pinvocabtable.append: ", pinvocabtable)
     print("test, pinvocabtable (after): ", pinvocabtable)
-
-    # NOTE / TODO: 'time': datetime.datetime(2021, 7, 6, 3, 17, 38, 52335, tzinfo=datetime.timezone.utc)
-    # "what you obtained from the select query is a datetime object in class datetime, or datetime.datetime object
-    # you can then use strftime() method on it to format it into a string that you want"
-
-    # NOTE:
-    # test, allvocabtable (after):  [{'wordid': 2, 'userlink': 6, 'strinput': 'testerinput2', 'strtrans': 'testeroutput2', 'langinput': 'EO', 'langtrans': 'EN', 'time': datetime.datetime(2021, 7, 6, 3, 17, 38, 52335, tzinfo=datetime.timezone.utc), 'rating': 3, 'pin': False}]
-    # test, pinvocabtable (after):  [{'wordid': 1, 'userlink': 6, 'strinput': 'testerinput', 'strtrans': 'testeroutput', 'langinput': 'EN', 'langtrans': 'EO', 'time': datetime.datetime(2021, 7, 6, 3, 17, 14, 273918, tzinfo=datetime.timezone.utc), 'rating': 1, 'pin': True}]
-    # NOTE/ TODO: allvocabtable/pinvocabtable isn't being passed to index.html
-
-    # NOTE CS50PSET9 CODE FOR REMOVAL !!!
 
     return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable)
 
