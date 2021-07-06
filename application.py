@@ -287,7 +287,7 @@ def index():
     # Create empty list, to populate with *list of dictionaries*
     allvocabtable = []
     pinvocabtable = []
-    x = 0
+
     # PRINT TEST
     print("test, vocabtable[{}]: ", vocabtable)
     print("test, allvocabtable (before): ", allvocabtable)
@@ -314,8 +314,7 @@ def index():
                         print("test, vt_value: ", vt_value)
                         print("test2, vocabtable_list: ", vocabtable_list, "\ndatatatype: ", type(vocabtable_list))
                         print("test2, testvtlist: ", testvtlist, "\ndatatype: ", type(testvtlist))
-                        allvocabtable[x] = vocabtable_list
-                        x = x + 1
+                        allvocabtable.append(vocabtable_list)
                         #allvocabtable[vt_key] = vt_value
                         # NOTE: TypeError: 'tuple' object does not support item assignmen
                         # PRINT TEST
