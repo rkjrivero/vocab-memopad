@@ -288,7 +288,7 @@ def index():
     pinvocabtable = ()
     # PRINT TEST
     print("test, vocabtable[{}]: ", vocabtable)
-
+    print("test, allvocabtable (before): ", allvocabtable)
     # Filter out for allvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
@@ -297,20 +297,21 @@ def index():
         testvtlist = vocabtable_list.items()                
         for (vt_key, vt_value) in testvtlist:            
             # NOTE: go through all key/value pairs and search if they're for the current user
-            print("test, testvtlist: ", testvtlist)
+            #print("test, testvtlist: ", testvtlist)
             print("vt_key: ", vt_key)
             print("vt_value: ", vt_value)
             if vt_key == "userlink" and vt_value == session["user_id"]:
                 # PRINT TEST
-                print("userlink match")
-                print("test, vocabtable_list {userlink:user_id} match: ", vocabtable_list)
+                print("userlink match")                
+                #print("test, vocabtable_list {userlink:user_id} match: ", vocabtable_list)
+                for (vt_key, vt_value) in testvtlist:
                 # NOTE: go through all key/value pairs and search if they're pinned or not
                 if vt_key == "pin" and vt_value == False:
                     print("pin match")
                     allvocabtable[vt_key] = vt_value
                     # PRINT TEST
                     print("test, allvocabtable{}: ", allvocabtable)
-
+    print("test, allvocabtable (after): ", allvocabtable)
     """
     # Filter out for pinvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
