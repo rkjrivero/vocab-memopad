@@ -293,9 +293,11 @@ def index():
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
         # PRINT TEST
-        print("test, vocabtable_list{}: ", vocabtable_list)                
-        for (vt_key, vt_value) in vocabtable_list.items():            
+        print("test, vocabtable_list{}: ", vocabtable_list)
+        testvtlist = vocabtable_list.items()                
+        for (vt_key, vt_value) in testvtlist:            
             # NOTE: go through all key/value pairs and search if they're for the current user
+            print("test, testvtlist: ")
             if vt_key == "userlink" and vt_value == session["user_id"]:
                 # PRINT TEST
                 print("test, vocabtable_list {userlink:user_id} match: ", vocabtable_list)
@@ -305,7 +307,7 @@ def index():
                     # PRINT TEST
                     print("test, allvocabtable{}: ", allvocabtable)
 
-"""
+    """
     # Filter out for pinvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
@@ -321,7 +323,7 @@ def index():
                     pinvocabtable[vt_key] = vt_value
                     # PRINT TEST
                     print("test, allvocabtable{}: ", allvocabtable)
-"""
+    """
 
     # NOTE/TODO NEED TO VERIFY IF ABOVE FUNCTIONS actually work (need to either get /insert route functional or insert dummy data)
 
