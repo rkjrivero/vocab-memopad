@@ -297,7 +297,7 @@ def index():
         testvtlist = vocabtable_list.items()                
         for (vt_key, vt_value) in testvtlist:            
             # NOTE: go through all key/value pairs and search if they're for the current user
-            print("test, testvtlist: ")
+            print("test, testvtlist: ", testvtlist)
             if vt_key == "userlink" and vt_value == session["user_id"]:
                 # PRINT TEST
                 print("test, vocabtable_list {userlink:user_id} match: ", vocabtable_list)
