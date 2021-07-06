@@ -291,6 +291,8 @@ def index():
     # PRINT TEST
     print("test, vocabtable[{}]: ", vocabtable)
     print("test, allvocabtable (before): ", allvocabtable)
+    print("test, pinvocabtable (before): ", pinvocabtable)
+    
     # Filter out for allvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
@@ -299,46 +301,39 @@ def index():
         testvtlist = vocabtable_list.items()                
         for (vt_key, vt_value) in testvtlist:            
             # NOTE: go through all key/value pairs and search if they're for the current user
-            #print("test, testvtlist: ", testvtlist)
-            print("vt_key: ", vt_key)
-            print("vt_value: ", vt_value)
             if vt_key == "userlink" and vt_value == session["user_id"]:
                 # PRINT TEST
                 print("userlink match")                
-                #print("test, vocabtable_list {userlink:user_id} match: ", vocabtable_list)
                 for (vt_key, vt_value) in testvtlist:
                 # NOTE: go through all key/value pairs and search if they're pinned or not
                     if vt_key == "pin" and vt_value == False:
                         print("pin match")
-                        print("test, vt_key: ", vt_key)
-                        print("test, vt_value: ", vt_value)
                         print("test2, vocabtable_list: ", vocabtable_list, "\ndatatatype: ", type(vocabtable_list))
-                        print("test2, testvtlist: ", testvtlist, "\ndatatype: ", type(testvtlist))
                         allvocabtable.append(vocabtable_list)
-                        #allvocabtable[vt_key] = vt_value
-                        # NOTE: TypeError: 'tuple' object does not support item assignmen
                         # PRINT TEST
-                        print("test, allvocabtable{}: ", allvocabtable)
+                        print("test, allvocabtable.append: ", allvocabtable)
     print("test, allvocabtable (after): ", allvocabtable)
 
-    x = 0
-    """
     # Filter out for pinvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
         # PRINT TEST
-        print("test, vocabtable_list{}: ", vocabtable_list)                
-        for (vt_key, vt_value) in vocabtable_list:            
+        print("test, vocabtable_list{}: ", vocabtable_list)
+        testvtlist = vocabtable_list.items()                
+        for (vt_key, vt_value) in testvtlist:            
             # NOTE: go through all key/value pairs and search if they're for the current user
             if vt_key == "userlink" and vt_value == session["user_id"]:
                 # PRINT TEST
-                print("test, vocabtable_list {userlink:user_id} match: ", vocabtable_list)
+                print("userlink match")                
+                for (vt_key, vt_value) in testvtlist:
                 # NOTE: go through all key/value pairs and search if they're pinned or not
-                if vt_key == "pin" and vt_value == True:
-                    pinvocabtable[vt_key] = vt_value
-                    # PRINT TEST
-                    print("test, allvocabtable{}: ", allvocabtable)
-    """
+                    if vt_key == "pin" and vt_value == True:
+                        print("pin match")
+                        print("test2, vocabtable_list: ", vocabtable_list, "\ndatatatype: ", type(vocabtable_list))
+                        pinvocabtable.append(vocabtable_list)
+                        # PRINT TEST
+                        print("test, pinvocabtable.append: ", pinvocabtable)
+    print("test, pinvocabtable (after): ", pinvocabtable)
 
     # NOTE/TODO NEED TO VERIFY IF ABOVE FUNCTIONS actually work (need to either get /insert route functional or insert dummy data)
 
