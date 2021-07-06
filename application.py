@@ -310,7 +310,10 @@ def index():
                         print("pin match")
                         print("test, vt_key: ", vt_key)
                         print("test, vt_value: ", vt_value)
-                        allvocabtable[vt_key] = vt_value
+                        print("test2, vocabtable_list: ", vocabtable_list, "\ndatatatype: ", type(vocabtable_list))
+                        print("test2, testvtlist: ", testvtlist, "\ndatatype: ", type(testvtlist))
+                        #allvocabtable[vt_key] = vt_value
+                        # NOTE: TypeError: 'tuple' object does not support item assignmen
                         # PRINT TEST
                         print("test, allvocabtable{}: ", allvocabtable)
     print("test, allvocabtable (after): ", allvocabtable)
