@@ -284,8 +284,10 @@ def index():
     # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
     # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
     vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
-    allvocabtable = ()
-    pinvocabtable = ()
+    # Create empty list, to populate with *list of dictionaries*
+    allvocabtable = []
+    pinvocabtable = []
+    x = 0
     # PRINT TEST
     print("test, vocabtable[{}]: ", vocabtable)
     print("test, allvocabtable (before): ", allvocabtable)
@@ -312,11 +314,15 @@ def index():
                         print("test, vt_value: ", vt_value)
                         print("test2, vocabtable_list: ", vocabtable_list, "\ndatatatype: ", type(vocabtable_list))
                         print("test2, testvtlist: ", testvtlist, "\ndatatype: ", type(testvtlist))
+                        allvocabtable[x] = vocabtable_list
+                        x = x + 1
                         #allvocabtable[vt_key] = vt_value
                         # NOTE: TypeError: 'tuple' object does not support item assignmen
                         # PRINT TEST
                         print("test, allvocabtable{}: ", allvocabtable)
     print("test, allvocabtable (after): ", allvocabtable)
+
+    x = 0
     """
     # Filter out for pinvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
