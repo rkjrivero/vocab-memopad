@@ -308,6 +308,8 @@ def index():
                 # NOTE: go through all key/value pairs and search if they're pinned or not
                     if vt_key == "pin" and vt_value == False:
                         print("pin match")
+                        print("test, vt_key: ", vt_key)
+                        print("test, vt_value: ", vt_value)
                         allvocabtable[vt_key] = vt_value
                         # PRINT TEST
                         print("test, allvocabtable{}: ", allvocabtable)
