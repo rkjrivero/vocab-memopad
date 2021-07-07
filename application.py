@@ -335,18 +335,18 @@ def index():
     print("test, pinvocabtable (after): ", pinvocabtable)
 
     return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable)
-"""
-@app.route("/input")
+
+@app.route("/input", methods=["GET", "POST"])
 @login_required
 def input():
-    
+    """Show INPUT.html"""
 
     # update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
     
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-
+        """
         # Ensure stock symbol and amount was submitted
         if not request.form.get("symbol"):
             return apology("must provide stock symbol", 400)
@@ -416,7 +416,7 @@ def input():
         	"UPDATE users SET cash = ? WHERE username = ?",
         	session["user_fund"], session["user_name"]
         	)
-
+        """
         # Redirect user to home page
         return redirect("/")
     
@@ -424,7 +424,7 @@ def input():
     else:
     
         return render_template("input.html")
-"""
+
 
 
 
@@ -432,7 +432,7 @@ def input():
 # TODO - CREATE DEFINITIONS FOR THE FOLLOWING FUNCTIONS:
 # def input(): - to input word/phrase, etc
 # def review(): - to review results of inputted word/phrase, etc
-# def recall_summary(): - to view summary of all word/phrase entries, NOTE: check if overlapping with index()
+# def recall_summary(): - to view summary of all word/phrase entries, NOTE: check if overlapping with index() 
 # def recall_full(): - to view full list of saved word/phrase entries
 # def recall_pinned(): - to view pinned list of saved word/phrase entries
 
