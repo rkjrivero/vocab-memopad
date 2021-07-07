@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <h1>Type in word/phrase for translation and addition.</h1>
+    <h2>TODO: design logic for defaults</h2>
+    <form action="/input" method="post">
+        <div class="container-sm align-items-center">
+            <div class="form-group align-items-center">
+                <input autocomplete="off" autofocus class="form-control" name="textinput" placeholder="Add Word/Phrase for Translation" type="text">
+                <br>
+                <div class="dropdown">
+                    <select class="form-select" aria-label="Input Language" name="originlang">
+                        <option selected disabled>Default Input Language</option>
+                        <option value="EN">English [EN]</option>
+                        <option value="JP">Japanese [JP]</option>
+                        <option value="EO">Esperanto [EO]</option>
+                    </select>
+                </div>
+                <br>
+                <div class="dropdown">
+                    <select class="form-select" aria-label="Translation Language" name="targetlang">
+                        <option selected disabled>Default Translation Language</option>
+                        <option value="EN">English [EN]</option>
+                        <option value="JP">Japanese [JP]</option>
+                        <option value="EO">Esperanto [EO]</option>
+                    </select>
+                </div>
+                <br>
+                <div class="form-group align-items-center">
+                    <div class="form-check form-switch">
+                        <label class="form-check-label" for="check_autotrans">Automatically translate input?</label>
+                        <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans" checked>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <button class="btn btn-primary" type="submit">Add Word</button>
+
+    </form>
+{% endblock %}

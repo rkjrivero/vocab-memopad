@@ -30,34 +30,11 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbar">
-                <!-- NOTE TO SELF: RETAIN ORIGINAL FIRST UNTIL PLACEHOLDER PAGES FINALIZED-->
-                <!--
-                    {% if session.user_id %}
-                    <ul class="navbar-nav mr-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/input">Add Word/Phrase</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/pinned">Review Pinned List</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/full">Review Full List</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/profile">Profile Page and Settings</a></li>
-                    </ul>
-                    <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item indicator">Currently Logged in as: </li>
-                        <li class="nav-item indicated">{{ session.user_name }}</li>
-                        <li class="nav-item indicator">Server Date/Time: </li>
-                        <li class="nav-item indicated">{{ session.current_time }}</li>
-                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-                    </ul>
-                {% else %}
-                    <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
-                    </ul>
-                {% endif %}              
-                -->
                 {% if session.user_id %}
                     <ul class="navbar-nav mr-auto mt-2">                        
                         <li class="nav-item"><a class="nav-link" href="/input">Add Word/Phrase</a></li>                        
-                        <li class="nav-item"><a class="nav-link" href="/history">View Pinned Word/Phrases</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/history">View All Word/Phrases</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/recallpin">View Pinned Word/Phrases</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/recallall">View All Word/Phrases</a></li>
                         <li class="nav-item"><a class="nav-link" href="/profile">Profile Page</a></li>
                     </ul>
                     <ul class="navbar-nav ml-auto mt-2">
