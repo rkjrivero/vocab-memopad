@@ -7,11 +7,11 @@
 {% block main %}
     <h1>Type in word/phrase for translation and addition.</h1>
     <h2>TODO: design logic for defaults</h2>
-    <form action="/input" method="post">
+    <form action="/input" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">
             <div class="form-group align-items-center">
-                <input autocomplete="off" autofocus class="form-control" name="textinput" placeholder="Add Word/Phrase for Translation" type="text">
-                <br>
+                <input autocomplete="off" autofocus class="form-control" name="textinput" placeholder="Add Word/Phrase" type="text">
+                <br><br><br>
                 <div class="dropdown">
                     <select class="form-select" aria-label="Input Language" name="originlang">
                         <option selected disabled>Default Input Language</option>
@@ -32,7 +32,7 @@
                 <br>
                 <div class="form-group align-items-center">
                     <div class="form-check form-switch">
-                        <label class="form-check-label" for="check_autotrans">Automatically translate input?</label>
+                        <label class="form-check-label" for="check_autotrans">Translate input?</label>
                         <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans" checked>                    
                     </div>
                 </div>
