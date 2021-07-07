@@ -415,9 +415,11 @@ def input():
         db.execute(
         	"UPDATE users SET cash = ? WHERE username = ?",
         	session["user_fund"], session["user_name"]
-        	)
+        	)        
         """
-        # Redirect user to home page
+        # NOTE: REDIRECT TO review.html
+        # return render_template("review.html") #, TODO: variables to assign)
+        # placeholder
         return redirect("/")
     
     # User reached route via GET (as by clicking a link or via redirect)
@@ -432,7 +434,6 @@ def input():
 # TODO - CREATE DEFINITIONS FOR THE FOLLOWING FUNCTIONS:
 # def input(): - to input word/phrase, etc
 # def review(): - to review results of inputted word/phrase, etc
-# def recall_summary(): - to view summary of all word/phrase entries, NOTE: check if overlapping with index() 
 # def recall_full(): - to view full list of saved word/phrase entries
 # def recall_pinned(): - to view pinned list of saved word/phrase entries
 

@@ -6,10 +6,11 @@
 
 {% block main %}
     <h1>Type in word/phrase for translation and addition.</h1>
-    <h2>TODO: design logic for defaults</h2>
+    <!--TODO: design logic for defaults (might need JS)-->
     <form action="/input" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">
             <div class="form-group align-items-center">
+                <br><br><br>
                 <input autocomplete="off" autofocus class="form-control" name="textinput" placeholder="Add Word/Phrase" type="text">
                 <br><br><br>
                 <div class="dropdown">
@@ -20,7 +21,6 @@
                         <option value="EO">Esperanto [EO]</option>
                     </select>
                 </div>
-                <br>
                 <div class="dropdown">
                     <select class="form-select" aria-label="Translation Language" name="targetlang">
                         <option selected disabled>Default Translation Language</option>
@@ -29,7 +29,6 @@
                         <option value="EO">Esperanto [EO]</option>
                     </select>
                 </div>
-                <br>
                 <div class="form-group align-items-center">
                     <div class="form-check form-switch">
                         <label class="form-check-label" for="check_autotrans">Translate input?</label>
