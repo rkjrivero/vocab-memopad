@@ -13,14 +13,19 @@
                 <br><br><br>
                 <input autocomplete="off" autofocus class="form-control" name="textinput" placeholder="Add Word/Phrase" type="text">
                 <br><br><br>
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Input Language" name="originlang">
-                        <option selected disabled>Default Input Language</option>
-                        <option value="EN">English [EN]</option>
-                        <option value="JP">Japanese [JP]</option>
-                        <option value="EO">Esperanto [EO]</option>
-                    </select>
-                </div>
+                <!-- if/else logic for default input language, because cbf to use JS-->
+                <!--{% if session.user_orglang == "EN" %} -->
+                    <div class="dropdown">
+                        <select class="form-select" aria-label="Input Language" name="originlang">
+                            <option selected value="EN">English [EN]</option>
+                            <option value="JP">Japanese [JP]</option>
+                            <option value="EO">Esperanto [EO]</option>
+                        </select>
+                    </div>
+                <!-- {% elif session.user_orglang == "" %} -->
+
+
+
                 <div class="dropdown">
                     <select class="form-select" aria-label="Translation Language" name="targetlang">
                         <option selected disabled>Default Translation Language</option>
