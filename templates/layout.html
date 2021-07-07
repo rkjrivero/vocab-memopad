@@ -54,18 +54,25 @@
                 {% endif %}              
                 -->
                 {% if session.user_id %}
-                    <ul class="navbar-nav mr-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/quote">Quote</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/buy">Buy</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/sell">Sell</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
+                    <ul class="navbar-nav mr-auto mt-2">                        
+                        <li class="nav-item"><a class="nav-link" href="/input">Add Word/Phrase</a></li>                        
+                        <li class="nav-item"><a class="nav-link" href="/history">View Pinned Word/Phrases</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/history">View All Word/Phrases</a></li>
                         <li class="nav-item"><a class="nav-link" href="/profile">Profile Page</a></li>
                     </ul>
                     <ul class="navbar-nav ml-auto mt-2">
                         <li class="nav-item indicator">Currently Logged in as: </li>
                         <li class="nav-item indicated">{{ session.user_name }}</li>
-                        <li class="nav-item indicator">Current Funding: </li>
-                        <li class="nav-item indicated">{{ session.user_balance }}</li>
+                        <li class="nav-item indicator">Total Pinned Word/Phrases: </li>
+                        <li class="nav-item indicated">{{ session.user_wordcount }}</li>
+                        <li class="nav-item indicator">Total Word/Phrases Saved: </li>
+                        <li class="nav-item indicated">{{ session.user_pincount }}</li>
+                        <li class="nav-item indicator">Default Original Language: </li>
+                        <li class="nav-item indicated">{{ session.user_orglang }}</li>                        
+                        <li class="nav-item indicator">Default Target Language: </li>
+                        <li class="nav-item indicated">{{ session.user_tgtlang }}</li>                                 
+                        <li class="nav-item indicator">Auto-translate Setting: </li>
+                        <li class="nav-item indicated">{{ session.user_autotrans }}</li>                        
                         <li class="nav-item indicator">Server Date/Time: </li>
                         <li class="nav-item indicated">{{ session.current_time }}</li>
                         <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
