@@ -335,15 +335,15 @@ def index():
     print("test, pinvocabtable (after): ", pinvocabtable)
 
     return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable)
-
+"""
 @app.route("/input")
 @login_required
 def input():
-    """Show INPUT.html"""
+    
 
     # update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-    """
+    
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
@@ -422,9 +422,9 @@ def input():
     
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-    """
+    
         return render_template("input.html")
-
+"""
 
 
 
