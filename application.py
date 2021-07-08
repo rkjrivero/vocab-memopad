@@ -357,15 +357,15 @@ def input():
             # Use googletrans
             inorglang = "'" + request.form.get("originlang") + "'"
             intgtlang = "'" + request.form.get("targetlang") + "'"
+            transtext = "'" + request.form.get("textinput") + "'"
             print("test, inorglang: ", inorglang)
             print("test, intgtlang: ", intgtlang)
             translator = Translator()            
-            #translation = translator.translate(request.form.get("textinput"), src = inorglang, dest = intgtlang)
+            #translation = translator.translate(transtext, src = inorglang, dest = intgtlang)
             translation = translator.translate('Tiu frazo estas skribita en Esperanto')
             print("test, input: ", request.form.get("textinput"))
             print("test, output: ", translation)
 
-Tiu frazo estas skribita en Esperanto
 
         """
         # Ensure stock symbol and amount was submitted
