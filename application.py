@@ -355,8 +355,8 @@ def input():
         # Lookup translation if check-box selected
         if request.form.get("autotrans"):
             # Use googletrans
-            inorglang = request.form.get("originlang")
-            intgtlang = request.form.get("targetlang")
+            inorglang = "'" + request.form.get("originlang") + "'"
+            intgtlang = "'" + request.form.get("targetlang") + "'"
             print("test, inorglang: ", inorglang)
             print("test, intgtlang: ", intgtlang)
             translator = Translator()            
