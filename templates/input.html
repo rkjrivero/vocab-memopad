@@ -66,7 +66,7 @@
                 </div>
                 {% endif %} 
                 <!-- if/else logic for default translation option, because cbf to use JS-->
-                {% if session.user_autotrans == "True" %}
+                {% if session.user_autotrans %}
                 <div class="form-group align-items-center">
                     <div class="form-check form-switch">
                         <label class="form-check-label" for="check_autotrans">Translate input?</label>
