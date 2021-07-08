@@ -14,54 +14,54 @@
                 <input autocomplete="off" autofocus class="form-control" name="textinput" placeholder="Add Word/Phrase" type="text">
                 <br><br><br>
                 <!-- if/else logic for default input language, because cbf to use JS-->
-                {% if session.user_orglang == "EN" %}
+                {% if session.user_orglang == "en" %}
                     <div class="dropdown">
                         <select class="form-select" aria-label="Input Language" name="originlang">
-                            <option selected value="EN">English [EN]</option>
-                            <option value="JP">Japanese [JP]</option>
-                            <option value="EO">Esperanto [EO]</option>
+                            <option selected value="en">English [en]</option>
+                            <option value="ja">Japanese [ja]</option>
+                            <option value="eo">Esperanto [eo]</option>
                         </select>
                     </div>
-                {% elif session.user_orglang == "JP" %}
+                {% elif session.user_orglang == "ja" %}
                 <div class="dropdown">
                     <select class="form-select" aria-label="Input Language" name="originlang">
-                        <option value="EN">English [EN]</option>
-                        <option selected value="JP">Japanese [JP]</option>
-                        <option value="EO">Esperanto [EO]</option>
+                        <option value="en">English [en]</option>
+                        <option selected value="ja">Japanese [ja]</option>
+                        <option value="eo">Esperanto [eo]</option>
                     </select>
                 </div>
                 {% else %}
                 <div class="dropdown">
                     <select class="form-select" aria-label="Input Language" name="originlang">
-                        <option value="EN">English [EN]</option>
-                        <option value="JP">Japanese [JP]</option>
-                        <option selected value="EO">Esperanto [EO]</option>
+                        <option value="en">English [en]</option>
+                        <option value="ja">Japanese [ja]</option>
+                        <option selected value="eo">Esperanto [eo]</option>
                     </select>
                 </div>
                 {% endif %} 
                 <!-- if/else logic for default translated language, because cbf to use JS-->
-                {% if session.user_translang == "EN" %}
+                {% if session.user_translang == "en" %}
                 <div class="dropdown">
                     <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option selected value="EN">English [EN]</option>
-                        <option value="JP">Japanese [JP]</option>
-                        <option value="EO">Esperanto [EO]</option>
+                        <option selected value="en">English [en]</option>
+                        <option value="ja">Japanese [ja]</option>
+                        <option value="eo">Esperanto [eo]</option>
                     </select>
                 </div>
-                {% elif session.user_translang == "EN" %}
+                {% elif session.user_translang == "en" %}
                 <div class="dropdown">
                     <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option value="EN">English [EN]</option>
-                        <option selected value="JP">Japanese [JP]</option>
-                        <option value="EO">Esperanto [EO]</option>
+                        <option value="en">English [en]</option>
+                        <option selected value="ja">Japanese [ja]</option>
+                        <option value="eo">Esperanto [eo]</option>
                     </select>
                 </div>
                 {% else %}
                 <div class="dropdown">
                     <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option value="EN">English [EN]</option>
-                        <option value="JP">Japanese [JP]</option>
-                        <option selected value="EO">Esperanto [EO]</option>
+                        <option value="en">English [en]</option>
+                        <option value="ja">Japanese [ja]</option>
+                        <option selected value="eo">Esperanto [eo]</option>
                     </select>
                 </div>
                 {% endif %} 

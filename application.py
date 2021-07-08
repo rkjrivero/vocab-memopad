@@ -7,6 +7,8 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required
 from datetime import datetime
+# import googletrans (https://pypi.org/project/googletrans/)
+from googletrans import Translator
 
 #import sqlalchemy # provisional
 # https://www.learndatasci.com/tutorials/using-databases-python-postgres-sqlalchemy-and-alembic/
@@ -346,6 +348,24 @@ def input():
     
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+        # Ensure word/phrase was submitted
+        if not request.form.get("textinput"):
+            return apology("must provide word/phrase to record and/or translate", 400)
+
+        # Lookup translation if check-box selected
+        if request.form.get("autotrans"):
+            # Use googletrans
+            inorglang = request.form.get("originlang")
+            intgtlang = request.form.get("targetlang")
+            print("test, inorglang: ", inorglang)
+            print("test, intgtlang: ", intgtlang)
+            translator = Translator()            
+            translation = translator.translate(request.form.get("textinput"), src = inorglang, dest = intgtlang)
+            print("test, input: ", request.form.get("textinput"))
+            print("test, output: ", translation)
+
+
+
         """
         # Ensure stock symbol and amount was submitted
         if not request.form.get("symbol"):
