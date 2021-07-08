@@ -14,7 +14,7 @@
                 <input autocomplete="off" autofocus class="form-control" name="textinput" placeholder="Add Word/Phrase" type="text">
                 <br><br><br>
                 <!-- if/else logic for default input language, because cbf to use JS-->
-                <!--{% if session.user_orglang == "EN" %} -->
+                {% if session.user_orglang == "EN" %}
                     <div class="dropdown">
                         <select class="form-select" aria-label="Input Language" name="originlang">
                             <option selected value="EN">English [EN]</option>
@@ -22,24 +22,65 @@
                             <option value="EO">Esperanto [EO]</option>
                         </select>
                     </div>
-                <!-- {% elif session.user_orglang == "" %} -->
-
-
-
+                {% elif session.user_orglang == "JP" %}
+                <div class="dropdown">
+                    <select class="form-select" aria-label="Input Language" name="originlang">
+                        <option value="EN">English [EN]</option>
+                        <option selected value="JP">Japanese [JP]</option>
+                        <option value="EO">Esperanto [EO]</option>
+                    </select>
+                </div>
+                {% else %}
+                <div class="dropdown">
+                    <select class="form-select" aria-label="Input Language" name="originlang">
+                        <option value="EN">English [EN]</option>
+                        <option value="JP">Japanese [JP]</option>
+                        <option selected value="EO">Esperanto [EO]</option>
+                    </select>
+                </div>
+                {% endif %} 
+                <!-- if/else logic for default translated language, because cbf to use JS-->
+                {% if session.user_translang == "EN" %}
                 <div class="dropdown">
                     <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option selected disabled>Default Translation Language</option>
-                        <option value="EN">English [EN]</option>
+                        <option selected value="EN">English [EN]</option>
                         <option value="JP">Japanese [JP]</option>
                         <option value="EO">Esperanto [EO]</option>
                     </select>
                 </div>
+                {% elif session.user_translang == "EN" %}
+                <div class="dropdown">
+                    <select class="form-select" aria-label="Translation Language" name="targetlang">
+                        <option value="EN">English [EN]</option>
+                        <option selected value="JP">Japanese [JP]</option>
+                        <option value="EO">Esperanto [EO]</option>
+                    </select>
+                </div>
+                {% else %}
+                <div class="dropdown">
+                    <select class="form-select" aria-label="Translation Language" name="targetlang">
+                        <option value="EN">English [EN]</option>
+                        <option value="JP">Japanese [JP]</option>
+                        <option selected value="EO">Esperanto [EO]</option>
+                    </select>
+                </div>
+                {% endif %} 
+                <!-- if/else logic for default translation option, because cbf to use JS-->
+                {% if session.user_autotrans == "True" %}
                 <div class="form-group align-items-center">
                     <div class="form-check form-switch">
                         <label class="form-check-label" for="check_autotrans">Translate input?</label>
                         <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans" checked>                    
                     </div>
                 </div>
+                {% else %}
+                <div class="form-group align-items-center">
+                    <div class="form-check form-switch">
+                        <label class="form-check-label" for="check_autotrans">Translate input?</label>
+                        <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans">                    
+                    </div>
+                </div>
+                {% endif %} 
             </div>
             <br><br>
             <button class="btn btn-primary" type="submit">Add Word</button>
