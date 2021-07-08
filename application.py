@@ -361,8 +361,8 @@ def input():
             print("test, inorglang: ", inorglang)
             print("test, intgtlang: ", intgtlang)
             translator = Translator()            
-            #translation = translator.translate(transtext, src = inorglang, dest = intgtlang)
-            translation = translator.translate('Tiu frazo estas skribita en Esperanto')
+            translation = translator.translate(transtext, src = inorglang, dest = intgtlang)
+            #translation = translator.translate('Tiu frazo estas skribita en Esperanto') #tester
             print("test, input: ", request.form.get("textinput"))
             print("test, output: ", translation)
 
