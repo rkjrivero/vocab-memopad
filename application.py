@@ -400,7 +400,7 @@ def input():
         # Save translation data to shadow table
         # NOTE: shadow table = shawordid, shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin,
         db.execute(
-            "INSERT INTO shadow (shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin)",
+            "INSERT INTO shadow (shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(), 0, False
         )
         # TODO: check if datetime.now() works properly with postgresql's timestampz
