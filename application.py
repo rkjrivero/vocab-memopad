@@ -381,9 +381,9 @@ def input():
         else:
             # add values to translation dictionry (to pass to review.html)
             translation["input"] = request.form.get("textinput")
-            translation["output"] = "n/a (translate option not selected)"
+            translation["output"] = "  n/a (not translated)  "
             translation["org"] = request.form.get("textinput")
-            translation["tgt"] = "n/a (translate option not selected)"
+            translation["tgt"] = "  n/a (not translated)  "
 
             # Print Test
             print("test, input: ", translation["input"])
