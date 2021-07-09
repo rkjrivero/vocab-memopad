@@ -160,7 +160,7 @@ def login():
     session.clear()
 
     # Purge shadow table every login
-    #db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow") 
     #TODO: temporarily disabled
 
     # User reached route via POST (as by submitting a form via POST)
@@ -398,7 +398,8 @@ def input():
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
         
         # Save translation data to shadow table
-        # NOTE: shadow table = shawordid, shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin,
+        # NOTE: shadow table = shawordid, shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin
+        # NOTE: "pin" value set to 0 to distinguish it from form-submitted ratings of 1-3
         db.execute(
             "INSERT INTO shadow (shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(), 0, False
