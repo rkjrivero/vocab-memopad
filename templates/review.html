@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Review Input
+{% endblock %}
+
+{% block main %}
+    <h1>You searched for</h1>
+    <br>
+    <table align="center">
+        <thead>
+            <tr>
+                <th>Input Word/Phrase</th>
+                <th>Original Language</th>
+                <th>Target Language</th>
+                <th>Translated Word/Phrase</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> {{ translation.input }} </td>
+                <td> {{ translation.org }} </td>
+                <td> {{ translation.tgt }} </td>
+                <td> {{ translation.output }} </td>
+            </tr>
+        </tbody>
+
+
+    </table>
+
+
+{% endblock %}

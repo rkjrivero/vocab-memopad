@@ -365,16 +365,17 @@ def input():
             translated = translator.translate(request.form.get("textinput"), src = request.form.get("originlang"), dest = request.form.get("targetlang"))
             
             # add values to translation dictionry (to pass to review.html)
-            translation["text"] = translated.text
+            translation["input"] = request.form.get("textinput")
+            translation["output"] = translated.text
             translation["org"] = translated.src
             translation["tgt"] = translated.dest
 
             # Print Test        
-            print("test, input: ", request.form.get("textinput"))
+            print("test, input: ", translation["input"])
             print("test, orglang: ", translation["org"])
             print("test, tgtlang: ", translation["tgt"])
             print("test, output(object): ", translated)
-            print("test, output(word): ", translation["text"])
+            print("test, output(word): ", translation["output"])
 
         else:
             # Print on log
@@ -383,8 +384,8 @@ def input():
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_orglang"])       
         
         # redirect to review.html
-        #return render_template("review.html", translation=translation)
-        return redirect("/") # NOTE: placeholder , TODO: remove once review.html is completed
+        return render_template("review.html", translation=translation)
+        #return redirect("/") # NOTE: placeholder , TODO: remove once review.html is completed
 
         """
         # Ensure stock symbol and amount was submitted
