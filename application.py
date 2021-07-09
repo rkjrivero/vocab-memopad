@@ -385,84 +385,21 @@ def input():
         
         # redirect to review.html
         return render_template("review.html", translation=translation)
-        #return redirect("/") # NOTE: placeholder , TODO: remove once review.html is completed
-
-        """
-        # Ensure stock symbol and amount was submitted
-        if not request.form.get("symbol"):
-            return apology("must provide stock symbol", 400)
-        if not request.form.get("shares"):
-            return apology("must provide stock amount", 400)
-        if not request.form.get("shares").isdigit():
-            return apology("must provide an integer amount", 400)
-        elif int(request.form.get("shares")) <= 0:
-            return apology("must provide a positive amount", 400)
-
-        # Lookup quote for a symbol
-        buy_quote = lookup(request.form.get("symbol"))
-        print("buy_quote", buy_quote)
-
-        empty = ""
-        if buy_quote == None:
-            return apology("no stock found", 400)
-        if buy_quote["name"] == None or buy_quote["name"] == empty:
-            buy_quote["name"] = buy_quote["symbol"]
-
-        # Check how much funds the user has
-        user_fund = db.execute("SELECT cash FROM users WHERE username = ?", session["user_name"])[0]["cash"]
-
-        # note to self: "db.execute" returns a list, while lookup() returns a dictionary
-
-        # Verify balances match
-        print("user_fund:", user_fund)
-        print("session[user_fund]:", session["user_fund"])
-
-        if user_fund != session["user_fund"]:
-            return apology("FUND BALANCE MISMATCH")
-
-        # Compute costs
-        buystockprice = float(buy_quote["price"])
-        buystockamount = float(request.form.get("shares"))
-        cost = buystockprice * buystockamount
-
-        print("buystockprice", buystockprice)
-        print("buystockamount:", buystockamount)
-        print("cost:", cost)
-
-        # Verify is user has enough cash
-        if int(cost) > int(user_fund):
-            return apology("INSUFFICIENT FUNDING")
-
-        # Proceed with transaction
-        user_fund = session["user_fund"] - cost
-        print("user_fund:", user_fund)
-
-        # Insert into table of all stock purchases
-        db.execute(
-            "INSERT INTO buyrecords (userid, stock_symbol, stock_name, stock_amount, stock_price, time) VALUES (?, ?, ?, ?, ?, ?)",
-            session["user_id"], buy_quote["symbol"], buy_quote["name"], buystockamount, buystockprice, datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-            )
-
-        # Insert into table of all currently-owned stocks
-        db.execute(
-        	"INSERT INTO nowrecords (userid, stock_symbol, stock_name, stock_amount, stock_price, time) VALUES (?, ?, ?, ?, ?, ?)",
-        	session["user_id"], buy_quote["symbol"], buy_quote["name"], buystockamount, buystockprice, datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-        	)
-
-        # Update balances
-        session["user_fund"] = user_fund
-        session["user_balance"] = usd(user_fund)
-
-        db.execute(
-        	"UPDATE users SET cash = ? WHERE username = ?",
-        	session["user_fund"], session["user_name"]
-        	)        
-        """    
+        #return redirect("/") # NOTE: placeholder , TODO: remove once review.html is completed 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
     
         return render_template("input.html")
 
+
+@app.route("/review", methods=["GET", "POST"])
+@login_required
+def input():
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        return("/") # placeholder
+    else:
+        return("/") # placeholder
 
 
 
