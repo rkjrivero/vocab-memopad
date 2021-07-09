@@ -394,7 +394,7 @@ def input():
 
 @app.route("/review", methods=["GET", "POST"])
 @login_required
-def input():
+def review():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         return("/") # placeholder
