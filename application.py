@@ -7,7 +7,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required
 from datetime import datetime
-# import googletrans (https://pypi.org/project/googletrans/)
+# import googletrans (https://pypi.org/project/googletrans/ , https://py-googletrans.readthedocs.io/en/latest/)
 from googletrans import Translator
 
 #import sqlalchemy # provisional
@@ -354,18 +354,37 @@ def input():
 
         # Lookup translation if check-box selected
         if request.form.get("autotrans"):
-            # Use googletrans
-            inorglang = "'" + request.form.get("originlang") + "'"
-            intgtlang = "'" + request.form.get("targetlang") + "'"
-            transtext = "'" + request.form.get("textinput") + "'"
-            print("test, inorglang: ", inorglang)
-            print("test, intgtlang: ", intgtlang)
+            # Use googletrans library
+            # NOTE: class googletrans.models.Translated(src, dest, origin, text, pronunciation, extra_data=None, **kwargs)
+            
+            # initialize an empty dictionary
+            translation = {}
+            
+            # use translator function
             translator = Translator()            
-            translation = translator.translate(request.form.get("textinput"), src = request.form.get("originlang"), dest = request.form.get("targetlang"))
-            #translation = translator.translate('Tiu frazo estas skribita en Esperanto') #tester
-            print("test, input: ", request.form.get("textinput"))
-            print("test, output: ", translation)
+            translated = translator.translate(request.form.get("textinput"), src = request.form.get("originlang"), dest = request.form.get("targetlang"))
+            
+            # add values to translation dictionry (to pass to review.html)
+            translation["text"] = translated.text
+            translation["org"] = translated.src
+            translation["tgt"] = translated.dest
 
+            # Print Test        
+            print("test, input: ", request.form.get("textinput"))
+            print("test, orglang: ", translation["org"])
+            print("test, tgtlang: ", translation["tgt"])
+            print("test, output(object): ", translated)
+            print("test, output(word): ", translation["text"])
+
+        else:
+            # Print on log
+            print("log: autotranslation option is not selected, ignoring input string '", request.form.get("textinput"), "'")
+            print("log: selected orglang is ", request.form.get("originlang"), " and selected tgtlang is ", request.form.get("targetlang"))
+            print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_orglang"])       
+        
+        # redirect to review.html
+        #return render_template("review.html", translation=translation)
+        return redirect("/") # NOTE: placeholder , TODO: remove once review.html is completed
 
         """
         # Ensure stock symbol and amount was submitted
@@ -437,12 +456,7 @@ def input():
         	"UPDATE users SET cash = ? WHERE username = ?",
         	session["user_fund"], session["user_name"]
         	)        
-        """
-        # NOTE: REDIRECT TO review.html
-        # return render_template("review.html") #, TODO: variables to assign)
-        # placeholder
-        return redirect("/")
-    
+        """    
     # User reached route via GET (as by clicking a link or via redirect)
     else:
     
