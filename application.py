@@ -376,12 +376,12 @@ def input():
             print("test, tgtlang: ", translation["tgt"])
             print("test, output(object): ", translated)
             print("test, output(word): ", translation["output"])
-            print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_orglang"])       
+            print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
 
         else:
             # add values to translation dictionry (to pass to review.html)
             translation["input"] = request.form.get("textinput")
-            translation["output"] = "  n/a (not translated)  "
+            translation["output"] = "  n/a  "
             translation["org"] = request.form.get("textinput")
             translation["tgt"] = "  n/a (not translated)  "
 
@@ -390,7 +390,7 @@ def input():
             print("test, orglang: ", translation["org"])
             print("test, tgtlang: ", translation["tgt"])
             print("log: autotranslation option is not selected, ignoring input string '", request.form.get("textinput"), "'")
-            print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_orglang"])       
+            print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
         
         # redirect to review.html
         return render_template("review.html", translation=translation)
