@@ -3,6 +3,7 @@ import os
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
+from sqlalchemy.sql.expression import false
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required
@@ -157,6 +158,10 @@ def login():
 
     # Forget any userid
     session.clear()
+
+    # Purge shadow table every login
+    #db.execute("DELETE FROM shadow") 
+    #TODO: temporarily disabled
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -352,7 +357,7 @@ def input():
         if not request.form.get("textinput"):
             return apology("must provide word/phrase to record and/or translate", 400)
         
-        # initialize an empty dictionary
+        # Initialize an empty dictionary
         translation = {}
 
         # Lookup translation if check-box selected
@@ -379,11 +384,11 @@ def input():
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
 
         else:
-            # add values to translation dictionry (to pass to review.html)
+            # add values to translation dictionary (to pass to review.html)
             translation["input"] = request.form.get("textinput")
-            translation["output"] = "  n/a  "
+            translation["output"] = "  n/a (not translated)  "
             translation["org"] = request.form.get("textinput")
-            translation["tgt"] = "  n/a (not translated)  "
+            translation["tgt"] = "  n/a  "
 
             # Print Test
             print("test, input: ", translation["input"])
@@ -392,7 +397,34 @@ def input():
             print("log: autotranslation option is not selected, ignoring input string '", request.form.get("textinput"), "'")
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
         
-        # redirect to review.html
+        # Save translation data to shadow table
+        # NOTE: shadow table = shawordid, shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin,
+        db.execute(
+            "INSERT INTO shadow (shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin)",
+            session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(), 0, False
+        )
+        # TODO: check if datetime.now() works properly with postgresql's timestampz
+
+        """
+        # user_id and user_name utilized for database recall, and are static (permanent)
+        session["user_id"] = usertable[0]["userid"]
+        session["user_name"] = usertable[0]["username"]
+        # user_tgtlang/orglang/autotrans are used for layout display, and are dynamic (manually changed in profile options)
+        session["user_tgtlang"] = usertable[0]["tgtlang"]
+        session["user_orglang"] = usertable[0]["orglang"]
+        session["user_autotrans"] = usertable[0]["autotrans"]
+        # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+        session["user_wordcount"] = usertable[0]["wordcount"]
+        session["user_pincount"] = usertable[0]["pincount"]
+
+        # Insert into table of all stock purchases
+        db.execute(
+            "INSERT INTO buyrecords (userid, stock_symbol, stock_name, stock_amount, stock_price, time) VALUES (?, ?, ?, ?, ?, ?)",
+            session["user_id"], buy_quote["symbol"], buy_quote["name"], buystockamount, buystockprice, datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+            )
+        """
+
+        # Redirect to review.html
         return render_template("review.html", translation=translation)
         #return redirect("/") # NOTE: placeholder , TODO: remove once review.html is completed 
     # User reached route via GET (as by clicking a link or via redirect)
@@ -406,7 +438,25 @@ def input():
 def review():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+
+        # Take in values from review.html form and save to database
+        
+        revdiff = request.form.get("difficulty")
+        revpin = request.form.get("inputpin")
+        print("test, revdiff:", revdiff)
+        print("test, revpin: ", revpin)
+        
+        # TODO: figure out how to transfer translation{} from /input to /review
+        # current thought - implement a shadow vocab table where results from /input are saved to, then if:
+        # a) user confirms "add word", then data from shadow vocab is copied to main vocab table, and shadow vocab table is purged
+        # b) if user ignores/neglects to confirm "add word", then data is retained only during the session
+        # c) once user logs out, the shadow vocab table is purged 
+
+
         return("/") # placeholder
+    
+    
+    # User reached route via GET (as by clicking a link or via redirect)
     else:
         return("/") # placeholder
 
