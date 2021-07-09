@@ -351,14 +351,14 @@ def input():
         # Ensure word/phrase was submitted
         if not request.form.get("textinput"):
             return apology("must provide word/phrase to record and/or translate", 400)
+        
+        # initialize an empty dictionary
+        translation = {}
 
         # Lookup translation if check-box selected
         if request.form.get("autotrans"):
             # Use googletrans library
-            # NOTE: class googletrans.models.Translated(src, dest, origin, text, pronunciation, extra_data=None, **kwargs)
-            
-            # initialize an empty dictionary
-            translation = {}
+            # NOTE: class googletrans.models.Translated(src, dest, origin, text, pronunciation, extra_data=None, **kwargs)            
             
             # use translator function
             translator = Translator()            
@@ -376,11 +376,20 @@ def input():
             print("test, tgtlang: ", translation["tgt"])
             print("test, output(object): ", translated)
             print("test, output(word): ", translation["output"])
+            print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_orglang"])       
 
         else:
-            # Print on log
+            # add values to translation dictionry (to pass to review.html)
+            translation["input"] = request.form.get("textinput")
+            translation["output"] = "n/a (translate option not selected)"
+            translation["org"] = request.form.get("textinput")
+            translation["tgt"] = "n/a (translate option not selected)"
+
+            # Print Test
+            print("test, input: ", translation["input"])
+            print("test, orglang: ", translation["org"])
+            print("test, tgtlang: ", translation["tgt"])
             print("log: autotranslation option is not selected, ignoring input string '", request.form.get("textinput"), "'")
-            print("log: selected orglang is ", request.form.get("originlang"), " and selected tgtlang is ", request.form.get("targetlang"))
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_orglang"])       
         
         # redirect to review.html
