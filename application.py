@@ -418,35 +418,17 @@ def input():
 def review():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-
-        # Take in values from review.html form and save to database
-
-        revdiff = request.form.get("difficulty")
-        revpin = request.form.get("inputpin")
-        print("test, revdiff:", revdiff)
-        print("test, revpin: ", revpin)
-        
         # Get a copy of translation data in shadow table
         shadowcopy = db.execute("SELECT * FROM shadow where shauserlink = ?", session["user_id"])      
         print("test, shadowcopy[0]: ", shadowcopy[0])
-        
-        """
+
+        # Insert values from shadowcopy to vocab table, but utilize difficulty/inputpin values from review.html
         db.execute(
             "INSERT INTO vocab (userlink, strinput, strtrans, langinput, langtrans, time, rating, pin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            shadowcopy[0]
-            session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(), 0, False
-        )       
-        """
-        """
-        # Save translation data to shadow table
-        # NOTE: shadow table = shawordid, shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin
-        # NOTE: "pin" value set to 0 to distinguish it from form-submitted ratings of 1-3
-        db.execute(
-            "INSERT INTO shadow (shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(), 0, False
+            shadowcopy[0]["shauserlink"], shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"], 
+            shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"], 
+            request.form.get("difficulty"), request.form.get("inputpin")
         )
-        """
-
 
         # TODO: figure out how to transfer translation{} from /input to /review
         # current thought - implement a shadow vocab table where results from /input are saved to, then if:
