@@ -9,6 +9,18 @@
         https://mdbootstrap.com/docs/b4/jquery/tables/sort/
         https://stackoverflow.com/questions/31888566/sort-table-rows-in-bootstrap
     -->
+    <script>
+    $(document).ready(function () {
+        $('#allsaved').DataTable({
+          "aaSorting": [],
+          columnDefs: [{
+          orderable: false,
+          targets: 3
+          }]
+        });
+          $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
     <h1>Memopad Statistics for {{ session.user_name }}</h1>
     <br>
     <table align="center">
@@ -34,7 +46,7 @@
     <br><br>
     <h1>All Saved Word/Phrase Entries </h1>
     <br>
-    <table align="center">
+    <table align="center" id="allsaved">
         <thead>
             <tr>
                 <th>Input Word/Phrase</th>
