@@ -156,6 +156,8 @@ def login():
 
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+        
+        # PRINT TEST BLOCK
         print("test, query-usertable: ", usertable)
         print("test, query-username: ", request.form.get("username"))
         print("test, password-hash: ", generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8))
@@ -273,13 +275,25 @@ def index():
     db.execute("DELETE FROM shadow") 
 
     # RETRIEVE FROM DATABASE
-    vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
-
     # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
     # inside of which are keys and values representing a table’s fields and cells, respectively.
     # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in 
     # session[] array (initially in /login, updated as required)
     # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
+    usertable = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+    vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
+    
+    # Update session[] array based on "user" table on database (directly copied from /login route)
+    # user_tgtlang/orglang/autotrans are used for layout display, and are dynamic (manually changed in profile options)
+    session["user_tgtlang"] = usertable[0]["tgtlang"]
+    session["user_orglang"] = usertable[0]["orglang"]
+    session["user_autotrans"] = usertable[0]["autotrans"]
+    # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+    session["user_wordcount"] = usertable[0]["wordcount"]
+    session["user_pincount"] = usertable[0]["pincount"]
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
     
     # Create empty list, to populate with *list of dictionaries*
     allvocabtable = []
