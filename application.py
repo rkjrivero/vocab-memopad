@@ -425,11 +425,15 @@ def review():
         revpin = request.form.get("inputpin")
         print("test, revdiff:", revdiff)
         print("test, revpin: ", revpin)
-        """
-        TODO
+        
+        # Get a copy of translation data in shadow table
         shadowcopy = db.execute("SELECT * FROM SHADOW where userlink = ?", session["user_id"])      
-         db.execute(
-            "INSERT INTO shadow (shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        print("test, shadowcopy[0]: ", shadowcopy[0])
+        
+        """
+        db.execute(
+            "INSERT INTO vocab (userlink, strinput, strtrans, langinput, langtrans, time, rating, pin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            shadowcopy[0]
             session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(), 0, False
         )       
         """
