@@ -303,6 +303,8 @@ def index():
     # Create empty list, to populate with *list of dictionaries*
     allvocabtable = []
     pinvocabtable = []
+    allcount = 30
+    pincount = 10
 
     # PRINT TEST BLOCK
     print("test, vocabtable[{}]: ", vocabtable)
@@ -311,25 +313,38 @@ def index():
     
     # Filter out for allvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
+    # TODO: limit to 30
     for vocabtable_list in vocabtable:
         print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
-        testvtlist = vocabtable_list.items()                
-        for (vt_key, vt_value) in testvtlist:            
-            # NOTE: go through all key/value pairs and search if they're for the current user
+        testvtlist = vocabtable_list.items()                        
+        # NOTE: go through all key/value pairs and search if they're for the current user
+        for (vt_key, vt_value) in testvtlist:                        
             #print("test, vt_key (", vt_key, ") + vt_value(", vt_value, ")")
-            if vt_key == "userlink" and vt_value == session["user_id"]:
-                print("log: userlink match")                
-                for (vt_key, vt_value) in testvtlist:
-                # NOTE: go through all key/value pairs and search if they're pinned or not
-                    if vt_key == "pin" and vt_value == False:
-                        print("log: pinned=False match")
-                        print("test, vocabtable_list (dict): ", vocabtable_list)
-                        allvocabtable.append(vocabtable_list)
-                        #print("test, allvocabtable.append: ", allvocabtable)
+            print("test, allcount: ", allcount)
+            
+            # NOTE: check if allcount is still > 0
+            if allcount >= 0:
+                if vt_key == "userlink" and vt_value == session["user_id"]:
+                    print("log: userlink match")                                   
+                    
+                    # NOTE: go through all key/value pairs and search if they're pinned or not
+                    for (vt_key, vt_value) in testvtlist:                                        
+                        if vt_key == "pin" and vt_value == False:
+                            print("log: pinned=False match")
+                            print("test, vocabtable_list (dict): ", vocabtable_list)
+                            allvocabtable.append(vocabtable_list)
+                            #print("test, allvocabtable.append: ", allvocabtable)
+                            # NOTE: subtract 1 from allcount
+                            allcount = allcount - 1
+            else:
+                # End loop once 30 entries have been detected
+                break
+
     print("test, allvocabtable (after): ", allvocabtable)
 
     # Filter out for pinvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
+    # TODO: limit to 10
     for vocabtable_list in vocabtable:
         print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
         testvtlist = vocabtable_list.items()                
@@ -345,6 +360,7 @@ def index():
                         print("test, vocabtable_list (dict): ", vocabtable_list)
                         pinvocabtable.append(vocabtable_list)
                         #print("test, pinvocabtable.append: ", pinvocabtable)
+
     print("test, pinvocabtable (after): ", pinvocabtable)
 
     return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable)
@@ -483,10 +499,56 @@ def review():
         return redirect("/input") 
 
 
+
+@app.route("/recallall", methods=["GET", "POST"])
+@login_required
+def review():
+    """Show RECALLALL.html"""
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Create empty list, to populate with *list of dictionaries*
+        fullvocabtable = []
+
+        # PRINT TEST BLOCK
+        print("test, vocabtable[{}]: ", vocabtable)
+        print("test, allvocabtable (before): ", allvocabtable)
+        print("test, pinvocabtable (before): ", pinvocabtable)
+        
+        # Filter out for fullvocabtable
+        # NOTE: go through all dictionary items within the list that db.execute returns
+        for vocabtable_list in vocabtable:
+            print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
+            testvtlist = vocabtable_list.items()                
+            for (vt_key, vt_value) in testvtlist:            
+                # NOTE: go through all key/value pairs and search if they're for the current user
+                #print("test, vt_key (", vt_key, ") + vt_value(", vt_value, ")")
+                if vt_key == "userlink" and vt_value == session["user_id"]:
+                    print("log: userlink match")                
+                    print("test, vocabtable_list (dict): ", vocabtable_list)
+                    fullvocabtable.append(vocabtable_list)
+                    print("test, fullvocabtable.append: ", fullvocabtable)
+        print("test, fullvocabtable (after): ", fullvocabtable)
+
+        return render_template("recallall.html", fullvocabtable=fullvocabtable)
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+
+        return redirect("/recallall") 
+
+
 # NOTE - ADD NEW app.route DEFINITIONS FOLLOWING THIS LINE !!!
 # TODO - CREATE DEFINITIONS FOR THE FOLLOWING FUNCTIONS:
-# def recall_full(): - to view full list of saved word/phrase entries
-# def recall_pinned(): - to view pinned list of saved word/phrase entries
+# def recallall(): - to view full list of saved word/phrase entries
+# def recallpinned(): - to view pinned list of saved word/phrase entries
 
 # NOTE CS50PSET9 BASE CODE BELOW RETAINED
 def errorhandler(e):

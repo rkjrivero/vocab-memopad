@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <!-- NOTE/TODO: ADD JAVASCRIPT FUNCTIONALITY FOR SORTING:
+        https://mdbootstrap.com/docs/b4/jquery/tables/sort/
+        https://stackoverflow.com/questions/31888566/sort-table-rows-in-bootstrap
+    -->
+    <h1>Memopad Statistics for {{ session.user_name }}</h1>
+    <br>
+    <table align="center">
+        <thead>
+            <tr>
+                <th>Default Original Language: </th>
+                <th> {{ session.user_orglang }} </th>
+            </tr>
+            <tr>
+                <th>Default Target Language: </th>
+                <th> {{ session.user_tgtlang }} </th>
+            </tr>
+            <tr>
+                <th>Pinned Word/Phrase Entry Count: </th>
+                <th> {{ session.user_pincount }} </th>
+            </tr>
+            <tr>
+                <th>Total Word/Phrase Entry Count: </th>
+                <th> {{ session.user_wordcount }} </th>
+            </tr>    
+        </thead>
+    </table>
+    <br><br>
+    <h1>All Saved Word/Phrase Entries </h1>
+    <br>
+    <table align="center">
+        <thead>
+            <tr>
+                <th>Input Word/Phrase</th>
+                <th>Input Language</th>
+                <th>Translated Word/Phrase</th>
+                <th>Translated Language</th>
+                <th>Date/Time Saved</th>
+                <th>Difficulty Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fullvocabtable in fullvocabtable %}
+            <tr>
+                <td> {{ fullvocabtable.strinput }}  </td>
+                <td> {{ fullvocabtable.langinput }} </td>
+                <td> {{ fullvocabtable.strtrans }} </td>
+                <td> {{ fullvocabtable.langtrans }} </td>
+                <td> {{ fullvocabtable.time }} </td>
+                <td> {{ fullvocabtable.rating }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <h2>
+        Server Date/Time is {{ session.current_time }}
+    </h2>
+
+
+{% endblock %}
