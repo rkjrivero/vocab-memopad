@@ -433,15 +433,31 @@ def review():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        # Get a copy of translation data in shadow table
+        # Get a copy of translation data in shadow table and wordcount/pincount from user table
         shadowcopy = db.execute("SELECT * FROM shadow where shauserlink = ?", session["user_id"])      
-        
+        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
+                
         # Change inputpin value to true/false        
         if request.form.get("inputpin") == "true":
             varinputpin = True
+            # Update user table wordcount and pincount
+            db.execute(
+                "UPDATE users SET wordcount = ?, pincount = ? WHERE userid = ?",
+                usernumbers[0]["wordcount"] + 1, usernumbers[0]["pincount"] + 1, session["user_id"]
+            )
         else:
             varinputpin = False
-        
+            # Update user table wordcount only
+            db.execute(
+                "UPDATE users SET wordcount = ?, WHERE userid = ?",
+                usernumbers[0]["wordcount"] + 1, session["user_id"]
+            )     
+
+        # Update session[] array based on "user" table on database (directly copied from /login route)
+        # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+        session["user_wordcount"] = usernumbers[0]["wordcount"] + 1
+        session["user_pincount"] = usernumbers[0]["pincount"] + 1
+
         # Print Test
         print("test, shadowcopy[0]: ", shadowcopy[0])
         print("test, difficulty: ", request.form.get("difficulty"))
@@ -455,6 +471,7 @@ def review():
             shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"], 
             request.form.get("difficulty"), varinputpin
         )
+        
         # Purge shadow table after every successful insertion to vocab table
         db.execute("DELETE FROM shadow") 
 
