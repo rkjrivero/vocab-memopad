@@ -218,6 +218,9 @@ def logout():
     # Forget any userid
     session.clear()
 
+    # Purge shadow table every logout
+    db.execute("DELETE FROM shadow") 
+
     # Redirect user to login form
     return redirect("/")
 
@@ -416,23 +419,34 @@ def input():
 @app.route("/review", methods=["GET", "POST"])
 @login_required
 def review():
+    """Show REVIEW.html"""
+
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         # Get a copy of translation data in shadow table
         shadowcopy = db.execute("SELECT * FROM shadow where shauserlink = ?", session["user_id"])      
+        
+        # Change inputpin value to true/false        
+        if request.form.get("inputpin") == "true":
+            varinputpin = True
+        else:
+            varinputpin = False
+        
+        # Print Test
         print("test, shadowcopy[0]: ", shadowcopy[0])
         print("test, difficulty: ", request.form.get("difficulty"))
-        print("test, inputpin:", request.form.get("inputpin"))
-
-        """
+        print("test, inputpin (raw):", request.form.get("inputpin"))
+        print("test, inputpin (cleaned):", varinputpin)
+        
+        
         # Insert values from shadowcopy to vocab table, but utilize difficulty/inputpin values from review.html
         db.execute(
             "INSERT INTO vocab (userlink, strinput, strtrans, langinput, langtrans, time, rating, pin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             shadowcopy[0]["shauserlink"], shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"], 
             shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"], 
-            request.form.get("difficulty"), request.form.get("inputpin")
+            request.form.get("difficulty"), varinputpin
         )
-        """
+        
         # TODO: figure out how to transfer translation{} from /input to /review
         # current thought - implement a shadow vocab table where results from /input are saved to, then if:
         # a) user confirms "add word", then data from shadow vocab is copied to main vocab table, and shadow vocab table is purged
