@@ -427,7 +427,7 @@ def review():
         print("test, revpin: ", revpin)
         
         # Get a copy of translation data in shadow table
-        shadowcopy = db.execute("SELECT * FROM SHADOW where userlink = ?", session["user_id"])      
+        shadowcopy = db.execute("SELECT * FROM shadow where shauserlink = ?", session["user_id"])      
         print("test, shadowcopy[0]: ", shadowcopy[0])
         
         """
