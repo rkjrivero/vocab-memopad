@@ -273,13 +273,7 @@ def changepw():
 def index():
     # NOTE - INDEX DEFINITION ORIGINALLY FROM CS50PSET9, WITH MODIFICATIONS
     """Show INDEX.html"""
-
-    # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
-    # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
-
+    
     # RETRIEVE FROM DATABASE
     # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
     #   inside of which are keys and values representing a table’s fields and cells, respectively.
@@ -299,6 +293,9 @@ def index():
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
     
     # Create empty list, to populate with *list of dictionaries*
     allvocabtable = []
@@ -500,10 +497,27 @@ def review():
 
 
 
-@app.route("/recallall", methods=["GET", "POST"])
+@app.route("/recallall")
 @login_required
 def recallall():
     """Show RECALLALL.html"""
+
+    # RETRIEVE FROM DATABASE
+    # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
+    #   inside of which are keys and values representing a table’s fields and cells, respectively.
+    # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
+    # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
+    usertable = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
+    vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
+    
+    # Update session[] array based on "user" table on database (directly copied from /login route)
+    # user_tgtlang/orglang/autotrans are used for layout display, and are dynamic (manually changed in profile options)
+    session["user_tgtlang"] = usertable[0]["tgtlang"]
+    session["user_orglang"] = usertable[0]["orglang"]
+    session["user_autotrans"] = usertable[0]["autotrans"]
+    # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+    session["user_wordcount"] = usertable[0]["wordcount"]
+    session["user_pincount"] = usertable[0]["pincount"]
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
@@ -511,39 +525,29 @@ def recallall():
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
+    # Create empty list, to populate with *list of dictionaries*
+    fullvocabtable = []
 
-        # Create empty list, to populate with *list of dictionaries*
-        fullvocabtable = []
+    # PRINT TEST BLOCK
+    print("test, vocabtable[{}]: ", vocabtable)
+    print("test, allvocabtable (before): ", fullvocabtable)
+    
+    # Filter out for fullvocabtable
+    # NOTE: go through all dictionary items within the list that db.execute returns
+    for vocabtable_list in vocabtable:
+        print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
+        testvtlist = vocabtable_list.items()                
+        for (vt_key, vt_value) in testvtlist:            
+            # NOTE: go through all key/value pairs and search if they're for the current user
+            #print("test, vt_key (", vt_key, ") + vt_value(", vt_value, ")")
+            if vt_key == "userlink" and vt_value == session["user_id"]:
+                print("log: userlink match")                
+                print("test, vocabtable_list (dict): ", vocabtable_list)
+                fullvocabtable.append(vocabtable_list)
+                print("test, fullvocabtable.append: ", fullvocabtable)
+    print("test, fullvocabtable (after): ", fullvocabtable)
 
-        # PRINT TEST BLOCK
-        print("test, vocabtable[{}]: ", vocabtable)
-        print("test, allvocabtable (before): ", allvocabtable)
-        print("test, pinvocabtable (before): ", pinvocabtable)
-        
-        # Filter out for fullvocabtable
-        # NOTE: go through all dictionary items within the list that db.execute returns
-        for vocabtable_list in vocabtable:
-            print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
-            testvtlist = vocabtable_list.items()                
-            for (vt_key, vt_value) in testvtlist:            
-                # NOTE: go through all key/value pairs and search if they're for the current user
-                #print("test, vt_key (", vt_key, ") + vt_value(", vt_value, ")")
-                if vt_key == "userlink" and vt_value == session["user_id"]:
-                    print("log: userlink match")                
-                    print("test, vocabtable_list (dict): ", vocabtable_list)
-                    fullvocabtable.append(vocabtable_list)
-                    print("test, fullvocabtable.append: ", fullvocabtable)
-        print("test, fullvocabtable (after): ", fullvocabtable)
-
-        return render_template("recallall.html", fullvocabtable=fullvocabtable)
-
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-
-        return redirect("/recallall") 
-
+    return render_template("recallall.html", fullvocabtable=fullvocabtable)
 
 # NOTE - ADD NEW app.route DEFINITIONS FOLLOWING THIS LINE !!!
 # TODO - CREATE DEFINITIONS FOR THE FOLLOWING FUNCTIONS:
