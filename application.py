@@ -434,7 +434,7 @@ def review():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         # Get a copy of translation data in shadow table and wordcount/pincount from user table
-        shadowcopy = db.execute("SELECT * FROM shadow where shauserlink = ?", session["user_id"])      
+        shadowcopy = db.execute("SELECT * FROM shadow WHERE shauserlink = ?", session["user_id"])      
         usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
                 
         # Change inputpin value to true/false        
@@ -449,7 +449,7 @@ def review():
             varinputpin = False
             # Update user table wordcount only
             db.execute(
-                "UPDATE users SET wordcount = ?, WHERE userid = ?",
+                "UPDATE users SET wordcount = ? WHERE userid = ?",
                 usernumbers[0]["wordcount"] + 1, session["user_id"]
             )     
 
@@ -471,7 +471,7 @@ def review():
             shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"], 
             request.form.get("difficulty"), varinputpin
         )
-        
+
         # Purge shadow table after every successful insertion to vocab table
         db.execute("DELETE FROM shadow") 
 
