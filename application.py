@@ -304,7 +304,7 @@ def index():
     allvocabtable = []
     pinvocabtable = []
     allcount = 30
-    pincount = 10
+    #pincount = 10
 
     # PRINT TEST BLOCK
     print("test, vocabtable[{}]: ", vocabtable)
@@ -338,7 +338,8 @@ def index():
                             allcount = allcount - 1
             else:
                 # End loop once 30 entries have been detected
-                break
+                #break
+                print("log: break")
 
     print("test, allvocabtable (after): ", allvocabtable)
 
