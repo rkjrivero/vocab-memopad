@@ -610,7 +610,7 @@ def recallpin():
                         pinnedvocabtable.append(vocabtable_list)
     print("test, pinnedvocabtable (after): ", pinnedvocabtable)
 
-    return render_template("recallall.html", pinnedvocabtable=pinnedvocabtable)
+    return render_template("recallpin.html", pinnedvocabtable=pinnedvocabtable)
 
 
 # NOTE - ADD NEW app.route DEFINITIONS FOLLOWING THIS LINE !!!
