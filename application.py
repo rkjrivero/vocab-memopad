@@ -8,27 +8,28 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required
 from datetime import datetime
-# import googletrans (https://pypi.org/project/googletrans/ , https://py-googletrans.readthedocs.io/en/latest/)
+
+# Import googletrans (https://pypi.org/project/googletrans/ , https://py-googletrans.readthedocs.io/en/latest/)
 from googletrans import Translator
 
+# TODO - INSPECT IMPORT LIST BELOW AND REMOVE THOSE NOT RELEVANT EVENTUALLY !!!
 #import sqlalchemy # provisional
 # https://www.learndatasci.com/tutorials/using-databases-python-postgres-sqlalchemy-and-alembic/
-
-import re # UNUSED RN
-from tempfile import mkdtemp #UNUSED RN
-import secrets #UNUSED RN
-
-# TODO - INSPECT IMPORT LIST AND REMOVE THOSE NOT RELEVANT EVENTUALLY !!!
+#import re # UNUSED RN
+#from tempfile import mkdtemp #UNUSED RN
+#import secrets #UNUSED RN
 
 # Configure application
 app = Flask(__name__)
 
-# Session setup
+# Session setup notes
 # stolen from https://stackoverflow.com/questions/34902378/where-do-i-get-a-secret-key-for-flask/34903502 because ... eh, cbf
 #himitsu_key = secrets.token_hex(16)
 #print("secret key is: ",himitsu_key)
 #app.config['SECRET_KEY'] = himitsu_key
 #app.config['SECRET_KEY'] = 'f3cfe9ed8fae309f02079dbf' # set as fixed
+# NOTE TO SELF - DISABLED THE ENTIRE BLOCK ABOVE DUE TO WORKAROUND BY DISABLING MKDTEMP() ALONE GETS THE APP TO WORK 
+# REFACTOR TO A BETTER SESSION-HANDLING METHOD ONCE PRIMARY FUNCTIONALITY IS ESTABLISHED
 # https://stackoverflow.com/questions/44769152/difficulty-implementing-server-side-session-storage-using-redis-and-flask
 # FOR HEROKU, YOU NEED TO SAVE SESSIONS SOMEWHERE BECAUSE SESSION IS NOT SHARED BETWEEN GUNICORN 'WORKERS'
 # THIS MEANS SESSION DICTIONARY ENDS UP EMPTY
@@ -39,10 +40,6 @@ app = Flask(__name__)
 # https://devcenter.heroku.com/articles/getting-started-with-python?singlepage=true
 # https://flask-session.readthedocs.io/en/latest/
 # note - read up on jwt authentication
-
-# NOTE TO SELF - DISABLED THE ENTIRE BLOCK ABOVE DUE TO WORKAROUND BY DISABLING MKDTEMP() ALONE GETS THE APP TO WORK 
-# REFACTOR TO A BETTER SESSION-HANDLING METHOD ONCE PRIMARY FUNCTIONALITY IS ESTABLISHED
-
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -55,17 +52,11 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-# NOTE CS50PSET9 CODE FOR REMOVAL !!!
-"""
-# Custom filter
-app.jinja_env.filters["usd"] = usd
-"""
-
-# Commented-out block to return to using signed cookies for heroku compatibility
 # Configure session to use filesystem (instead of signed cookies)
 # app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+# Commented-out 'app.config["SESSION_FILE_DIR"] = mkdtemp()' for heroku compatibility
 # based on https://www.reddit.com/r/cs50/comments/lerroy/using_cookies_in_flask_and_deploying_to_heroku/
 
 Session(app)
@@ -77,13 +68,6 @@ db_uri = os.getenv("DATABASE_URL")
 if db_uri.startswith("postgres://"):
     db_uri = db_uri.replace("postgres://", "postgresql://", 1)
 db = SQL(db_uri)
-
-# NOTE CS50PSET9 CODE FOR REMOVAL !!!
-"""
-# Make sure API key is set
-if not os.environ.get("API_KEY"):
-    raise RuntimeError("API_KEY not set")
-"""
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -124,7 +108,6 @@ def register():
         else:
             autotrans = False
     
-
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?;", request.form.get("username"))
         print(usertable)
@@ -135,10 +118,8 @@ def register():
 
         else:
             newpass = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8)
-            # print test
-            print("TEST /register input: username:", request.form.get("username") ," hash:", newpass," tgtlang:", tgtlang," orglang:", 
-                orglang, " autotrans (raw):", request.form.get("autotrans")," autotrans (if/else):", autotrans)
-            # NOTE - try studying sqlalchemy if possible
+            print("test, /register input: username:", request.form.get("username") ," hash:", newpass," tgtlang:", tgtlang," orglang:", 
+                orglang, " autotrans (raw):", request.form.get("autotrans")," autotrans (if/else):", autotrans)            
             db.execute("INSERT INTO users (username, hash, tgtlang, orglang, autotrans, wordcount, pincount) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 request.form.get("username"), newpass, tgtlang, orglang, autotrans, 0, 0)            
             flash("User registered", category="message")
@@ -159,7 +140,7 @@ def login():
     # Forget any userid
     session.clear()
 
-    # Purge shadow table every login
+    # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
     # User reached route via POST (as by submitting a form via POST)
@@ -199,7 +180,7 @@ def login():
         session["user_wordcount"] = usertable[0]["wordcount"]
         session["user_pincount"] = usertable[0]["pincount"]
 
-        # update current display time - display format: dd/mm/YY H:M:S
+        # Update current display time - display format: dd/mm/YY H:M:S
         session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
         # Redirect user to home page
@@ -218,7 +199,7 @@ def logout():
     # Forget any userid
     session.clear()
 
-    # Purge shadow table every logout
+    # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
     # Redirect user to login form
@@ -228,21 +209,24 @@ def logout():
 @app.route("/profile")
 @login_required
 def profile():
-    # NOTE FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
-    """CUSTOM: Profile Page"""
+    # NOTE/TODO FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
+    """Profile Page"""
 
-    # update current display time - display format: dd/mm/YY H:M:S
+    # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
 
     return render_template("profile.html")
 
 @app.route("/changepw", methods=["GET", "POST"])
 @login_required
 def changepw():
-    # NOTE FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
-    """CUSTOM: Change Password Page"""
+    # NOTE/TODO FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
+    """Change Password Page"""
 
-    # update current display time - display format: dd/mm/YY H:M:S
+    # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
     # User reached route via POST (as by submitting a form via POST)
@@ -282,21 +266,26 @@ def index():
     # NOTE - INDEX DEFINITION ORIGINALLY FROM CS50PSET9, WITH MODIFICATIONS
     """Show INDEX.html"""
 
-    # update current display time - display format: dd/mm/YY H:M:S
+    # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
     # RETRIEVE FROM DATABASE
+    vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
 
     # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
     # inside of which are keys and values representing a table’s fields and cells, respectively.
-    # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
+    # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in 
+    # session[] array (initially in /login, updated as required)
     # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
-    vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
+    
     # Create empty list, to populate with *list of dictionaries*
     allvocabtable = []
     pinvocabtable = []
 
-    # PRINT TEST
+    # PRINT TEST BLOCK
     print("test, vocabtable[{}]: ", vocabtable)
     print("test, allvocabtable (before): ", allvocabtable)
     print("test, pinvocabtable (before): ", pinvocabtable)
@@ -304,21 +293,18 @@ def index():
     # Filter out for allvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
-        # PRINT TEST
         print("test, vocabtable_list{}: ", vocabtable_list)
         testvtlist = vocabtable_list.items()                
         for (vt_key, vt_value) in testvtlist:            
             # NOTE: go through all key/value pairs and search if they're for the current user
             if vt_key == "userlink" and vt_value == session["user_id"]:
-                # PRINT TEST
-                print("userlink match")                
+                print("log: userlink match")                
                 for (vt_key, vt_value) in testvtlist:
                 # NOTE: go through all key/value pairs and search if they're pinned or not
                     if vt_key == "pin" and vt_value == False:
-                        print("pin match")
+                        print("log: pin match")
                         print("test2, vocabtable_list: ", vocabtable_list, "\ndatatatype: ", type(vocabtable_list))
                         allvocabtable.append(vocabtable_list)
-                        # PRINT TEST
                         print("test, allvocabtable.append: ", allvocabtable)
     print("test, allvocabtable (after): ", allvocabtable)
 
@@ -330,16 +316,14 @@ def index():
         testvtlist = vocabtable_list.items()                
         for (vt_key, vt_value) in testvtlist:            
             # NOTE: go through all key/value pairs and search if they're for the current user
-            if vt_key == "userlink" and vt_value == session["user_id"]:
-                # PRINT TEST
+            if vt_key == "log: userlink" and vt_value == session["user_id"]:
                 print("userlink match")                
                 for (vt_key, vt_value) in testvtlist:
                 # NOTE: go through all key/value pairs and search if they're pinned or not
                     if vt_key == "pin" and vt_value == True:
-                        print("pin match")
+                        print("log: pin match")
                         print("test2, vocabtable_list: ", vocabtable_list, "\ndatatatype: ", type(vocabtable_list))
                         pinvocabtable.append(vocabtable_list)
-                        # PRINT TEST
                         print("test, pinvocabtable.append: ", pinvocabtable)
     print("test, pinvocabtable (after): ", pinvocabtable)
 
@@ -350,8 +334,11 @@ def index():
 def input():
     """Show INPUT.html"""
 
-    # update current display time - display format: dd/mm/YY H:M:S
+    # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
     
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -367,17 +354,17 @@ def input():
             # Use googletrans library
             # NOTE: class googletrans.models.Translated(src, dest, origin, text, pronunciation, extra_data=None, **kwargs)            
             
-            # use translator function
+            # Use translator function
             translator = Translator()            
             translated = translator.translate(request.form.get("textinput"), src = request.form.get("originlang"), dest = request.form.get("targetlang"))
             
-            # add values to translation dictionry (to pass to review.html)
+            # Add values to translation dictionry (to pass to review.html)
             translation["input"] = request.form.get("textinput")
             translation["output"] = translated.text
             translation["org"] = translated.src
             translation["tgt"] = translated.dest
 
-            # Print Test        
+            # PRINT TEST BLOCK        
             print("test, input: ", translation["input"])
             print("test, orglang: ", translation["org"])
             print("test, tgtlang: ", translation["tgt"])
@@ -386,13 +373,13 @@ def input():
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
 
         else:
-            # add values to translation dictionary (to pass to review.html)
+            # Add values to translation dictionary (to pass to review.html)
             translation["input"] = request.form.get("textinput")
             translation["output"] = "n/a (not translated)"
             translation["org"] = request.form.get("textinput")
             translation["tgt"] = "n/a"
 
-            # Print Test
+            # PRINT TEST BLOCK        
             print("test, input: ", translation["input"])
             print("test, orglang: ", translation["org"])
             print("test, tgtlang: ", translation["tgt"])
@@ -411,15 +398,18 @@ def input():
         return render_template("review.html", translation=translation)
 
     # User reached route via GET (as by clicking a link or via redirect)
-    else:
-    
+    else:   
         return render_template("input.html")
-
 
 @app.route("/review", methods=["GET", "POST"])
 @login_required
 def review():
     """Show REVIEW.html"""
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # NOTE: only /review route should not purge shadow table
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -438,7 +428,6 @@ def review():
         print("test, inputpin (raw):", request.form.get("inputpin"))
         print("test, inputpin (cleaned):", varinputpin)
         
-        
         # Insert values from shadowcopy to vocab table, but utilize difficulty/inputpin values from review.html
         db.execute(
             "INSERT INTO vocab (userlink, strinput, strtrans, langinput, langtrans, time, rating, pin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
@@ -446,29 +435,19 @@ def review():
             shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"], 
             request.form.get("difficulty"), varinputpin
         )
-        
-        # TODO: figure out how to transfer translation{} from /input to /review
-        # current thought - implement a shadow vocab table where results from /input are saved to, then if:
-        # a) user confirms "add word", then data from shadow vocab is copied to main vocab table, and shadow vocab table is purged
-        # b) if user ignores/neglects to confirm "add word", then data is retained only during the session
-        # c) once user logs, the shadow vocab table is also purged 
-
         # Purge shadow table after every successful insertion to vocab table
         db.execute("DELETE FROM shadow") 
 
-        return redirect("/") # placeholder
-    
-    
+        return redirect("/")
+
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return redirect("/") # placeholder
-
+        # /review should not be directly accessible (redirect to /input instead)
+        return redirect("/input") 
 
 
 # NOTE - ADD NEW app.route DEFINITIONS FOLLOWING THIS LINE !!!
 # TODO - CREATE DEFINITIONS FOR THE FOLLOWING FUNCTIONS:
-# def input(): - to input word/phrase, etc
-# def review(): - to review results of inputted word/phrase, etc
 # def recall_full(): - to view full list of saved word/phrase entries
 # def recall_pinned(): - to view pinned list of saved word/phrase entries
 
