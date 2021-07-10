@@ -419,7 +419,7 @@ def input():
             # Add values to translation dictionary (to pass to review.html)
             translation["input"] = request.form.get("textinput")
             translation["output"] = "n/a (not translated)"
-            translation["org"] = request.form.get("textinput")
+            translation["org"] = request.form.get("originlang")
             translation["tgt"] = "n/a"
 
             # PRINT TEST BLOCK        
