@@ -421,7 +421,10 @@ def review():
         # Get a copy of translation data in shadow table
         shadowcopy = db.execute("SELECT * FROM shadow where shauserlink = ?", session["user_id"])      
         print("test, shadowcopy[0]: ", shadowcopy[0])
+        print("test, difficulty: ", request.form.get("difficulty"))
+        print("test, inputpin:", request.form.get("inputpin"))
 
+        """
         # Insert values from shadowcopy to vocab table, but utilize difficulty/inputpin values from review.html
         db.execute(
             "INSERT INTO vocab (userlink, strinput, strtrans, langinput, langtrans, time, rating, pin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
@@ -429,7 +432,7 @@ def review():
             shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"], 
             request.form.get("difficulty"), request.form.get("inputpin")
         )
-
+        """
         # TODO: figure out how to transfer translation{} from /input to /review
         # current thought - implement a shadow vocab table where results from /input are saved to, then if:
         # a) user confirms "add word", then data from shadow vocab is copied to main vocab table, and shadow vocab table is purged
