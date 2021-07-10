@@ -293,39 +293,39 @@ def index():
     # Filter out for allvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
-        print("test, vocabtable_list{}: ", vocabtable_list)
+        print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
         testvtlist = vocabtable_list.items()                
         for (vt_key, vt_value) in testvtlist:            
             # NOTE: go through all key/value pairs and search if they're for the current user
-            print("test, vt_key (", vt_key, ") + vt_value(", vt_value, ")")
+            #print("test, vt_key (", vt_key, ") + vt_value(", vt_value, ")")
             if vt_key == "userlink" and vt_value == session["user_id"]:
                 print("log: userlink match")                
                 for (vt_key, vt_value) in testvtlist:
                 # NOTE: go through all key/value pairs and search if they're pinned or not
                     if vt_key == "pin" and vt_value == False:
                         print("log: pinned=False match")
-                        print("test2, vocabtable_list: ", vocabtable_list, "\ndatatatype: ", type(vocabtable_list))
+                        print("test, vocabtable_list (dict): ", vocabtable_list)
                         allvocabtable.append(vocabtable_list)
-                        print("test, allvocabtable.append: ", allvocabtable)
+                        #print("test, allvocabtable.append: ", allvocabtable)
     print("test, allvocabtable (after): ", allvocabtable)
 
     # Filter out for pinvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
-        print("test, vocabtable_list{}: ", vocabtable_list)
+        print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
         testvtlist = vocabtable_list.items()                
         for (vt_key, vt_value) in testvtlist:            
             # NOTE: go through all key/value pairs and search if they're for the current user
-            print("test, vt_key (", vt_key, ") + vt_value(", vt_value, ")")
-            if vt_key == "log: userlink" and vt_value == session["user_id"]:
-                print("userlink match")                
+            #print("test, vt_key (", vt_key, ") + vt_value(", vt_value, ")")
+            if vt_key == "userlink" and vt_value == session["user_id"]:
+                print("log: userlink match")                
                 for (vt_key, vt_value) in testvtlist:
                 # NOTE: go through all key/value pairs and search if they're pinned or not
                     if vt_key == "pin" and vt_value == True:
                         print("log: pin=True match")
-                        print("test2, vocabtable_list: ", vocabtable_list, "\ndatatatype: ", type(vocabtable_list))
+                        print("test, vocabtable_list (dict): ", vocabtable_list)
                         pinvocabtable.append(vocabtable_list)
-                        print("test, pinvocabtable.append: ", pinvocabtable)
+                        #print("test, pinvocabtable.append: ", pinvocabtable)
     print("test, pinvocabtable (after): ", pinvocabtable)
 
     return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable)
