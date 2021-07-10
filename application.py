@@ -320,7 +320,7 @@ def index():
             print("test, allcount: ", allcount)
             
             # NOTE: check if allcount is still > 0
-            if allcount >= 0:
+            if allcount > 0:
                 if vt_key == "userlink" and vt_value == session["user_id"]:
                     print("log: userlink match")                                   
                     
@@ -351,7 +351,7 @@ def index():
             print("test, allcount: ", pincount)
 
             # NOTE: check if pincount is still > 0
-            if pincount >= 0:
+            if pincount > 0:
                 if vt_key == "userlink" and vt_value == session["user_id"]:
                     print("log: userlink match")         
 
