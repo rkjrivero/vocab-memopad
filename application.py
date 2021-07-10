@@ -304,7 +304,7 @@ def index():
     allvocabtable = []
     pinvocabtable = []
     allcount = 30
-    #pincount = 10
+    pincount = 10
 
     # PRINT TEST BLOCK
     print("test, vocabtable[{}]: ", vocabtable)
@@ -338,9 +338,8 @@ def index():
                             allcount = allcount - 1
             else:
                 # End loop once 30 entries have been detected
-                #break
-                print("log: break")
-
+                print("log: function break due to allcount at ", allcount)
+                break            
     print("test, allvocabtable (after): ", allvocabtable)
 
     # Filter out for pinvocabtable
@@ -503,7 +502,7 @@ def review():
 
 @app.route("/recallall", methods=["GET", "POST"])
 @login_required
-def review():
+def recallall():
     """Show RECALLALL.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
