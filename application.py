@@ -13,33 +13,39 @@ from datetime import datetime
 from googletrans import Translator
 
 # TODO - INSPECT IMPORT LIST BELOW AND REMOVE THOSE NOT RELEVANT EVENTUALLY !!!
-#import sqlalchemy # provisional
+"""
+import sqlalchemy # provisional
 # https://www.learndatasci.com/tutorials/using-databases-python-postgres-sqlalchemy-and-alembic/
-#import re # UNUSED RN
-#from tempfile import mkdtemp #UNUSED RN
-#import secrets #UNUSED RN
+import re # UNUSED RN
+from tempfile import mkdtemp #UNUSED RN
+import secrets #UNUSED RN
+"""
 
 # Configure application
 app = Flask(__name__)
 
-# Session setup notes
+
+# Session setup
+"""
 # stolen from https://stackoverflow.com/questions/34902378/where-do-i-get-a-secret-key-for-flask/34903502 because ... eh, cbf
-#himitsu_key = secrets.token_hex(16)
-#print("secret key is: ",himitsu_key)
-#app.config['SECRET_KEY'] = himitsu_key
-#app.config['SECRET_KEY'] = 'f3cfe9ed8fae309f02079dbf' # set as fixed
+himitsu_key = secrets.token_hex(16)
+print("secret key is: ",himitsu_key)
+app.config['SECRET_KEY'] = himitsu_key
+app.config['SECRET_KEY'] = 'f3cfe9ed8fae309f02079dbf' # set as fixed
+"""
 # NOTE TO SELF - DISABLED THE ENTIRE BLOCK ABOVE DUE TO WORKAROUND BY DISABLING MKDTEMP() ALONE GETS THE APP TO WORK 
 # REFACTOR TO A BETTER SESSION-HANDLING METHOD ONCE PRIMARY FUNCTIONALITY IS ESTABLISHED
-# https://stackoverflow.com/questions/44769152/difficulty-implementing-server-side-session-storage-using-redis-and-flask
+#   https://stackoverflow.com/questions/44769152/difficulty-implementing-server-side-session-storage-using-redis-and-flask
 # FOR HEROKU, YOU NEED TO SAVE SESSIONS SOMEWHERE BECAUSE SESSION IS NOT SHARED BETWEEN GUNICORN 'WORKERS'
-# THIS MEANS SESSION DICTIONARY ENDS UP EMPTY
-# https://stackoverflow.com/questions/30984622/flask-session-not-persistent-across-requests-in-flask-app-with-gunicorn-on-herok
-# https://devcenter.heroku.com/articles/java-session-handling-on-heroku
-# https://devcenter.heroku.com/articles/php-sessions
-# https://devcenter.heroku.com/articles/flask-memcache
-# https://devcenter.heroku.com/articles/getting-started-with-python?singlepage=true
-# https://flask-session.readthedocs.io/en/latest/
-# note - read up on jwt authentication
+#   THIS MEANS SESSION DICTIONARY ENDS UP EMPTY
+# STUDY NOTES:
+#   https://stackoverflow.com/questions/30984622/flask-session-not-persistent-across-requests-in-flask-app-with-gunicorn-on-herok
+#   https://devcenter.heroku.com/articles/java-session-handling-on-heroku
+#   https://devcenter.heroku.com/articles/php-sessions
+#   https://devcenter.heroku.com/articles/flask-memcache
+#   https://devcenter.heroku.com/articles/getting-started-with-python?singlepage=true
+#   https://flask-session.readthedocs.io/en/latest/
+# NOTE: read up on jwt authentication
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -276,9 +282,8 @@ def index():
 
     # RETRIEVE FROM DATABASE
     # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
-    # inside of which are keys and values representing a table’s fields and cells, respectively.
-    # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in 
-    # session[] array (initially in /login, updated as required)
+    #   inside of which are keys and values representing a table’s fields and cells, respectively.
+    # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
     # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
     usertable = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
     vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
