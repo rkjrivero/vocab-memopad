@@ -285,7 +285,7 @@ def index():
     #   inside of which are keys and values representing a table’s fields and cells, respectively.
     # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
     # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
-    usertable = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+    usertable = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
     vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
     
     # Update session[] array based on "user" table on database (directly copied from /login route)
