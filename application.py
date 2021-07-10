@@ -341,23 +341,33 @@ def index():
 
     # Filter out for pinvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
-    # TODO: limit to 10
     for vocabtable_list in vocabtable:
         print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
         testvtlist = vocabtable_list.items()                
-        for (vt_key, vt_value) in testvtlist:            
-            # NOTE: go through all key/value pairs and search if they're for the current user
+        
+        # NOTE: go through all key/value pairs and search if they're for the current user
+        for (vt_key, vt_value) in testvtlist:                        
             #print("test, vt_key (", vt_key, ") + vt_value(", vt_value, ")")
-            if vt_key == "userlink" and vt_value == session["user_id"]:
-                print("log: userlink match")                
-                for (vt_key, vt_value) in testvtlist:
-                # NOTE: go through all key/value pairs and search if they're pinned or not
-                    if vt_key == "pin" and vt_value == True:
-                        print("log: pin=True match")
-                        print("test, vocabtable_list (dict): ", vocabtable_list)
-                        pinvocabtable.append(vocabtable_list)
-                        #print("test, pinvocabtable.append: ", pinvocabtable)
+            print("test, allcount: ", pincount)
 
+            # NOTE: check if pincount is still > 0
+            if pincount >= 0:
+                if vt_key == "userlink" and vt_value == session["user_id"]:
+                    print("log: userlink match")         
+
+                    for (vt_key, vt_value) in testvtlist:
+                    # NOTE: go through all key/value pairs and search if they're pinned or not
+                        if vt_key == "pin" and vt_value == True:
+                            print("log: pin=True match")
+                            print("test, vocabtable_list (dict): ", vocabtable_list)
+                            pinvocabtable.append(vocabtable_list)
+                            #print("test, pinvocabtable.append: ", pinvocabtable)
+                            # NOTE: subtract 1 from pincount
+                            pincount = pincount - 1
+            else:
+                # End loop once 30 entries have been detected
+                print("log: function break due to pincount at ", pincount)
+                break  
     print("test, pinvocabtable (after): ", pinvocabtable)
 
     return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable)
@@ -530,16 +540,15 @@ def recallall():
 
     # PRINT TEST BLOCK
     print("test, vocabtable[{}]: ", vocabtable)
-    print("test, allvocabtable (before): ", fullvocabtable)
+    print("test, fullvocabtable (before): ", fullvocabtable)
     
     # Filter out for fullvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
         print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
-        testvtlist = vocabtable_list.items()                
-        for (vt_key, vt_value) in testvtlist:            
-            # NOTE: go through all key/value pairs and search if they're for the current user
-            #print("test, vt_key (", vt_key, ") + vt_value(", vt_value, ")")
+        testvtlist = vocabtable_list.items()                        
+        # NOTE: go through all key/value pairs and search if they're for the current user
+        for (vt_key, vt_value) in testvtlist:                        
             if vt_key == "userlink" and vt_value == session["user_id"]:
                 print("log: userlink match")                
                 print("test, vocabtable_list (dict): ", vocabtable_list)
@@ -549,10 +558,68 @@ def recallall():
 
     return render_template("recallall.html", fullvocabtable=fullvocabtable)
 
+@app.route("/recallpin")
+@login_required
+def recallpin():
+    """Show RECALLPIN.html"""
+
+    # RETRIEVE FROM DATABASE
+    # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
+    #   inside of which are keys and values representing a table’s fields and cells, respectively.
+    # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
+    # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
+    usertable = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
+    vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
+    
+    # Update session[] array based on "user" table on database (directly copied from /login route)
+    # user_tgtlang/orglang/autotrans are used for layout display, and are dynamic (manually changed in profile options)
+    session["user_tgtlang"] = usertable[0]["tgtlang"]
+    session["user_orglang"] = usertable[0]["orglang"]
+    session["user_autotrans"] = usertable[0]["autotrans"]
+    # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+    session["user_wordcount"] = usertable[0]["wordcount"]
+    session["user_pincount"] = usertable[0]["pincount"]
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    # Create empty list, to populate with *list of dictionaries*
+    pinnedvocabtable = []
+
+    # PRINT TEST BLOCK
+    print("test, vocabtable[{}]: ", vocabtable)
+    print("test, pinnedvocabtable (before): ", pinnedvocabtable)
+    
+    # Filter out for pinnedvocabtable
+    # NOTE: go through all dictionary items within the list that db.execute returns
+    for vocabtable_list in vocabtable:
+        print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
+        testvtlist = vocabtable_list.items()                        
+        # NOTE: go through all key/value pairs and search if they're for the current user
+        for (vt_key, vt_value) in testvtlist:                        
+            if vt_key == "userlink" and vt_value == session["user_id"]:
+                print("log: userlink match")                                
+                # NOTE: go through all key/value pairs and search if they're pinned or not
+                for (vt_key, vt_value) in testvtlist:                
+                    if vt_key == "pin" and vt_value == True:
+                        print("log: pin=True match")
+                        print("test, vocabtable_list (dict): ", vocabtable_list)
+                        pinnedvocabtable.append(vocabtable_list)
+    print("test, pinnedvocabtable (after): ", pinnedvocabtable)
+
+    return render_template("recallall.html", pinnedvocabtable=pinnedvocabtable)
+
+
 # NOTE - ADD NEW app.route DEFINITIONS FOLLOWING THIS LINE !!!
 # TODO - CREATE DEFINITIONS FOR THE FOLLOWING FUNCTIONS:
 # def recallall(): - to view full list of saved word/phrase entries
 # def recallpinned(): - to view pinned list of saved word/phrase entries
+
+# NOTE/TODO - IMPLEMENT TABLE SORTING USING BOOTSTRAP JAVASCRIPT:
+#   https://mdbootstrap.com/docs/b4/jquery/tables/sort/
 
 # NOTE CS50PSET9 BASE CODE BELOW RETAINED
 def errorhandler(e):
