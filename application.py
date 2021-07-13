@@ -613,9 +613,9 @@ def recallpin():
     return render_template("recallpin.html", pinnedvocabtable=pinnedvocabtable)
 
 
-@app.route("/delete", methods=["GET", "POST"])
+@app.route("/deletecheck")
 @login_required
-def delete():
+def deletecheck():
     """Show DELETE.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -623,23 +623,42 @@ def delete():
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
-    print("test, wordid to delete:", request.form.get("deleteword"))
+    
+    deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("deleteword"))[0]
+    print("test, deletiontable: ", deletiontable)
 
+    # Redirect to /deletion
+    return redirect("/deletion",deletiontable=deletiontable)
+
+@app.route("/deletion", methods=["GET", "POST"])
+@login_required
+def deletion():
+    """Enact deletion (behind the scenes)"""
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         
+        # Delete entry from vocab table
+        #db.execute("DELETE FROM vocab WHERE ?") 
 
+        print("log: /deletion-POST reached")
 
         # Redirect to index.html
-        #return redirect("/")
-        return render_template("delete.html")
+        return redirect("/")
+
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("delete.html")
-        # /review should not be directly accessible (redirect to /input instead)
-        #return redirect("/input") 
+        print("log: /deletion-GET reached")
+        # /deletion should not be directly accessible (redirect to /input instead)
+        return redirect("/input") 
+
 
 
 # NOTE CS50PSET9 BASE CODE BELOW RETAINED
