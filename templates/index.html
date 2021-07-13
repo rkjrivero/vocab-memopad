@@ -74,6 +74,7 @@
                 <th>Translated Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
+                <th>Delete:</th>
             </tr>
         </thead>
         <tbody>
@@ -85,6 +86,11 @@
                 <td> {{ allvocabtable.langtrans }} </td>
                 <td> {{ allvocabtable.time }} </td>
                 <td> {{ allvocabtable.rating }} </td>
+                <td>  
+                    <form action="/delete" method="post">
+                        <button type="submit" class="btn btn-warning" value="{{ allvocabtable.wordid }}">DELETE</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

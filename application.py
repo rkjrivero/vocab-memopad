@@ -613,13 +613,28 @@ def recallpin():
     return render_template("recallpin.html", pinnedvocabtable=pinnedvocabtable)
 
 
-# NOTE - ADD NEW app.route DEFINITIONS FOLLOWING THIS LINE !!!
-# TODO - CREATE DEFINITIONS FOR THE FOLLOWING FUNCTIONS:
-# def recallall(): - to view full list of saved word/phrase entries
-# def recallpinned(): - to view pinned list of saved word/phrase entries
+@app.route("/delete", methods=["GET", "POST"])
+@login_required
+def delete():
+    """Show DELETE.html"""
 
-# NOTE/TODO - IMPLEMENT TABLE SORTING USING BOOTSTRAP JAVASCRIPT:
-#   https://mdbootstrap.com/docs/b4/jquery/tables/sort/
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+    
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        
+        # Redirect to index.html
+        #return redirect("/")
+        return render_template("delete.html")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("delete.html")
+
 
 # NOTE CS50PSET9 BASE CODE BELOW RETAINED
 def errorhandler(e):
