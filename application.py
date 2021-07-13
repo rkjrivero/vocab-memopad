@@ -623,10 +623,14 @@ def delete():
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
-    
+    print("test, wordid to delete:", request.form.get("deleteword")
+
+
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         
+
+
         # Redirect to index.html
         #return redirect("/")
         return render_template("delete.html")
@@ -634,6 +638,8 @@ def delete():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("delete.html")
+        # /review should not be directly accessible (redirect to /input instead)
+        #return redirect("/input") 
 
 
 # NOTE CS50PSET9 BASE CODE BELOW RETAINED
