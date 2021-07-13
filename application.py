@@ -631,8 +631,7 @@ def deletecheck():
         deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("deleteword"))[0]
         print("test, deletiontable: ", deletiontable)
         # Redirect to /deletion
-        return redirect("/deletion",deletiontable=deletiontable)
-    
+        return render_template("delete.html", deletiontable=deletiontable)
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
