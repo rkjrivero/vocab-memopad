@@ -623,7 +623,7 @@ def delete():
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
-    print("test, wordid to delete:", request.form.get("deleteword")
+    print("test, wordid to delete:", request.form.get("deleteword"))
 
 
     # User reached route via POST (as by submitting a form via POST)
