@@ -5,10 +5,14 @@
 {% endblock %}
 
 {% block main %}
-    <!-- NOTE/TODO: ADD JAVASCRIPT FUNCTIONALITY FOR SORTING:
-        https://mdbootstrap.com/docs/b4/jquery/tables/sort/
-        https://stackoverflow.com/questions/31888566/sort-table-rows-in-bootstrap
-    -->
+    <script>
+    $(document).ready(function() {
+        $('#toppinned').DataTable();
+    } );
+    $(document).ready(function() {
+        $('#topsaved').DataTable();
+    } );
+    </script>
     <h1>Memopad Statistics for {{ session.user_name }}</h1>
     <br>
     <table align="center">
@@ -34,7 +38,7 @@
     <br><br>
     <h1>Top 10 Pinned Word/Phrase Entries</h1>
     <br>
-    <table align="center">
+    <table align="center" id="toppinned" class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Input Word/Phrase</th>
@@ -61,7 +65,7 @@
     <br><br>
     <h1>Top 30 Unpinned Saved Word/Phrase Entries </h1>
     <br>
-    <table align="center">
+    <table align="center" id="topsaved" class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Input Word/Phrase</th>
@@ -89,6 +93,5 @@
     <h2>
         Server Date/Time is {{ session.current_time }}
     </h2>
-
 
 {% endblock %}

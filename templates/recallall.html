@@ -5,15 +5,12 @@
 {% endblock %}
 
 {% block main %}
-    <!-- NOTE/TODO: ADD JAVASCRIPT FUNCTIONALITY FOR SORTING:
-        https://mdbootstrap.com/docs/b4/jquery/tables/sort/
-        https://stackoverflow.com/questions/31888566/sort-table-rows-in-bootstrap
-    -->
     <script>
     $(document).ready(function() {
         $('#allsaved').DataTable();
     } );
     </script>
+
     <h1>Memopad Statistics for {{ session.user_name }}</h1>
     <br>
     <table align="center">
@@ -67,6 +64,5 @@
     <h2>
         Server Date/Time is {{ session.current_time }}
     </h2>
-
 
 {% endblock %}
