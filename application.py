@@ -613,7 +613,7 @@ def recallpin():
     return render_template("recallpin.html", pinnedvocabtable=pinnedvocabtable)
 
 
-@app.route("/deletecheck")
+@app.route("/deletecheck", methods=["GET", "POST"])
 @login_required
 def deletecheck():
     """Show DELETE.html"""
@@ -624,11 +624,21 @@ def deletecheck():
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
     
-    deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("deleteword"))[0]
-    print("test, deletiontable: ", deletiontable)
 
-    # Redirect to /deletion
-    return redirect("/deletion",deletiontable=deletiontable)
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        
+        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("deleteword"))[0]
+        print("test, deletiontable: ", deletiontable)
+        # Redirect to /deletion
+        return redirect("/deletion",deletiontable=deletiontable)
+    
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        print("log: /deletecheck-GET reached")
+        # /deletion should not be directly accessible (redirect to /input instead)
+        return redirect("/input") 
 
 @app.route("/deletion", methods=["GET", "POST"])
 @login_required
