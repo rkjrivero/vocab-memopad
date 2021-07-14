@@ -45,6 +45,7 @@
                 <th>Translated Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
+                <th>DELETE ENTRY</th>
             </tr>
         </thead>
         <tbody>
@@ -56,6 +57,11 @@
                 <td> {{ pinnedvocabtable.langtrans }} </td>
                 <td> {{ pinnedvocabtable.time }} </td>
                 <td> {{ pinnedvocabtable.rating }} </td>
+                <td>  
+                    <form action="/deletecheck" method="post">
+                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{allvocabtable.wordid}}">X</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

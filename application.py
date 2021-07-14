@@ -304,7 +304,7 @@ def index():
     pincount = 10
 
     # PRINT TEST BLOCK
-    print("test, vocabtable[{}]: ", vocabtable)
+    #print("test, vocabtable[{}]: ", vocabtable)
     print("test, allvocabtable (before): ", allvocabtable)
     print("test, pinvocabtable (before): ", pinvocabtable)
     
@@ -317,7 +317,7 @@ def index():
         # NOTE: go through all key/value pairs and search if they're for the current user
         for (vt_key, vt_value) in testvtlist:                        
             #print("test, vt_key (", vt_key, ") + vt_value(", vt_value, ")")
-            print("test, allcount: ", allcount)
+            #print("test, allcount: ", allcount)
             
             # NOTE: check if allcount is still > 0
             if allcount > 0:
@@ -348,7 +348,7 @@ def index():
         # NOTE: go through all key/value pairs and search if they're for the current user
         for (vt_key, vt_value) in testvtlist:                        
             #print("test, vt_key (", vt_key, ") + vt_value(", vt_value, ")")
-            print("test, allcount: ", pincount)
+            #print("test, pincount: ", pincount)
 
             # NOTE: check if pincount is still > 0
             if pincount > 0:
@@ -539,8 +539,8 @@ def recallall():
     fullvocabtable = []
 
     # PRINT TEST BLOCK
-    print("test, vocabtable[{}]: ", vocabtable)
-    print("test, fullvocabtable (before): ", fullvocabtable)
+    #print("test, vocabtable[{}]: ", vocabtable)
+    #print("test, fullvocabtable (before): ", fullvocabtable)
     
     # Filter out for fullvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
@@ -590,8 +590,8 @@ def recallpin():
     pinnedvocabtable = []
 
     # PRINT TEST BLOCK
-    print("test, vocabtable[{}]: ", vocabtable)
-    print("test, pinnedvocabtable (before): ", pinnedvocabtable)
+    #print("test, vocabtable[{}]: ", vocabtable)
+    #print("test, pinnedvocabtable (before): ", pinnedvocabtable)
     
     # Filter out for pinnedvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
@@ -623,7 +623,6 @@ def deletecheck():
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
-    
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -654,7 +653,7 @@ def deletion():
     if request.method == "POST":
         
         # Delete entry from vocab table
-        #db.execute("DELETE FROM vocab WHERE ?") 
+        #db.execute("DELETE FROM vocab WHERE wordid = ?", ) 
 
         print("log: /deletion-POST reached")
 
