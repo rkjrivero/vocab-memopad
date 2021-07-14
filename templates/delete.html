@@ -27,8 +27,7 @@
                 <td> {{ deletiontable.langtrans }} </td>
                 <td> {{ deletiontable.time }} </td>
                 <td> {{ deletiontable.rating }} </td>
-            </tr>
-            
+            </tr>         
         </tbody>
     </table>
     <br><br>
@@ -36,5 +35,8 @@
         <button type="submit" name="confirmdelete" class="btn btn-danger" value="{{deletiontable.wordid}}">Confirm Delete Word</button>
     </form>
     {% endfor %}
-
+    <br>
+    <form action="/" method="get">
+        <button type="submit" class="btn btn-secondary">Cancel Action</button>
+    </form>        
 {% endblock %}
