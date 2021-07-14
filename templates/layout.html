@@ -41,31 +41,28 @@
                 {% if session.user_id %}
                     <div class="container-fluid">
                         <ul class="navbar-nav mr-auto mt-2">                        
-                            <!-- 
-                            <button type="button" class="btn btn-primary"><a class="nav-link" href="/input">Add Word/Phrase</a></button>   
-                            --> 
-                            <a class="nav-link btn-primary" href="/input">Add Word/Phrase</a>                
-                            <button type="button" class="btn btn-info"><a class="nav-link" href="/recallpin">View Pinned Word/Phrases</a></button>
-                            <button type="button" class="btn btn-info"><a class="nav-link" href="/recallall">View All Word/Phrases</a></button>
-                            <button type="button" class="btn btn-secondary me-2"><a class="nav-link" href="/profile">Profile Page</a></button>
+                            <button type="button" class="btn btn-sm btn-primary "><a class="nav-link" href="/input">Add Word/Phrase</a></button>               
+                            <button type="button" class="btn btn-sm btn-info"><a class="nav-link" href="/recallpin">View Pinned Word/Phrases</a></button>
+                            <button type="button" class="btn btn-sm btn-info"><a class="nav-link" href="/recallall">View All Word/Phrases</a></button>
+                            <button type="button" class="btn btn-sm btn-secondary"><a class="nav-link" href="/profile">Profile Page</a></button>
                         </ul>
                     </div>
                     <div class="container-fluid">
                         <ul class="navbar-nav ml-auto mt-2 nav-tabs">
-                            <li class="nav-item indicator active">Active User: </li>
-                            <li class="nav-item indicated">{{ session.user_name }}</li>
+                            <li class="nav-item indicator">Active User: </li>
+                            <li class="nav-item indicated">|{{ session.user_name }}|</li>
                             <li class="nav-item indicator">Total Pinned: </li>
-                            <li class="nav-item indicated">{{ session.user_pincount }}</li>
+                            <li class="nav-item indicated">|{{ session.user_pincount }}|</li>
                             <li class="nav-item indicator">Total Saved: </li>
-                            <li class="nav-item indicated">{{ session.user_wordcount }}</li>
+                            <li class="nav-item indicated">|{{ session.user_wordcount }}|</li>
                             <li class="nav-item indicator">Default Original: </li>
-                            <li class="nav-item indicated">{{ session.user_orglang }}</li>                        
+                            <li class="nav-item indicated">|{{ session.user_orglang }}|</li>                        
                             <li class="nav-item indicator">Default Target: </li>
-                            <li class="nav-item indicated">{{ session.user_tgtlang }}</li>                                 
+                            <li class="nav-item indicated">|{{ session.user_tgtlang }}|</li>                                 
                             <li class="nav-item indicator">Auto-translate: </li>
-                            <li class="nav-item indicated">{{ session.user_autotrans }}</li>                        
+                            <li class="nav-item indicated">|{{ session.user_autotrans }}|</li>                        
                             <li class="nav-item indicator">Date/Time: </li>
-                            <li class="nav-item indicated">{{ session.current_time }}</li>
+                            <li class="nav-item indicated">|{{ session.current_time }}|</li>
                             <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
                         </ul>
                     </div>
