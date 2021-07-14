@@ -198,7 +198,6 @@ def login():
     else:
         return render_template("login.html")
 
-
 @app.route("/logout")
 def logout():
     # NOTE - LOGOUT DEFINITION ORIGINALLY FROM CS50PSET9, WITHOUT MODIFICATION
@@ -305,8 +304,8 @@ def index():
 
     # PRINT TEST BLOCK
     #print("test, vocabtable[{}]: ", vocabtable)
-    print("test, allvocabtable (before): ", allvocabtable)
-    print("test, pinvocabtable (before): ", pinvocabtable)
+    #print("test, allvocabtable (before): ", allvocabtable)
+    #print("test, pinvocabtable (before): ", pinvocabtable)
     
     # Filter out for allvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
@@ -337,7 +336,7 @@ def index():
                 # End loop once 30 entries have been detected
                 #print("log: function break due to allcount at ", allcount)
                 break            
-    print("test, allvocabtable (after): ", allvocabtable)
+    #print("test, allvocabtable (after): ", allvocabtable)
 
     # Filter out for pinvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
@@ -368,7 +367,7 @@ def index():
                 # End loop once 30 entries have been detected
                 #print("log: function break due to pincount at ", pincount)
                 break  
-    print("test, pinvocabtable (after): ", pinvocabtable)
+    #print("test, pinvocabtable (after): ", pinvocabtable)
 
     return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable)
 
@@ -554,7 +553,7 @@ def recallall():
                 #print("test, vocabtable_list (dict): ", vocabtable_list)
                 fullvocabtable.append(vocabtable_list)
                 #print("test, fullvocabtable.append: ", fullvocabtable)
-    print("test, fullvocabtable (after): ", fullvocabtable)
+    #print("test, fullvocabtable (after): ", fullvocabtable)
 
     return render_template("recallall.html", fullvocabtable=fullvocabtable)
 
@@ -608,7 +607,7 @@ def recallpin():
                         #print("log: pin=True match")
                         #print("test, vocabtable_list (dict): ", vocabtable_list)
                         pinnedvocabtable.append(vocabtable_list)
-    print("test, pinnedvocabtable (after): ", pinnedvocabtable)
+    #print("test, pinnedvocabtable (after): ", pinnedvocabtable)
 
     return render_template("recallpin.html", pinnedvocabtable=pinnedvocabtable)
 
@@ -661,7 +660,7 @@ def deletion():
             # Update user table wordcount and pincount
             db.execute(
                 "UPDATE users SET wordcount = ?, pincount = ? WHERE userid = ?",
-                usernumbers[0]["wordcount"] - 1, usernumbers[0]["pincount"] + 1, session["user_id"]
+                usernumbers[0]["wordcount"] - 1, usernumbers[0]["pincount"] - 1, session["user_id"]
             )
         else:
             # Update user table wordcount only
@@ -681,14 +680,11 @@ def deletion():
         # Redirect to index.html
         return redirect("/")
 
-
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         print("log: /deletion-GET reached")
         # /deletion should not be directly accessible (redirect to /input instead)
         return redirect("/input") 
-
-
 
 # NOTE CS50PSET9 BASE CODE BELOW RETAINED
 def errorhandler(e):
@@ -700,303 +696,3 @@ def errorhandler(e):
 # Listen for errors
 for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
-
-# NOTE ENTIRE CODEBLOCK BELOW IS CS50PSET9 CODE FOR REMOVAL !!!
-# NOTE COMMENTED-OUT BUT NOT REMOVED FOR TEMPORARY SYNTAX GUDIE ONLY !!!
-"""
-@app.route("/quote", methods=["GET", "POST"])
-@login_required
-def quote():
-
-    # update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-
-        # Ensure username was submitted
-        if not request.form.get("symbol"):
-            return apology("must provide stock symbol", 400)
-
-        # Lookup quote for a symbol
-        quote = lookup(request.form.get("symbol"))
-        print("quote", quote)
-
-        empty = ""
-        if quote == None:
-            return apology("no stock found", 400)
-        if quote["name"] == None or quote["name"] == empty:
-            quote["name"] = quote["symbol"]
-        usdquoteprice = usd(quote["price"])
-
-        # Redirect user to home page
-        return render_template("quoted.html", **quote, usdquoteprice=usdquoteprice)
-
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("quote.html")
-
-@app.route("/buy", methods=["GET", "POST"])
-@login_required
-def buy():
-
-    # update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-
-        # Ensure stock symbol and amount was submitted
-        if not request.form.get("symbol"):
-            return apology("must provide stock symbol", 400)
-        if not request.form.get("shares"):
-            return apology("must provide stock amount", 400)
-        if not request.form.get("shares").isdigit():
-            return apology("must provide an integer amount", 400)
-        elif int(request.form.get("shares")) <= 0:
-            return apology("must provide a positive amount", 400)
-
-        # Lookup quote for a symbol
-        buy_quote = lookup(request.form.get("symbol"))
-        print("buy_quote", buy_quote)
-
-        empty = ""
-        if buy_quote == None:
-            return apology("no stock found", 400)
-        if buy_quote["name"] == None or buy_quote["name"] == empty:
-            buy_quote["name"] = buy_quote["symbol"]
-
-        # Check how much funds the user has
-        user_fund = db.execute("SELECT cash FROM users WHERE username = ?", session["user_name"])[0]["cash"]
-
-        # note to self: "db.execute" returns a list, while lookup() returns a dictionary
-
-        # Verify balances match
-        print("user_fund:", user_fund)
-        print("session[user_fund]:", session["user_fund"])
-
-        if user_fund != session["user_fund"]:
-            return apology("FUND BALANCE MISMATCH")
-
-        # Compute costs
-        buystockprice = float(buy_quote["price"])
-        buystockamount = float(request.form.get("shares"))
-        cost = buystockprice * buystockamount
-
-        print("buystockprice", buystockprice)
-        print("buystockamount:", buystockamount)
-        print("cost:", cost)
-
-        # Verify is user has enough cash
-        if int(cost) > int(user_fund):
-            return apology("INSUFFICIENT FUNDING")
-
-        # Proceed with transaction
-        user_fund = session["user_fund"] - cost
-        print("user_fund:", user_fund)
-
-        # Insert into table of all stock purchases
-        db.execute(
-            "INSERT INTO buyrecords (userid, stock_symbol, stock_name, stock_amount, stock_price, time) VALUES (?, ?, ?, ?, ?, ?)",
-            session["user_id"], buy_quote["symbol"], buy_quote["name"], buystockamount, buystockprice, datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-            )
-
-        # Insert into table of all currently-owned stocks
-        db.execute(
-        	"INSERT INTO nowrecords (userid, stock_symbol, stock_name, stock_amount, stock_price, time) VALUES (?, ?, ?, ?, ?, ?)",
-        	session["user_id"], buy_quote["symbol"], buy_quote["name"], buystockamount, buystockprice, datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-        	)
-
-        # Update balances
-        session["user_fund"] = user_fund
-        session["user_balance"] = usd(user_fund)
-
-        db.execute(
-        	"UPDATE users SET cash = ? WHERE username = ?",
-        	session["user_fund"], session["user_name"]
-        	)
-
-        # Redirect user to home page
-        return redirect("/")
-
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("buy.html")
-
-
-@app.route("/sell", methods=["GET", "POST"])
-@login_required
-def sell():
-
-    # update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-
-        # Obtain list of user-held stocks
-        userheld = db.execute("SELECT * FROM nowrecords where userid = ?", session["user_id"])
-        print("userheld:", userheld)
-
-        # Ensure stock symbol and amount was submitted
-        if not request.form.get("symbol"):
-            return apology("must provide stock symbol", 400)
-        if not request.form.get("shares"):
-            return apology("must provide stock amount", 400)
-        if not request.form.get("shares").isdigit():
-            return apology("must provide an integer amount", 400)
-        elif not int(request.form.get("shares")) >= 0:
-            return apology("must provide a positive amount", 400)
-
-        # split merged html input (symbols|now_id) into two items
-        userheld_split = request.form.get("symbol").split("|")
-        if len(userheld_split) == 2:
-            print("userheld_split", userheld_split)
-            userheld_stocksymbol = userheld_split[0]
-            userheld_nowid = int(userheld_split[1])
-            print("userheld_stocksymbol:", userheld_stocksymbol)
-            print("userheld_nowid:", userheld_nowid)
-
-        # check50 workaround where html input is just symbol itself
-        elif len(userheld_split) == 1:
-            print("userheld_split", userheld_split)
-            userheld_stocksymbol = userheld_split[0]
-            for checkid in userheld:
-                if userheld_stocksymbol == checkid["stock_symbol"]:
-                    userheld_nowid = checkid["now_id"]
-                    break
-            print("userheld_stocksymbol:", userheld_stocksymbol)
-            print("userheld_nowid:", userheld_nowid)
-
-
-        # Check how much funds the user has
-        user_fund = db.execute("SELECT cash FROM users WHERE username = ?", session["user_name"])[0]["cash"]
-
-        # Verify balances match
-        print("user_fund:", user_fund)
-        print("session[user_fund]:", session["user_fund"])
-
-        if user_fund != session["user_fund"]:
-            return apology("FUND BALANCE MISMATCH")
-
-        # Lookup quote for a symbol
-        sell_quote = lookup(userheld_stocksymbol)
-        print("sell_quote:", sell_quote)
-
-        # Compute costs
-        sellstockprice = float(sell_quote["price"])
-        sellstockamount = float(request.form.get("shares"))
-        cashback = sellstockprice * sellstockamount
-
-        print("sellstockprice:", sellstockprice)
-        print("sellstockamount:", sellstockamount)
-        print("cashback:", cashback)
-
-        # Verify is user has enough stocks on hand
-
-        for innerlist in userheld:
-            if userheld_nowid == innerlist["now_id"]:
-                print("stock amount:", innerlist["stock_amount"])
-                if sellstockamount > innerlist["stock_amount"]:
-                    return apology("NOT ENOUGH STOCK AT HAND")
-                else:
-                    # Identify if whether to delete or update nowrecord entry
-                    if sellstockamount == innerlist["stock_amount"]:
-                        deletenowrec = True
-                    else:
-                        deletenowrec = False
-                        newstockamount = innerlist["stock_amount"] - sellstockamount
-                        print("newstockamount:", newstockamount)
-                        break
-
-        print("deletenowrec", deletenowrec)
-
-        # Proceed with transaction
-        user_fund = session["user_fund"] + cashback
-        print("userfund:", user_fund)
-
-        # Insert into table of all stock sales
-        db.execute(
-            "INSERT INTO sellrecords (userid, stock_symbol, stock_name, stock_amount, stock_price, time) VALUES (?, ?, ?, ?, ?, ?)",
-            session["user_id"], sell_quote["symbol"], sell_quote["name"], sellstockamount, sellstockprice, datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-            )
-
-        if deletenowrec == True:
-            # Remove from table of all currently-owned stocks
-            db.execute(
-            	"DELETE FROM nowrecords WHERE now_id = ?",
-            	userheld_nowid
-            	)
-        else:
-            # Update nowrecord to the new amount
-            db.execute(
-                "UPDATE nowrecords SET stock_amount = ?, time = ? WHERE now_id = ?",
-                newstockamount, datetime.now().strftime("%Y/%m/%d %H:%M:%S"), userheld_nowid
-                )
-
-        # Update balances
-        session["user_fund"] = user_fund
-        session["user_balance"] = usd(user_fund)
-
-        db.execute(
-        	"UPDATE users SET cash = ? WHERE username = ?",
-        	session["user_fund"], session["user_name"]
-        	)
-
-        # Redirect user to home page
-        return redirect("/")
-
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        # Obtain list of user-held stocks
-        user_held = db.execute("SELECT * FROM nowrecords where userid = ?", session["user_id"])
-        print("user_held:", user_held)
-        return render_template("sell.html", user_held=user_held)
-
-@app.route("/history")
-@login_required
-def history():
-
-    # update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
-    # RETRIEVE FROM DATABASE
-    buyrecords = db.execute("SELECT * FROM buyrecords where userid = ?", session["user_id"])
-    sellrecords = db.execute("SELECT * FROM sellrecords where userid = ?", session["user_id"])
-    print("buyrecords:", buyrecords)
-    print("sellrecords:", sellrecords)
-
-    return render_template("history.html", buyrecords=buyrecords, sellrecords=sellrecords)
-
-@app.route("/addfunds", methods=["GET", "POST"])
-@login_required
-def addfunds():
-
-    # update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-
-        # Ensure amount was submitted
-        if not request.form.get("newfunds"):
-            return apology("must provide funding amount", 403)
-
-        # Update database
-        new_fund = session["user_fund"] + int(request.form.get("newfunds"))
-        session["user_fund"] = new_fund
-        session["user_balance"] = usd(new_fund)
-        db.execute(
-        	"UPDATE users SET cash = ? WHERE username = ?",
-        	new_fund, session["user_name"]
-        	)
-
-        # Redirect user to home page
-        return redirect("/")
-
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        # Actually just fluff tbh
-        fundsource = ["VISA", "MASTERCARD", "AMEX"]
-        return render_template("addfunds.html", fundsource=fundsource)
-"""
