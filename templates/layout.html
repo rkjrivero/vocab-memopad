@@ -32,7 +32,7 @@
 
     <body>
 
-        <nav class="navbar navbar-expand-md navbar-light bg-light border" style="background-color: #e3f2fd;">
+        <nav class="navbar navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
             <a class="navbar-brand" href="/">VOCAB-MEMOPAD</a>
             <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
@@ -41,19 +41,19 @@
                 {% if session.user_id %}
                     <div class="container-fluid">
                         <ul class="navbar-nav mr-auto mt-2">                        
-                            <button type="button" class="btn btn-primary"><a class="nav-link" href="/input">Add Word/Phrase</a></button>                        
+                            <!-- 
+                            <button type="button" class="btn btn-primary"><a class="nav-link" href="/input">Add Word/Phrase</a></button>   
+                            --> 
+                            <a class="nav-link btn-primary" href="/input">Add Word/Phrase</a>                
                             <button type="button" class="btn btn-info"><a class="nav-link" href="/recallpin">View Pinned Word/Phrases</a></button>
                             <button type="button" class="btn btn-info"><a class="nav-link" href="/recallall">View All Word/Phrases</a></button>
                             <button type="button" class="btn btn-secondary me-2"><a class="nav-link" href="/profile">Profile Page</a></button>
                         </ul>
                     </div>
                     <div class="container-fluid">
-                        <ul class="navbar-nav ml-auto mt-2">
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ session.user_name }}">Active User</button>
-                            <!--
-                            <li class="nav-item indicator">Active User: </li>
+                        <ul class="navbar-nav ml-auto mt-2 nav-tabs">
+                            <li class="nav-item indicator active">Active User: </li>
                             <li class="nav-item indicated">{{ session.user_name }}</li>
-                            -->
                             <li class="nav-item indicator">Total Pinned: </li>
                             <li class="nav-item indicated">{{ session.user_pincount }}</li>
                             <li class="nav-item indicator">Total Saved: </li>
