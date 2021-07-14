@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for deletiontable in deletiontable %}
+            <!-- {% for deletiontable in deletiontable %} -->
             <tr>
                 <td> {{ deletiontable.strinput }}  </td>
                 <td> {{ deletiontable.langinput }} </td>
@@ -28,13 +28,14 @@
                 <td> {{ deletiontable.time }} </td>
                 <td> {{ deletiontable.rating }} </td>
             </tr>
-            {% endfor %}
+            <!-- {% endfor %} -->
         </tbody>
     </table>
-    <br>
+    <br><br>
     <form action="/deletion" method="post">
         <button type="submit" name="confirmdelete" class="btn btn-danger" value="{{deletiontable.wordid}}">Confirm Delete Word</button>
     </form>
+    <br><br>
     <form action="/" method="get">
         <button type="submit" class="btn btn-secondary">Cancel Action</button>
     </form>        
