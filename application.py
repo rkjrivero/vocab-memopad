@@ -225,14 +225,7 @@ def profile():
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-        return render_template("profile.html")
-    
-    
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("profile.html")
+    return render_template("profile.html")
 
 @app.route("/changepw", methods=["GET", "POST"])
 @login_required
@@ -273,6 +266,46 @@ def changepw():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("changepw.html")
+
+@app.route("/changedefault", methods=["GET", "POST"])
+@login_required
+def changedefault():
+    # NOTE/TODO FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
+    """Change Settings Page"""
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        """
+        # Ensure username was submitted
+        if not request.form.get("oldpw"):
+            return apology("must provide old password", 403)
+
+        # Ensure password was submitted
+        elif not request.form.get("newpw"):
+            return apology("must provide new password", 403)
+
+        # Query database for username
+        userdb = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
+        print("userdb[0][hash]:", userdb[0]["hash"])
+
+        # Ensure old password is correct
+        if check_password_hash(userdb[0]["hash"], request.form.get("oldpw")) == False:
+            return apology("invalid old password", 403)
+
+        else:
+            changepass = generate_password_hash(request.form.get("newpw"), method='pbkdf2:sha256', salt_length=8)
+            db.execute("UPDATE users SET hash = ? WHERE id = ?", changepass, session["user_id"])
+            flash("Password Changed", category="message")
+        """
+        # Redirect user to home page
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("changedefault.html")
 
 @app.route("/")
 @login_required

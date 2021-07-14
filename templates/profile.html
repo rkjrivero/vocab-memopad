@@ -17,90 +17,21 @@
                 <th>Default Target Language: </th>
                 <th> {{ session.user_tgtlang }} </th>
             </tr>    
+            <tr>
+                <th>Auto-Translate: </th>
+                <th> {{ session.user_autotrans }} </th>
+            </tr>     
         </thead>
     </table>
     <br><br>    
     <div>
         <h1>Profile Options</h1>
+        <br>
+        <a class="btn btn-secondary" href="/changepw">Change Default Settings</a>
+        <br>
         <a class="btn btn-secondary" href="/changepw">Change Account Password</a>
-    </div>
-    <br>
-    <form action="/profile" method="post" class="row row-cols-lg-auto g-3 align-items-center">
-        <div class="container-sm align-items-center">
-            <div class="form-group align-items-center">
-                <!-- if/else logic for default input language, because cbf to use JS-->
-                {% if session.user_orglang == "en" %}
-                    <div class="dropdown">
-                        <select class="form-select" aria-label="Input Language" name="originlang">
-                            <option selected value="en">English [en]</option>
-                            <option value="ja">Japanese [ja]</option>
-                            <option value="eo">Esperanto [eo]</option>
-                        </select>
-                    </div>
-                {% elif session.user_orglang == "ja" %}
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Input Language" name="originlang">
-                        <option value="en">English [en]</option>
-                        <option selected value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% else %}
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Input Language" name="originlang">
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option selected value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% endif %} 
-                <!-- if/else logic for default translated language, because cbf to use JS-->
-                {% if session.user_translang == "en" %}
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option selected value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% elif session.user_translang == "en" %}
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option value="en">English [en]</option>
-                        <option selected value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% else %}
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option selected value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% endif %} 
-                <!-- if/else logic for default translation option, because cbf to use JS-->
-                {% if session.user_autotrans %}
-                <div class="form-group align-items-center">
-                    <div class="form-check form-switch">
-                        <label class="form-check-label" for="check_autotrans">Translate input?</label>
-                        <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans" checked>                    
-                    </div>
-                </div>
-                {% else %}
-                <div class="form-group align-items-center">
-                    <div class="form-check form-switch">
-                        <label class="form-check-label" for="check_autotrans">Translate input?</label>
-                        <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans">                    
-                    </div>
-                </div>
-                {% endif %} 
-            </div>
-            <br><br>
-            <button class="btn btn-primary" type="submit">Change Settings</button>
-        </div>        
-    </form>
+        <br>
 
+    </div>
 
 {% endblock %}
