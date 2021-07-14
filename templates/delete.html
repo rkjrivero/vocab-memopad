@@ -32,6 +32,11 @@
         </tbody>
     </table>
     <br>
+    <form action="/deletion" method="post">
+        <button type="submit" name="confirmdelete" class="btn btn-danger" value="{{deletiontable.wordid}}">Confirm Delete Word</button>
+    </form>
+        
+    <!--
     <form action="/deletion" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">
             <button class="btn btn-primary" type="submit" name="confirmdelete" value="{{deletiontable.wordid}}">Confirm Delete Word</button>
@@ -43,5 +48,5 @@
             <button class="btn btn-secondary" type="submit">Cancel Action</button>
         </div>
     </form>
-
+    -->
 {% endblock %}
