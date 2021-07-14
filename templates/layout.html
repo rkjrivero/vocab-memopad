@@ -41,7 +41,7 @@
                 {% if session.user_id %}
                     <div class="container-fluid">
                         <ul class="navbar-nav mr-auto mt-2">                        
-                            <li class="nav-item"><a class="nav-link" href="/input">Add Word/Phrase</a></li>                        
+                            <li class="nav-item btn btn-outline-primary"><a class="nav-link" href="/input">Add Word/Phrase</a></li>                        
                             <li class="nav-item"><a class="nav-link" href="/recallpin">View Pinned Word/Phrases</a></li>
                             <li class="nav-item"><a class="nav-link" href="/recallall">View All Word/Phrases</a></li>
                             <li class="nav-item"><a class="nav-link" href="/profile">Profile Page</a></li>
@@ -49,7 +49,7 @@
                     </div>
                     <div class="container-fluid">
                         <ul class="navbar-nav ml-auto mt-2">
-                            <li class="nav-item indicator">Active User: </li>
+                            <li class="nav-item indicator btn btn-outline-primary">Active User: </li>
                             <li class="nav-item indicated">{{ session.user_name }}</li>
                             <li class="nav-item indicator">Total Pinned: </li>
                             <li class="nav-item indicated">{{ session.user_pincount }}</li>
