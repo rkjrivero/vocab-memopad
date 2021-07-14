@@ -71,20 +71,13 @@
                             <li class="nav-item indicated">|{{ session.user_autotrans }}|</li>                        
                             <li class="nav-item indicator">Date/Time: </li>
                             <li class="nav-item indicated">|{{ session.current_time }}|</li>
-                            <li class="nav-item">
-                                <button type="button" class="btn btn-sm btn-secondary"><a class="nav-link" href="/logout">Log Out</a></button>
-                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/logout">LOG OUT</a></li>
                         </ul>
                     </div>
                 {% else %}
                     <ul class="navbar-nav mr-auto mt-2">
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-secondary"><a class="nav-link" href="/register">Register</a></button>
-                        </li>
-                        <br>
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-secondary"><a class="nav-link" href="/login">Log In</a></button>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="/register">REGISTER</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/login">LOGIN</a></li>
                     </ul>
                 {% endif %}
             </div>

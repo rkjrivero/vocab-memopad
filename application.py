@@ -225,7 +225,12 @@ def profile():
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    return render_template("profile.html")
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        return render_template("profile.html")
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("profile.html")
 
 @app.route("/changepw", methods=["GET", "POST"])
 @login_required
