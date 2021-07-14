@@ -27,7 +27,7 @@ nav .navbar-brand .green
     color: #e3f2fd;
 }
 
-.nav-link:hover
+a .nav-link:hover
 {
     color: #e3f2fd;
 }
