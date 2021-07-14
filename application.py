@@ -626,9 +626,9 @@ def deletecheck():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        
+        print("log: /deletecheck-POST reached")
         deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("deleteword"))
-        print("test, deletiontable: ", deletiontable[0])
+        print("test, deletiontable[0]: ", deletiontable[0])
         # Redirect to /deletion
         return render_template("delete.html", deletiontable=deletiontable)
 
@@ -651,15 +651,12 @@ def deletion():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        
-        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("deleteword"))
-        print("test, deletiontable: ", deletiontable[0])
+        print("log: /deletion-POST reached")
+        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmdelete"))
+        print("test, deletiontable[0]: ", deletiontable[0])
 
         # Delete entry from vocab table
-
-        #db.execute("DELETE FROM vocab WHERE wordid = ?", ) 
-
-        print("log: /deletion-POST reached")
+        #db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
 
         # Redirect to index.html
         return redirect("/")
