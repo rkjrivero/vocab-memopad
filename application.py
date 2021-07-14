@@ -280,9 +280,9 @@ def changedefault():
     if request.method == "POST":
 
         # PRINT TEST BLOCK        
-        print("log: current default orglang is ", session["user_orglang"], ", new default orglang is ", request.form.get["originlang"])       
-        print("log: current default tgtlang is ", session["user_tgtlang"], ",  new default tgtlang is ", request.form.get["targetlang"])
-        print("log: current default autotrans is ", session["user_autotrans"], ", new default autotrans is ", request.form.get["autotrans"])
+        print("log: current default orglang is ", session["user_orglang"], ", new default orglang is ", request.form.get("originlang"))       
+        print("log: current default tgtlang is ", session["user_tgtlang"], ",  new default tgtlang is ", request.form.get("targetlang"))
+        print("log: current default autotrans is ", session["user_autotrans"], ", new default autotrans is ", request.form.get("autotrans"))
 
         # Update User Settings
         db.execute(
@@ -291,9 +291,9 @@ def changedefault():
         )
 
        # Update session[] array
-        session["user_tgtlang"] = request.form.get["targetlang"]
-        session["user_orglang"] = request.form.get["originlang"]
-        session["user_autotrans"] = request.form.get["autotrans"]
+        session["user_tgtlang"] = request.form.get("targetlang")
+        session["user_orglang"] = request.form.get("originlang")
+        session["user_autotrans"] = request.form.get("autotrans")
 
         # Redirect user to home page
         return redirect("/")
