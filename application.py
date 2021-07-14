@@ -340,7 +340,7 @@ def index():
     # Create empty list, to populate with *list of dictionaries*
     allvocabtable = []
     pinvocabtable = []
-    allcount = 30
+    allcount = 25
     pincount = 10
 
     # PRINT TEST BLOCK
@@ -350,7 +350,7 @@ def index():
     
     # Filter out for allvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
-    # TODO: limit to 30
+    # TODO: limit to 25
     for vocabtable_list in vocabtable:
         #print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
         testvtlist = vocabtable_list.items()                        
@@ -374,7 +374,7 @@ def index():
                             # NOTE: subtract 1 from allcount
                             allcount = allcount - 1
             else:
-                # End loop once 30 entries have been detected
+                # End loop once 25 entries have been detected
                 #print("log: function break due to allcount at ", allcount)
                 break            
     #print("test, allvocabtable (after): ", allvocabtable)
