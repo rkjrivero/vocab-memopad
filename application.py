@@ -335,7 +335,7 @@ def index():
                             allcount = allcount - 1
             else:
                 # End loop once 30 entries have been detected
-                print("log: function break due to allcount at ", allcount)
+                #print("log: function break due to allcount at ", allcount)
                 break            
     print("test, allvocabtable (after): ", allvocabtable)
 
@@ -366,7 +366,7 @@ def index():
                             pincount = pincount - 1
             else:
                 # End loop once 30 entries have been detected
-                print("log: function break due to pincount at ", pincount)
+                #print("log: function break due to pincount at ", pincount)
                 break  
     print("test, pinvocabtable (after): ", pinvocabtable)
 
@@ -652,13 +652,32 @@ def deletion():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         print("log: /deletion-POST reached")
-        print("test, confirmdelete:", request.form.get("confirmdelete"))
         deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmdelete"))
+        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
         print("test, deletiontable[0]: ", deletiontable[0])
 
+        # Check if deleted entry is pinned/not
+        if deletiontable[0]["pin"] == True:
+            # Update user table wordcount and pincount
+            db.execute(
+                "UPDATE users SET wordcount = ?, pincount = ? WHERE userid = ?",
+                usernumbers[0]["wordcount"] - 1, usernumbers[0]["pincount"] + 1, session["user_id"]
+            )
+        else:
+            # Update user table wordcount only
+            db.execute(
+                "UPDATE users SET wordcount = ? WHERE userid = ?",
+                usernumbers[0]["wordcount"] - 1, session["user_id"]
+            )     
+
+        # Update session[] array based on "user" table on database (directly copied from /login route)
+        # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+        session["user_wordcount"] = usernumbers[0]["wordcount"] - 1
+        session["user_pincount"] = usernumbers[0]["pincount"] - 1
+        
         # Delete entry from vocab table
         db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
-
+        
         # Redirect to index.html
         return redirect("/")
 
