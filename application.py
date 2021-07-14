@@ -652,6 +652,7 @@ def deletion():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         print("log: /deletion-POST reached")
+        print("test, confirmdelete:", request.form.get("confirmdelete"))
         deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmdelete"))
         print("test, deletiontable[0]: ", deletiontable[0])
 
