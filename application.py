@@ -278,28 +278,23 @@ def changedefault():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        """
-        # Ensure username was submitted
-        if not request.form.get("oldpw"):
-            return apology("must provide old password", 403)
 
-        # Ensure password was submitted
-        elif not request.form.get("newpw"):
-            return apology("must provide new password", 403)
+        # PRINT TEST BLOCK        
+        print("log: current default orglang is ", session["user_orglang"], ", new default orglang is ", request.form.get["originlang"])       
+        print("log: current default tgtlang is ", session["user_tgtlang"], ",  new default tgtlang is ", request.form.get["targetlang"])
+        print("log: current default autotrans is ", session["user_autotrans"], ", new default autotrans is ", request.form.get["autotrans"])
 
-        # Query database for username
-        userdb = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
-        print("userdb[0][hash]:", userdb[0]["hash"])
+        # Update User Settings
+        db.execute(
+            "UPDATE users SET orglang =?, tgtlang = ?, autotrans = ? WHERE userid = ?",
+            request.form.get["originlang"], request.form.get["targetlang"], request.form.get["autotrans"], session["user_id"]
+        )
 
-        # Ensure old password is correct
-        if check_password_hash(userdb[0]["hash"], request.form.get("oldpw")) == False:
-            return apology("invalid old password", 403)
+       # Update session[] array
+        session["user_tgtlang"] = request.form.get["targetlang"]
+        session["user_orglang"] = request.form.get["originlang"]
+        session["user_autotrans"] = request.form.get["autotrans"]
 
-        else:
-            changepass = generate_password_hash(request.form.get("newpw"), method='pbkdf2:sha256', salt_length=8)
-            db.execute("UPDATE users SET hash = ? WHERE id = ?", changepass, session["user_id"])
-            flash("Password Changed", category="message")
-        """
         # Redirect user to home page
         return redirect("/")
 
