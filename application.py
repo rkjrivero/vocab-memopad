@@ -312,7 +312,7 @@ def index():
     # NOTE: go through all dictionary items within the list that db.execute returns
     # TODO: limit to 30
     for vocabtable_list in vocabtable:
-        print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
+        #print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
         testvtlist = vocabtable_list.items()                        
         # NOTE: go through all key/value pairs and search if they're for the current user
         for (vt_key, vt_value) in testvtlist:                        
@@ -322,13 +322,13 @@ def index():
             # NOTE: check if allcount is still > 0
             if allcount > 0:
                 if vt_key == "userlink" and vt_value == session["user_id"]:
-                    print("log: userlink match")                                   
+                    #print("log: userlink match")                                   
                     
                     # NOTE: go through all key/value pairs and search if they're pinned or not
                     for (vt_key, vt_value) in testvtlist:                                        
                         if vt_key == "pin" and vt_value == False:
-                            print("log: pinned=False match")
-                            print("test, vocabtable_list (dict): ", vocabtable_list)
+                            #print("log: pinned=False match")
+                            #print("test, vocabtable_list (dict): ", vocabtable_list)
                             allvocabtable.append(vocabtable_list)
                             #print("test, allvocabtable.append: ", allvocabtable)
                             # NOTE: subtract 1 from allcount
@@ -342,7 +342,7 @@ def index():
     # Filter out for pinvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
-        print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
+        #print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
         testvtlist = vocabtable_list.items()                
         
         # NOTE: go through all key/value pairs and search if they're for the current user
@@ -353,13 +353,13 @@ def index():
             # NOTE: check if pincount is still > 0
             if pincount > 0:
                 if vt_key == "userlink" and vt_value == session["user_id"]:
-                    print("log: userlink match")         
+                    #print("log: userlink match")         
 
                     for (vt_key, vt_value) in testvtlist:
                     # NOTE: go through all key/value pairs and search if they're pinned or not
                         if vt_key == "pin" and vt_value == True:
-                            print("log: pin=True match")
-                            print("test, vocabtable_list (dict): ", vocabtable_list)
+                            #print("log: pin=True match")
+                            #print("test, vocabtable_list (dict): ", vocabtable_list)
                             pinvocabtable.append(vocabtable_list)
                             #print("test, pinvocabtable.append: ", pinvocabtable)
                             # NOTE: subtract 1 from pincount
@@ -545,15 +545,15 @@ def recallall():
     # Filter out for fullvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
-        print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
+        #print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
         testvtlist = vocabtable_list.items()                        
         # NOTE: go through all key/value pairs and search if they're for the current user
         for (vt_key, vt_value) in testvtlist:                        
             if vt_key == "userlink" and vt_value == session["user_id"]:
-                print("log: userlink match")                
-                print("test, vocabtable_list (dict): ", vocabtable_list)
+                #print("log: userlink match")                
+                #print("test, vocabtable_list (dict): ", vocabtable_list)
                 fullvocabtable.append(vocabtable_list)
-                print("test, fullvocabtable.append: ", fullvocabtable)
+                #print("test, fullvocabtable.append: ", fullvocabtable)
     print("test, fullvocabtable (after): ", fullvocabtable)
 
     return render_template("recallall.html", fullvocabtable=fullvocabtable)
@@ -596,17 +596,17 @@ def recallpin():
     # Filter out for pinnedvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
-        print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
+        #print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
         testvtlist = vocabtable_list.items()                        
         # NOTE: go through all key/value pairs and search if they're for the current user
         for (vt_key, vt_value) in testvtlist:                        
             if vt_key == "userlink" and vt_value == session["user_id"]:
-                print("log: userlink match")                                
+                #print("log: userlink match")                                
                 # NOTE: go through all key/value pairs and search if they're pinned or not
                 for (vt_key, vt_value) in testvtlist:                
                     if vt_key == "pin" and vt_value == True:
-                        print("log: pin=True match")
-                        print("test, vocabtable_list (dict): ", vocabtable_list)
+                        #print("log: pin=True match")
+                        #print("test, vocabtable_list (dict): ", vocabtable_list)
                         pinnedvocabtable.append(vocabtable_list)
     print("test, pinnedvocabtable (after): ", pinnedvocabtable)
 
@@ -657,7 +657,7 @@ def deletion():
         print("test, deletiontable[0]: ", deletiontable[0])
 
         # Delete entry from vocab table
-        #db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
+        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
 
         # Redirect to index.html
         return redirect("/")
