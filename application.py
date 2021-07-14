@@ -279,15 +279,21 @@ def changedefault():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
+        # Change autotrans value to true/false        
+        if request.form.get("autotrans") == "true":
+            varautotrans = True
+        else:
+            varautotrans = False   
+
         # PRINT TEST BLOCK        
         print("log: current default orglang is ", session["user_orglang"], ", new default orglang is ", request.form.get("originlang"))       
         print("log: current default tgtlang is ", session["user_tgtlang"], ",  new default tgtlang is ", request.form.get("targetlang"))
-        print("log: current default autotrans is ", session["user_autotrans"], ", new default autotrans is ", request.form.get("autotrans"))
+        print("log: current default autotrans is ", session["user_autotrans"], ", new default autotrans is ", varautotrans)
 
         # Update User Settings
         db.execute(
             "UPDATE users SET orglang =?, tgtlang = ?, autotrans = ? WHERE userid = ?",
-            request.form.get["originlang"], request.form.get["targetlang"], request.form.get["autotrans"], session["user_id"]
+            request.form.get("originlang"), request.form.get("targetlang"), varautotrans, session["user_id"]
         )
 
        # Update session[] array
