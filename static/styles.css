@@ -22,12 +22,12 @@ nav .navbar-brand .green
     color: #2e944b;
 }
 
-nav .nav-link
+a .nav-link
 {
     color: #e3f2fd;
 }
 
-nav .nav-link:hover
+a .nav-link:hover
 {
     color: #e3f2fd;
 }
