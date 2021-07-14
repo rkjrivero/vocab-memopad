@@ -48,9 +48,14 @@
                         </ul>
                     </div>
                     <div class="container-fluid">
-                        <ul class="navbar-nav ml-auto mt-2">
+                        <ul class="navbar-nav ml-auto mt-2"
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Active User">
+                                {{ session.user_name }}
+                            </button>
+                            <!--
                             <li class="nav-item indicator">Active User: </li>
                             <li class="nav-item indicated">{{ session.user_name }}</li>
+                            -->
                             <li class="nav-item indicator">Total Pinned: </li>
                             <li class="nav-item indicated">{{ session.user_pincount }}</li>
                             <li class="nav-item indicator">Total Saved: </li>
