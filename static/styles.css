@@ -22,6 +22,11 @@ nav .navbar-brand .green
     color: #2e944b;
 }
 
+nav .nav-link .nav-link:hover
+{
+    color: #e3f2fd;
+}
+
 main .form-control
 {
     /* Center form controls */
