@@ -280,7 +280,7 @@ def changedefault():
     if request.method == "POST":
 
         # Change autotrans value to true/false        
-        if request.form.get("autotrans") == "true":
+        if request.form.get("autotrans"):
             varautotrans = True
         else:
             varautotrans = False   
