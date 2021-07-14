@@ -42,10 +42,10 @@
                     <div class="container-fluid">
                         <ul class="navbar-nav mr-auto mt-2">
                             <li class="nav-item">
-                                <button type="button" class="btn btn-sm btn-success "><a href="/input">ADD WORD/PHRASE</a></button>
+                                <button type="button" class="btn btn-sm btn-success "><a class="nav-link" href="/input">ADD WORD/PHRASE</a></button>
                             </li>                                       
                             <li class="nav-item">
-                                <button type="button" class="btn btn-sm btn-info"><a href="/recallpin">VIEW PINNED WORDS/PHRASES</a></button>
+                                <button type="button" class="btn btn-sm btn-info"><a class="nav-link" href="/recallpin">VIEW PINNED WORDS/PHRASES</a></button>
                             </li>
                             <li class="nav-item">
                                 <button type="button" class="btn btn-sm btn-info"><a class="nav-link" href="/recallall">VIEW ALL WORDS/PHRASES</a></button>
@@ -77,10 +77,11 @@
                         </ul>
                     </div>
                 {% else %}
-                    <ul class="navbar-nav ml-auto mt-2">
+                    <ul class="navbar-nav mr-auto mt-2">
                         <li class="nav-item">
                             <button type="button" class="btn btn-sm btn-secondary"><a class="nav-link" href="/register">Register</a></button>
                         </li>
+                        <br>
                         <li class="nav-item">
                             <button type="button" class="btn btn-sm btn-secondary"><a class="nav-link" href="/login">Log In</a></button>
                         </li>

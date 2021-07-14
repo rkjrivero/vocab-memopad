@@ -21,17 +21,17 @@ nav .navbar-brand .green
 {
     color: #2e944b;
 }
-/*
-a .nav-link
+
+.nav-link
 {
     color: #e3f2fd;
 }
 
-a .nav-link:hover
+.nav-link:hover
 {
     color: #e3f2fd;
 }
-*/
+
 main .form-control
 {
     /* Center form controls */
