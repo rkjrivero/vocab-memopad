@@ -627,10 +627,10 @@ def deletecheck():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         print("log: /deletecheck-POST reached")
-        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("deleteword"))[0]
-        print("test, deletiontable[0]: ", deletiontable)
+        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("deleteword"))
+        print("test, deletiontable[0]: ", deletiontable[0])
         # Redirect to /deletion
-        return render_template("delete.html", deletiontable=deletiontable[0])
+        return render_template("delete.html", deletiontable=deletiontable)
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
