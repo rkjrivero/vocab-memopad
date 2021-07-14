@@ -45,6 +45,7 @@
                 <th>Translated Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
+                <th>Pinned?</th>
                 <th>DELETE ENTRY</th>
             </tr>
         </thead>
@@ -56,6 +57,7 @@
                 <td> {{ fullvocabtable.strtrans }} </td>
                 <td> {{ fullvocabtable.langtrans }} </td>
                 <td> {{ fullvocabtable.time }} </td>
+                <td> {{ fullvocabtable.pin }} </td>
                 <td> {{ fullvocabtable.rating }} </td>
                 <td>  
                     <form action="/deletecheck" method="post">
