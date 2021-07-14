@@ -41,17 +41,15 @@
                 {% if session.user_id %}
                     <div class="container-fluid">
                         <ul class="navbar-nav mr-auto mt-2">                        
-                            <button type="button" class="btn btn-outline-primary"><a class="nav-link" href="/input">Add Word/Phrase</a></button>                        
-                            <button type="button" class="btn btn-outline-info"><a class="nav-link" href="/recallpin">View Pinned Word/Phrases</a></button>
-                            <button type="button" class="btn btn-outline-info"><a class="nav-link" href="/recallall">View All Word/Phrases</a></button>
-                            <button type="button" class="btn btn-outline-secondary me-2"><a class="nav-link" href="/profile">Profile Page</a></button>
+                            <button type="button" class="btn btn-primary"><a class="nav-link" href="/input">Add Word/Phrase</a></button>                        
+                            <button type="button" class="btn btn-info"><a class="nav-link" href="/recallpin">View Pinned Word/Phrases</a></button>
+                            <button type="button" class="btn btn-info"><a class="nav-link" href="/recallall">View All Word/Phrases</a></button>
+                            <button type="button" class="btn btn-secondary me-2"><a class="nav-link" href="/profile">Profile Page</a></button>
                         </ul>
                     </div>
                     <div class="container-fluid">
-                        <ul class="navbar-nav ml-auto mt-2"
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Active User">
-                                {{ session.user_name }}
-                            </button>
+                        <ul class="navbar-nav ml-auto mt-2">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ session.user_name }}">Active User</button>
                             <!--
                             <li class="nav-item indicator">Active User: </li>
                             <li class="nav-item indicated">{{ session.user_name }}</li>
