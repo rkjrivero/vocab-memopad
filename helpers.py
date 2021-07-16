@@ -1,8 +1,4 @@
 ### NOTE / DISCLAIMER: GENERAL APPLICATION FOUNDATION IS BUILT UPON THE HELPERS.PY FILE OF CS50 PSET 9
-# TODO: check if commented libraries are relevant, then delete if not
-#import os
-#import requests
-#import urllib.parse
 from flask import redirect, render_template, request, session
 from functools import wraps
 
