@@ -77,6 +77,12 @@ h2 {
     text-align: center;
 }
 
+h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
+
 table, th, td {
   /*width: 200px;*/
   border: 1px solid black;

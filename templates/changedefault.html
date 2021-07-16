@@ -29,32 +29,37 @@
             <div class="form-group align-items-center">
                 <!-- if/else logic for default input language, because cbf to use JS-->
                 {% if session.user_orglang == "en" %}
+                    <h3>Change Original Language:</h3>    
                     <div class="dropdown">
-                        <select class="form-select" aria-label="Input Language" name="originlang">
+                        <select class="form-select" aria-label="Original Language" name="originlang">
                             <option selected value="en">English [en]</option>
                             <option value="ja">Japanese [ja]</option>
                             <option value="eo">Esperanto [eo]</option>
                         </select>
                     </div>
                 {% elif session.user_orglang == "ja" %}
+                <h3>Change Original Language:</h3>
                 <div class="dropdown">
-                    <select class="form-select" aria-label="Input Language" name="originlang">
+                    <select class="form-select" aria-label="Original Language" name="originlang">
                         <option value="en">English [en]</option>
                         <option selected value="ja">Japanese [ja]</option>
                         <option value="eo">Esperanto [eo]</option>
                     </select>
                 </div>
                 {% else %}
+                <h3>Change Original Language:</h3>
                 <div class="dropdown">
-                    <select class="form-select" aria-label="Input Language" name="originlang">
+                    <select class="form-select" aria-label="Original Language" name="originlang">
                         <option value="en">English [en]</option>
                         <option value="ja">Japanese [ja]</option>
                         <option selected value="eo">Esperanto [eo]</option>
                     </select>
                 </div>
                 {% endif %} 
+
                 <!-- if/else logic for default translated language, because cbf to use JS-->
                 {% if session.user_translang == "en" %}
+                <h3>Change Target Language:</h3>
                 <div class="dropdown">
                     <select class="form-select" aria-label="Translation Language" name="targetlang">
                         <option selected value="en">English [en]</option>
@@ -63,6 +68,7 @@
                     </select>
                 </div>
                 {% elif session.user_translang == "en" %}
+                <h3>Change Target Language:</h3>
                 <div class="dropdown">
                     <select class="form-select" aria-label="Translation Language" name="targetlang">
                         <option value="en">English [en]</option>
@@ -71,7 +77,8 @@
                     </select>
                 </div>
                 {% else %}
-                <div class="dropdown">
+                <h3>Change Target Language:</h3>
+                <div class="dropdown">                    
                     <select class="form-select" aria-label="Translation Language" name="targetlang">
                         <option value="en">English [en]</option>
                         <option value="ja">Japanese [ja]</option>
