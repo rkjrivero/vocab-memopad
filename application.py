@@ -87,7 +87,7 @@ def register():
             return apology("Unauthorized Access", 401)
 
         # Ensure username was submitted
-        if not request.form.get("username"):
+        elif not request.form.get("username"): #NOTE: changed if -> elif TODO: change to if later
             return apology("must provide username", 400)
 
         # Ensure password was submitted
