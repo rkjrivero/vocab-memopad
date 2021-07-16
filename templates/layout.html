@@ -45,10 +45,10 @@
                                 <button type="button" class="btn btn-sm btn-success "><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
                             </li>                                       
                             <li class="nav-item">
-                                <button type="button" class="btn btn-sm btn-info"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
+                                <button type="button" class="btn btn-sm btn-primary"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
                             </li>
                             <li class="nav-item">
-                                <button type="button" class="btn btn-sm btn-info"><a class="nav-link" href="/recallall">VIEW ALL ENTRIES</a></button>
+                                <button type="button" class="btn btn-sm btn-primary"><a class="nav-link" href="/recallall">VIEW ALL ENTRIES</a></button>
                             </li>
                             <li class="nav-item">
                                 <button type="button" class="btn btn-sm btn-secondary"><a class="nav-link" href="/profile">CHANGE SETTINGS</a></button>
@@ -78,19 +78,17 @@
                         </ul>
                     </div>
                 {% else %}
-                    <div class="container-fluid">
-                        <ul class="navbar-nav mr-auto mt-2">
-                            <li class="nav-item">
-                                <button type="button" class="btn btn-sm btn-dark">
-                                    <a class="nav-link" href="/register">REGISTER</a></li>
-                                </button>
-                            <li class="nav-item">                            
-                                <button type="button" class="btn btn-sm btn-dark">
-                                    <a class="nav-link" href="/login">LOGIN</a>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
+                    <ul class="navbar-nav mr-auto mt-2">
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-sm btn-dark">
+                                <a class="nav-link" href="/register">REGISTER</a></li>
+                            </button>
+                        <li class="nav-item">                            
+                            <button type="button" class="btn btn-sm btn-dark">
+                                <a class="nav-link" href="/login">LOGIN</a>
+                            </button>
+                        </li>
+                    </ul>
                 {% endif %}
             </div>
         </nav>
