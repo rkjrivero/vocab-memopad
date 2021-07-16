@@ -11,23 +11,17 @@
     } );
     </script>
 
-    <h1>Memopad Statistics for {{ session.user_name }}</h1>
+    <h1>Pinned Word/Phrase Entries for {{ session.user_name }}</h1>
     <br>
     <table align="center" class="table table-bordered" style="width:40%">
         <thead>
             <tr>
                 <th>Pinned Word/Phrase Entry Count: </th>
                 <th> {{ session.user_pincount }} </th>
-            </tr>
-            <tr>
-                <th>Total Word/Phrase Entry Count: </th>
-                <th> {{ session.user_wordcount }} </th>
-            </tr>    
+            </tr>  
         </thead>
     </table>
     <br><br>
-    <h1>Pinned Word/Phrase Entries </h1>
-    <br>
     <table align="center" id="allpinned" class="table table-striped table-bordered">
         <thead>
             <tr>
