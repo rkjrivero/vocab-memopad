@@ -6,14 +6,17 @@
 
 {% block main %}
     <h1>Login your account</h1>
-    <form action="/login" method="post">
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+    <form action="/login" method="post" class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="container-sm align-items-center">
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="password" placeholder="Password" type="password">
+            </div>
+            <br><br>
+            <button class="btn btn-primary" type="submit">Log In</button>
         </div>
-        <div class="form-group">
-            <input class="form-control" name="password" placeholder="Password" type="password">
-        </div>
-        <button class="btn btn-primary" type="submit">Log In</button>
     </form>
     <br>
     New user? <a href="/register" action="/register" method="get">Register</a> an account instead.
