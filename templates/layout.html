@@ -72,7 +72,7 @@
                             <li class="nav-item indicator">Date/Time: </li>
                             <li class="nav-item indicated">{{ session.current_time }}</li>
                             <li class="nav-item">
-                                <button type="button" class="btn btn-sm btn-dark">
+                                <button type="button" class="btn btn-sm btn-secondary">
                                     <a class="nav-link" href="/logout">LOG OUT</a></li>
                                 </button>
                         </ul>
@@ -80,11 +80,11 @@
                 {% else %}
                     <ul class="navbar-nav mr-auto mt-2">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-dark">
+                            <button type="button" class="btn btn-sm btn-secondary">
                                 <a class="nav-link" href="/register">REGISTER</a></li>
                             </button>
                         <li class="nav-item">                            
-                            <button type="button" class="btn btn-sm btn-dark">
+                            <button type="button" class="btn btn-sm btn-secondary">
                                 <a class="nav-link" href="/login">LOGIN</a>
                             </button>
                         </li>
@@ -106,9 +106,14 @@
         </main>
 
         <footer class="small text-center text-muted">
-            Data provided for free by <a href="https://iextrading.com/developer">IEX</a>. View <a href="https://iextrading.com/api-exhibit-a/">IEX’s Terms of Use</a>.
+            VOCAB-MEMOPAD is an experimental app designed to quickly look up and save the translations of entered words, and review them anytime. 
+            Only three language translations are currently supported (English, Japanese, Esperanto), with the UI currently only in English.
+            Application UI is currently only designed with desktop browsers in mind, and is not really mobile-friendly at the moment.
+            <!-- 
+            Feel free to leave comments/suggestions at the <a href="https://github.com/rkjrivero/vocab-memopad">github page</a> (repository currently private). 
+            -->
         </footer>
-
+ 
     </body>
 
 </html>
