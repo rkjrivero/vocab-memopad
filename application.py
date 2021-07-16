@@ -3,14 +3,14 @@ import os
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
-from sqlalchemy.sql.expression import false
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required
 from datetime import datetime
-
 # Import googletrans (https://pypi.org/project/googletrans/ , https://py-googletrans.readthedocs.io/en/latest/)
 from googletrans import Translator
+# Import SQLAlchemy NOTE: currently vestigial due to CS50 reliance
+from sqlalchemy.sql.expression import false
 
 # TODO - INSPECT IMPORT LIST BELOW AND REMOVE THOSE NOT RELEVANT EVENTUALLY !!!
 """
@@ -24,7 +24,6 @@ import secrets #UNUSED RN
 # Configure application
 app = Flask(__name__)
 
-
 # Session setup
 """
 # stolen from https://stackoverflow.com/questions/34902378/where-do-i-get-a-secret-key-for-flask/34903502 because ... eh, cbf
@@ -34,6 +33,7 @@ app.config['SECRET_KEY'] = himitsu_key
 app.config['SECRET_KEY'] = 'f3cfe9ed8fae309f02079dbf' # set as fixed
 """
 # NOTE TO SELF - DISABLED THE ENTIRE BLOCK ABOVE DUE TO WORKAROUND BY DISABLING MKDTEMP() ALONE GETS THE APP TO WORK 
+# NOTE: read up on jwt authentication
 # REFACTOR TO A BETTER SESSION-HANDLING METHOD ONCE PRIMARY FUNCTIONALITY IS ESTABLISHED
 #   https://stackoverflow.com/questions/44769152/difficulty-implementing-server-side-session-storage-using-redis-and-flask
 # FOR HEROKU, YOU NEED TO SAVE SESSIONS SOMEWHERE BECAUSE SESSION IS NOT SHARED BETWEEN GUNICORN 'WORKERS'
@@ -45,7 +45,6 @@ app.config['SECRET_KEY'] = 'f3cfe9ed8fae309f02079dbf' # set as fixed
 #   https://devcenter.heroku.com/articles/flask-memcache
 #   https://devcenter.heroku.com/articles/getting-started-with-python?singlepage=true
 #   https://flask-session.readthedocs.io/en/latest/
-# NOTE: read up on jwt authentication
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -137,7 +136,6 @@ def register():
     else:
         return render_template("register.html")
 
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     # NOTE - LOGIN DEFINITION ORIGINALLY FROM CS50PSET9, WITH MODIFICATIONS
@@ -211,7 +209,6 @@ def logout():
 
     # Redirect user to login form
     return redirect("/")
-
 
 @app.route("/profile")
 @login_required
@@ -545,8 +542,6 @@ def review():
         # /review should not be directly accessible (redirect to /input instead)
         return redirect("/input") 
 
-
-
 @app.route("/recallall")
 @login_required
 def recallall():
@@ -651,7 +646,6 @@ def recallpin():
     #print("test, pinnedvocabtable (after): ", pinnedvocabtable)
 
     return render_template("recallpin.html", pinnedvocabtable=pinnedvocabtable)
-
 
 @app.route("/deletecheck", methods=["GET", "POST"])
 @login_required
