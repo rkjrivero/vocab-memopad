@@ -55,6 +55,7 @@
                             </li>
                         </ul>
                     </div>
+                    <!--
                     <div class="container-fluid">
                         <ul class="navbar-nav ml-auto mt-2 nav-tabs">
                             <li class="nav-item indicator">Active User: </li>
@@ -77,6 +78,7 @@
                                 </button>
                         </ul>
                     </div>
+                    -->
                 {% else %}
                     <ul class="navbar-nav mr-auto mt-2">
                         <li class="nav-item">
@@ -93,6 +95,33 @@
             </div>
         </nav>
 
+        <nav class="navbar navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
+            <div class="container-fluid">
+                <ul class="navbar-nav ml-auto mt-2 nav-tabs">
+                    {% if session.user_id %}
+                    <li class="nav-item indicator">Active User: </li>
+                    <li class="nav-item indicated">{{ session.user_name }}</li>
+                    <li class="nav-item indicator">Total Pinned: </li>
+                    <li class="nav-item indicated">{{ session.user_pincount }}</li>
+                    <li class="nav-item indicator">Total Saved: </li>
+                    <li class="nav-item indicated">{{ session.user_wordcount }}</li>
+                    <li class="nav-item indicator">Default Original: </li>
+                    <li class="nav-item indicated">{{ session.user_orglang }}</li>                        
+                    <li class="nav-item indicator">Default Target: </li>
+                    <li class="nav-item indicated">{{ session.user_tgtlang }}</li>                                 
+                    <li class="nav-item indicator">Auto-translate: </li>
+                    <li class="nav-item indicated">{{ session.user_autotrans }}</li>                        
+                    <li class="nav-item indicator">Date/Time: </li>
+                    <li class="nav-item indicated">{{ session.current_time }}</li>
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-sm btn-secondary">
+                            <a class="nav-link" href="/logout">LOG OUT</a></li>
+                        </button>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+
         {% if get_flashed_messages() %}
             <header>
                 <div class="alert alert-primary border text-center" role="alert">
@@ -106,9 +135,12 @@
         </main>
 
         <footer class="small text-center text-muted">
-            VOCAB-MEMOPAD is an experimental app designed to quickly look up and save the translations of entered words, and review them anytime. 
+            VOCAB-MEMOPAD is an experimental app designed to quickly look up and save the translations of entered words, and review them anytime.
+            <br> 
             Only three language translations are currently supported (English, Japanese, Esperanto), with the UI currently only in English.
+            <br>
             Application UI is currently only designed with desktop browsers in mind, and is not really mobile-friendly at the moment.
+            <br>
             <!-- 
             Feel free to leave comments/suggestions at the <a href="https://github.com/rkjrivero/vocab-memopad">github page</a> (repository currently private). 
             -->
