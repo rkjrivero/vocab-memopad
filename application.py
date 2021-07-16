@@ -82,12 +82,8 @@ def register():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        # NOTE/TODO: temporary code to block none "tester" accounts
-        if not request.form.get("username") == "tester":
-            return apology("Unauthorized Access", 401)
-
         # Ensure username was submitted
-        elif not request.form.get("username"): #NOTE: changed if -> elif TODO: change to if later
+        if not request.form.get("username"):
             return apology("must provide username", 400)
 
         # Ensure password was submitted
@@ -153,6 +149,10 @@ def login():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+
+        # NOTE/TODO: temporary code to block none "tester" accounts
+        if not request.form.get("username") == "tester":
+            return apology("Unauthorized Access", 401)
 
         # Ensure username was submitted
         if not request.form.get("username"):
