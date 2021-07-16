@@ -44,7 +44,7 @@
             -->      
             <div class="collapse navbar-collapse" id="navbar">
                 {% if session.user_id %}
-                    <ul class="navbar-nav mr-auto mt-2">
+                    <ul class="navbar-nav ml-auto mt-2">
                         <li class="nav-item">
                             <button type="button" class="btn btn-sm btn-success "><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
                         </li>                                       
@@ -59,7 +59,7 @@
                         </li>
                     </ul>
 
-                    <ul class="navbar-nav ml-auto mt-2 nav-tabs">
+                    <ul class="navbar-nav ms-auto mt-2">
                         <li class="nav-item indicator">Active User: </li>
                         <li class="nav-item indicated">{{ session.user_name }}</li>
                         <!--

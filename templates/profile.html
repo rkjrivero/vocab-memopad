@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Currently Logged In As {{ session.user_name }}</h1>
+    <h1>Currently Logged In As:</h1>
+    <h2>{{ session.user_name }}</h2>
     <br>
     <table align="center" class="table table-bordered" style="width:40%">
         <thead>
@@ -25,8 +26,6 @@
     </table>
     <br>    
     <div>
-        <h1>Profile Options</h1>
-        <br>
         <a class="btn btn-secondary" href="/changedefault">Change Default Settings</a>
     </div><br><div>
         <a class="btn btn-secondary" href="/changepw">Change Account Password</a>
