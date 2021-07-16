@@ -31,7 +31,10 @@
     </head>
 
     <body>
-
+        <!-- backup for deleted/edited tags/bars            
+            <nav class="navbar navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
+                <div class="container-fluid">
+        --> 
         <nav class="navbar navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
             <a class="navbar-brand" href="/">VOCAB-MEMOPAD</a>
             <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
@@ -39,22 +42,20 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar">
                 {% if session.user_id %}
-                    <div class="container-fluid">
-                        <ul class="navbar-nav mr-auto mt-2">
-                            <li class="nav-item">
-                                <button type="button" class="btn btn-sm btn-success "><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
-                            </li>                                       
-                            <li class="nav-item">
-                                <button type="button" class="btn btn-sm btn-primary"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="btn btn-sm btn-primary"><a class="nav-link" href="/recallall">VIEW ALL ENTRIES</a></button>
-                            </li>
-                            <li class="nav-item">
-                                <button type="button" class="btn btn-sm btn-secondary"><a class="nav-link" href="/profile">CHANGE SETTINGS</a></button>
-                            </li>
-                        </ul>
-                    </div>
+                    <ul class="navbar-nav mr-auto mt-2">
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-sm btn-success "><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
+                        </li>                                       
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-sm btn-primary"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-sm btn-primary"><a class="nav-link" href="/recallall">VIEW ALL ENTRIES</a></button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-sm btn-secondary"><a class="nav-link" href="/profile">CHANGE SETTINGS</a></button>
+                        </li>
+                    </ul>
                     <!--
                     <div class="container-fluid">
                         <ul class="navbar-nav ml-auto mt-2 nav-tabs">
@@ -96,30 +97,28 @@
         </nav>
 
         <nav class="navbar navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
-            <div class="container-fluid">
-                <ul class="navbar-nav ml-auto mt-2 nav-tabs">
-                    {% if session.user_id %}
-                    <li class="nav-item indicator">Active User: </li>
-                    <li class="nav-item indicated">{{ session.user_name }}</li>
-                    <li class="nav-item indicator">Total Pinned: </li>
-                    <li class="nav-item indicated">{{ session.user_pincount }}</li>
-                    <li class="nav-item indicator">Total Saved: </li>
-                    <li class="nav-item indicated">{{ session.user_wordcount }}</li>
-                    <li class="nav-item indicator">Default Original: </li>
-                    <li class="nav-item indicated">{{ session.user_orglang }}</li>                        
-                    <li class="nav-item indicator">Default Target: </li>
-                    <li class="nav-item indicated">{{ session.user_tgtlang }}</li>                                 
-                    <li class="nav-item indicator">Auto-translate: </li>
-                    <li class="nav-item indicated">{{ session.user_autotrans }}</li>                        
-                    <li class="nav-item indicator">Date/Time: </li>
-                    <li class="nav-item indicated">{{ session.current_time }}</li>
-                    <li class="nav-item">
-                        <button type="button" class="btn btn-sm btn-secondary">
-                            <a class="nav-link" href="/logout">LOG OUT</a></li>
-                        </button>
-                    {% endif %}
-                </ul>
-            </div>
+            <ul class="navbar-nav ml-auto mt-2 nav-tabs">
+                {% if session.user_id %}
+                <li class="nav-item indicator">Active User: </li>
+                <li class="nav-item indicated">{{ session.user_name }}</li>
+                <li class="nav-item indicator">Total Pinned: </li>
+                <li class="nav-item indicated">{{ session.user_pincount }}</li>
+                <li class="nav-item indicator">Total Saved: </li>
+                <li class="nav-item indicated">{{ session.user_wordcount }}</li>
+                <li class="nav-item indicator">Default Original: </li>
+                <li class="nav-item indicated">{{ session.user_orglang }}</li>                        
+                <li class="nav-item indicator">Default Target: </li>
+                <li class="nav-item indicated">{{ session.user_tgtlang }}</li>                                 
+                <li class="nav-item indicator">Auto-translate: </li>
+                <li class="nav-item indicated">{{ session.user_autotrans }}</li>                        
+                <li class="nav-item indicator">Date/Time: </li>
+                <li class="nav-item indicated">{{ session.current_time }}</li>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-sm btn-secondary">
+                        <a class="nav-link" href="/logout">LOG OUT</a></li>
+                    </button>
+                {% endif %}
+            </ul>
         </nav>
 
         {% if get_flashed_messages() %}
