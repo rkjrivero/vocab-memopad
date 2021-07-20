@@ -15,7 +15,7 @@
                     <h5>Type in word/phrase entry</h5>                        
                 </label>
                 <br>
-                <input autocomplete="off" autofocus class="form-control" id="textinput" name="textinput" placeholder="Type in Word/Phrase Entry" type="text">
+                <input autocomplete="off" autofocus class="form-control form-control-lg" id="textinput" name="textinput" placeholder="Type in Word/Phrase Entry" type="text">
                 <br><br>
                 <div class="dropdown">
                     <label for="originlang">
@@ -63,48 +63,25 @@
                         <input class="form-check-input" type="checkbox" id="autotrans" name="autotrans" value="true" checked>                    
                     </div>
                 </div>
-                <!-- {% if session.user_autotrans %}
-                <script>
-                    function changeautotrans() {
-                        document.getElementById("autotrans").removeAttribute("checked"); 
-                        }
-                </script>
-                {% endif %} -->
-
-                <!-- if/else logic for default translation option, because cbf to use JS
-                {% if session.user_autotrans %}
-                <div class="form-group align-items-center">
-                    <div class="form-check form-switch">
-                        <label class="form-check-label" for="check_autotrans">Translate input?</label>
-                        <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans" checked>                    
-                    </div>
-                </div>
-                {% else %}
-                <div class="form-group align-items-center">
-                    <div class="form-check form-switch">
-                        <label class="form-check-label" for="check_autotrans">Translate input?</label>
-                        <input class="form-check-input" type="checkbox" id="check_autotrans" value="false" name="autotrans">                    
-                    </div>
-                </div>
-                {% endif %} 
-                -->
             </div>
             <br><br>
+
             <button class="btn btn-primary" type="submit">Search Word/Phrase</button>
         </div>        
     </form>
-    
 
-
-    
-    <!-- Load all default swaps-->
-    <script>
+    <!--swap autotranslate, moved out of form scope-->
     {% if not session.user_autotrans %}
+    <script>
     function changeautotrans() {
         document.getElementById("autotrans").removeAttribute("checked"); 
         }
+    
+    </script>
     {% endif %}
 
+    <!--implement swap to user default settings-->
+    <script>
     window.onload=function(){
         changeoriginlang();
         changetargetlang();
