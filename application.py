@@ -295,8 +295,8 @@ def changepw():
             db.execute("UPDATE users SET hash = ? WHERE id = ?", changepass, session["user_id"])
             flash("Password Changed", category="message")
 
-        # Redirect user to home page
-        return redirect("/")
+        # Redirect user to profile page
+        return redirect("/profile")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -336,8 +336,8 @@ def changedefault():
         session["user_orglang"] = request.form.get("originlang")
         session["user_autotrans"] = request.form.get("autotrans")
 
-        # Redirect user to home page
-        return redirect("/")
+        # Redirect user to profile page
+        return redirect("/profile")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
