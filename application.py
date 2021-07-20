@@ -74,6 +74,25 @@ if db_uri.startswith("postgres://"):
     db_uri = db_uri.replace("postgres://", "postgresql://", 1)
 db = SQL(db_uri)
 
+# Permanent dictionary of initially supported languages
+all_languages = {
+'en': 'English'
+'eo': 'Esperanto'
+'ja': 'Japanese'
+'la': 'Latin'
+'es': 'Spanish'
+'de': 'German'
+'fr': 'French'
+'it': 'Italian'
+'ru': 'Russian'
+'ar': 'Arabic'
+'id': 'Indonesian'
+'ms': 'Malaysian'
+'th': 'Thai'
+'vi': 'Vietnamese'
+'tl': 'Tagalog'
+}
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     # NOTE - REGISTER DEFINITION ORIGINALLY FROM CS50PSET9, WITHOUT MODIFICATION
@@ -133,12 +152,12 @@ def register():
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        # User is not logged-in:
-        if not session:        
+    else:   
+        # Show page if no user is not logged-in     
+        if not session:                    
             return render_template("register.html")
-        else:
-            # Redirect user to home page
+        # Redirect user to home page if already logged in
+        else:            
             return redirect("/")
 
 @app.route("/login", methods=["GET", "POST"])
