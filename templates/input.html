@@ -52,9 +52,10 @@
                     <br>
                     <select class="form-select" aria-label="Input Language" name="originlang" id="originlang">
                         <option selected disabled>Default Input Language</option>
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
+                        {% for key in all_languages.keys() %}
+                            <option value="{{key}}">{{  all_languages[key]}}</option>
+                        {% endfor %}
+                    </select>
                     </select>
                 </div>
                 <script>

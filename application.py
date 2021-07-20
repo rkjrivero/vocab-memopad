@@ -507,7 +507,7 @@ def input():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:   
-        return render_template("input.html")
+        return render_template("input.html", all_languages=all_languages)
 
 @app.route("/review", methods=["GET", "POST"])
 @login_required
