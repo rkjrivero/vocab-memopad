@@ -13,58 +13,58 @@
                 <br>
                 <input autocomplete="off" autofocus class="form-control" name="textinput" placeholder="Add Word/Phrase" type="text">
                 <br><br><br>
-                <!-- if/else logic for default input language, because cbf to use JS-->
-                {% if session.user_orglang == "en" %}
-                    <div class="dropdown">
-                        <select class="form-select" aria-label="Input Language" name="originlang">
-                            <option selected value="en">English [en]</option>
-                            <option value="ja">Japanese [ja]</option>
-                            <option value="eo">Esperanto [eo]</option>
-                        </select>
-                    </div>
-                {% elif session.user_orglang == "ja" %}
+                <!--REFERENCE
+                ####
+                1) changing dropdown
+                <form>
+                Select your favorite fruit:
+                <select id="mySelect">
+                    <option value="apple">Apple</option>
+                    <option value="orange">Orange</option>
+                    <option value="pineapple">Pineapple</option>
+                    <option value="banana">Banana</option>
+                </select>
+                </form>
+                <p>Click the button to change the selected fruit to banana.</p>
+                <button type="button" onclick="myFunction()">Try it</button>
+                <script>
+                function myFunction() {
+                document.getElementById("mySelect").value = "banana";
+                }
+                </script>                
+               
+                ####
+                2) onload
+                <body onload="myFunction()">
+                <h1>Hello World!</h1>
+                <script>
+                function myFunction() {
+                alert("Page is loaded");
+                }
+                </script>
+                </body>
+                -->
+
                 <div class="dropdown">
-                    <select class="form-select" aria-label="Input Language" name="originlang">
+                    <label for="originlang">
+                        <h5>Select Input Language</h5>                        
+                    </label>
+                    <br>
+                    <select class="form-select" aria-label="Input Language" name="originlang" id="originlang">
+                        <option selected disabled>Default Input Language</option>
                         <option value="en">English [en]</option>
-                        <option selected value="ja">Japanese [ja]</option>
+                        <option value="ja">Japanese [ja]</option>
                         <option value="eo">Esperanto [eo]</option>
                     </select>
                 </div>
-                {% else %}
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Input Language" name="originlang">
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option selected value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% endif %} 
-                <!-- if/else logic for default translated language, because cbf to use JS-->
-                {% if session.user_translang == "en" %}
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option selected value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% elif session.user_translang == "en" %}
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option value="en">English [en]</option>
-                        <option selected value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% else %}
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option selected value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% endif %} 
+                <script>
+                    function changeoriginlang() {
+                    document.getElementById("originlang").value = "{{session.user_orglang}}";
+                    }
+                </script>    
+
+
+
                 <!-- if/else logic for default translation option, because cbf to use JS-->
                 {% if session.user_autotrans %}
                 <div class="form-group align-items-center">
@@ -86,4 +86,12 @@
             <button class="btn btn-primary" type="submit">Search Word/Phrase</button>
         </div>        
     </form>
+    
+    
+    <!-- Load all default swaps-->
+    <script>
+    window.onload=function(){
+        changeoriginlang();
+        }
+    </script>
 {% endblock %}
