@@ -26,85 +26,118 @@
     <br>
     <form action="/changedefault" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">
+            <br>
             <div class="form-group align-items-center">
-                <!-- if/else logic for default input language, because cbf to use JS-->
-                {% if session.user_orglang == "en" %}
-                    <h3>Change Original Language:</h3>    
-                    <div class="dropdown">
-                        <select class="form-select" aria-label="Original Language" name="originlang">
-                            <option selected value="en">English [en]</option>
-                            <option value="ja">Japanese [ja]</option>
-                            <option value="eo">Esperanto [eo]</option>
-                        </select>
-                    </div>
-                {% elif session.user_orglang == "ja" %}
-                <h3>Change Original Language:</h3>
                 <div class="dropdown">
-                    <select class="form-select" aria-label="Original Language" name="originlang">
+                    <label for="originlang">
+                        <h5>Change Default<br>Input Language</h5>                        
+                    </label>
+                    <br>
+                    <select class="form-select" aria-label="Input Language" name="originlang" id="originlang">
+                        <option selected disabled>Default Input Language</option>
                         <option value="en">English [en]</option>
-                        <option selected value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% else %}
-                <h3>Change Original Language:</h3>
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Original Language" name="originlang">
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option selected value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% endif %} 
-
-                <!-- if/else logic for default translated language, because cbf to use JS-->
-                {% if session.user_translang == "en" %}
-                <h3>Change Target Language:</h3>
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option selected value="en">English [en]</option>
                         <option value="ja">Japanese [ja]</option>
                         <option value="eo">Esperanto [eo]</option>
                     </select>
                 </div>
-                {% elif session.user_translang == "en" %}
-                <h3>Change Target Language:</h3>
+                <script>
+                    function changeoriginlang() {
+                    document.getElementById("originlang").value = "{{session.user_orglang}}";
+                    }
+                </script>
+            </div>
+            <br>                        
+            <div class="form-group align-items-center">
                 <div class="dropdown">
-                    <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option value="en">English [en]</option>
-                        <option selected value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% else %}
-                <h3>Change Target Language:</h3>
-                <div class="dropdown">                    
-                    <select class="form-select" aria-label="Translation Language" name="targetlang">
+                    <label for="targetlang">
+                        <h5>Change Default<br>Translation Language</h5>                        
+                    </label>
+                    <br>
+                    <select class="form-select" aria-label="Translation Language" name="targetlang" id="targetlang">
+                        <option selected disabled>Default Translation Language</option>
                         <option value="en">English [en]</option>
                         <option value="ja">Japanese [ja]</option>
-                        <option selected value="eo">Esperanto [eo]</option>
+                        <option value="eo">Esperanto [eo]</option>
+                    </select>
+                </div>                
+                <script>
+                    function changetargetlang() {
+                    document.getElementById("targetlang").value = "{{session.user_tgtlang}}";
+                    }
+                </script>
+            </div>
+            <!-- NOTE: code block below is the "proper" variant to use, but disabled for now to stick to 3 languages for the meantime
+            <div class="form-group align-items-center">
+                <div class="dropdown">
+                    <label for="originlang">
+                        <h5>Change Default<br>Original/Input Language</h5>                        
+                    </label>
+                    <br>
+                    <select class="form-select" aria-label="Input Language" name="originlang" id="originlang">
+                        <option selected disabled>Default Input Language</option>
+                        {% for key in all_languages.keys() %}
+                            <option value="{{key}}">{{  all_languages[key]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>                
+                <script>
+                    function changeoriginlang() {
+                    document.getElementById("originlang").value = "{{session.user_orglang}}";
+                    }
+                </script>
+            </div>
+            <div class="form-group align-items-center">
+                <div class="dropdown">
+                    <label for="targetlang">
+                        <h5>Change Default<br>Translation Language</h5>
+                        <br>
+                    </label>
+                    <select class="form-select" aria-label="Translation Language" name="targetlang" id="targetlang">
+                        <option selected disabled>Default Translation Language</option>
+                        {% for key in all_languages.keys() %}
+                            <option value="{{key}}">{{  all_languages[key]}}</option>
+                        {% endfor %}
                     </select>
                 </div>
-                {% endif %} 
-                <!-- if/else logic for default translation option, because cbf to use JS-->
-                {% if session.user_autotrans %}
-                <div class="form-group align-items-center">
-                    <div class="form-check form-switch">
-                        <label class="form-check-label" for="check_autotrans">Translate input?</label>
-                        <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans" checked>                    
-                    </div>
+                                
+                <script>
+                    function changetargetlang() {
+                    document.getElementById("targetlang").value = "{{session.user_tgtlang}}";
+                    }
+                </script>
+            </div>
+            -->
+            <br>
+            <div class="form-group align-items-center">
+                <div class="form-check form-switch">
+                    <label class="form-check-label" for="check_autotrans">
+                        <h5>Automatically translate input?</h5>
+                    </label>
+                    <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans" checked>                    
                 </div>
-                {% else %}
-                <div class="form-group align-items-center">
-                    <div class="form-check form-switch">
-                        <label class="form-check-label" for="check_autotrans">Translate input?</label>
-                        <input class="form-check-input" type="checkbox" id="check_autotrans" value="false" name="autotrans">                    
-                    </div>
-                </div>
-                {% endif %} 
             </div>
             <br>
             <button class="btn btn-primary" type="submit">Change Default Settings</button>
         </div>        
     </form>
+
+    <!--swap autotranslate, moved out of form scope-->
+    {% if not session.user_autotrans %}
+    <script>
+    function changeautotrans() {
+        document.getElementById("autotrans").removeAttribute("checked"); 
+        }
+    
+    </script>
+    {% endif %}
+
+    <!--implement swap to user default settings-->
+    <script>
+    window.onload=function(){
+        changeoriginlang();
+        changetargetlang();
+        changeautotrans();
+        }
+    </script>
+    
 {% endblock %}
