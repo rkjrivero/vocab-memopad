@@ -36,47 +36,61 @@
             <div class="form-group align-items-center">
                 <div class="dropdown">
                     <label for="originlang">
-                        <h5>Select Default<br>Original/Input Language</h5>
-                        <br>
+                        <h5>Select Default<br>Input Language</h5>                        
                     </label>
-                    <select class="form-select" aria-label="Original Language" name="originlang" id="originlang">
-                        <option selected disabled>Default Original Language</option>
+                    <br>
+                    <select class="form-select" aria-label="Input Language" name="originlang" id="originlang">
+                        <option selected disabled>Default Input Language</option>
                         <option value="en">English [en]</option>
                         <option value="ja">Japanese [ja]</option>
                         <option value="eo">Esperanto [eo]</option>
                     </select>
                 </div>
             </div>                        
-            <!-- experiment all_languages
             <div class="form-group align-items-center">
                 <div class="dropdown">
                     <label for="targetlang">
-                        <h5>Select Default<br>Target/Output Language</h5>
-                        <br>
+                        <h5>Select Default<br>Translation Language</h5>                        
                     </label>
-                    <select class="form-select" aria-label="Target Language" name="targetlang" id="targetlang">
-                        <option selected disabled>Default Target Language</option>
+                    <br>
+                    <select class="form-select" aria-label="Translation Language" name="targetlang" id="targetlang">
+                        <option selected disabled>Default Translation Language</option>
                         <option value="en">English [en]</option>
                         <option value="ja">Japanese [ja]</option>
                         <option value="eo">Esperanto [eo]</option>
                     </select>
                 </div>
             </div>
-            -->
+            <!-- NOTE: code block below is the "proper" variant to use, but disabled for now to stick to 3 languages for the meantime
             <div class="form-group align-items-center">
                 <div class="dropdown">
-                    <label for="targetlang">
-                        <h5>Select Default<br>Target/Output Language</h5>
-                        <br>
+                    <label for="originlang">
+                        <h5>Select Default<br>Original/Input Language</h5>                        
                     </label>
-                    <select class="form-select" aria-label="Target Language" name="targetlang" id="targetlang">
-                        <option selected disabled>Default Target Language</option>
+                    <br>
+                    <select class="form-select" aria-label="Input Language" name="originlang" id="originlang">
+                        <option selected disabled>Default Input Language</option>
                         {% for key in all_languages.keys() %}
                             <option value="{{key}}">{{  all_languages[key]}}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
+            <div class="form-group align-items-center">
+                <div class="dropdown">
+                    <label for="targetlang">
+                        <h5>Select Default<br>Translation Language</h5>
+                        <br>
+                    </label>
+                    <select class="form-select" aria-label="Translation Language" name="targetlang" id="targetlang">
+                        <option selected disabled>Default Translation Language</option>
+                        {% for key in all_languages.keys() %}
+                            <option value="{{key}}">{{  all_languages[key]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            -->
             <br>
             <div class="form-group align-items-center">
                 <div class="form-check form-switch">
