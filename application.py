@@ -165,16 +165,17 @@ def login():
     # NOTE - LOGIN DEFINITION ORIGINALLY FROM CS50PSET9, WITH MODIFICATIONS
     """Log user in"""
 
-    # Forget any userid
-    session.clear()
-
-    # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
-
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+        
+        # Forget any userid
+        session.clear()
 
-        # NOTE/TODO: temporary code to block none "tester" accounts
+        # Purge shadow table to ensure no errant entries
+        db.execute("DELETE FROM shadow") 
+
+        # NOTE: temporary code to block none "tester" accounts
+        # TODO: remove during transfer to main branch
         if not request.form.get("username") == "tester":
             return apology("Unauthorized Access", 401)
 
@@ -221,8 +222,13 @@ def login():
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("login.html")
+    else:   
+        # Show page if no user is not logged-in     
+        if not session:                    
+            return render_template("login.html")
+        # Redirect user to home page if already logged in
+        else:            
+            return redirect("/")
 
 @app.route("/logout")
 def logout():
