@@ -39,9 +39,9 @@
             {% for pinnedvocabtable in pinnedvocabtable %}
             <tr>
                 <td> {{ pinnedvocabtable.strinput }}  </td>
-                <td> {{ pinnedvocabtable.langinput }} </td>
+                <td> {{ all_languages[pinnedvocabtable.langinput] }} </td>
                 <td> {{ pinnedvocabtable.strtrans }} </td>
-                <td> {{ pinnedvocabtable.langtrans }} </td>
+                <td> {{ all_languages[pinnedvocabtable.langtrans] }} </td>
                 <td> {{ pinnedvocabtable.time }} </td>
                 <td> {{ pinnedvocabtable.rating }} </td>
                 <td>  

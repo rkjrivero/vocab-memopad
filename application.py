@@ -439,7 +439,7 @@ def index():
                 break  
     #print("test, pinvocabtable (after): ", pinvocabtable)
 
-    return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable)
+    return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable, all_languages=all_languages)
 
 @app.route("/input", methods=["GET", "POST"])
 @login_required
@@ -572,7 +572,7 @@ def review():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         # /review should not be directly accessible (redirect to /input instead)
-        return redirect("/input") 
+        return redirect("/input", all_languages=all_languages) 
 
 @app.route("/recallall")
 @login_required
@@ -623,7 +623,7 @@ def recallall():
                 #print("test, fullvocabtable.append: ", fullvocabtable)
     #print("test, fullvocabtable (after): ", fullvocabtable)
 
-    return render_template("recallall.html", fullvocabtable=fullvocabtable)
+    return render_template("recallall.html", fullvocabtable=fullvocabtable, all_languages=all_languages)
 
 @app.route("/recallpin")
 @login_required
@@ -677,7 +677,7 @@ def recallpin():
                         pinnedvocabtable.append(vocabtable_list)
     #print("test, pinnedvocabtable (after): ", pinnedvocabtable)
 
-    return render_template("recallpin.html", pinnedvocabtable=pinnedvocabtable)
+    return render_template("recallpin.html", pinnedvocabtable=pinnedvocabtable, all_languages=all_languages)
 
 @app.route("/deletecheck", methods=["GET", "POST"])
 @login_required

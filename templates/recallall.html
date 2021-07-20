@@ -40,9 +40,9 @@
             {% for fullvocabtable in fullvocabtable %}
             <tr>
                 <td> {{ fullvocabtable.strinput }}  </td>
-                <td> {{ fullvocabtable.langinput }} </td>
+                <td> {{ all_languages[fullvocabtable.langinput] }} </td>
                 <td> {{ fullvocabtable.strtrans }} </td>
-                <td> {{ fullvocabtable.langtrans }} </td>
+                <td> {{ all_languages[fullvocabtable.langtrans] }} </td>
                 <td> {{ fullvocabtable.time }} </td>
                 <td> {{ fullvocabtable.rating }} </td>
                 <td> {{ fullvocabtable.pin }} </td>                

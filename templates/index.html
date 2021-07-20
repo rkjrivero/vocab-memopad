@@ -49,9 +49,9 @@
             {% for pinvocabtable in pinvocabtable %}
             <tr>
                 <td> {{ pinvocabtable.strinput }}  </td>
-                <td> {{ pinvocabtable.langinput }} </td>
+                <td> {{ all_languages[pinvocabtable.langinput] }} </td>
                 <td> {{ pinvocabtable.strtrans }} </td>
-                <td> {{ pinvocabtable.langtrans }} </td>
+                <td> {{ all_languages[pinvocabtable.langtrans] }} </td>
                 <td> {{ pinvocabtable.time }} </td>
                 <td> {{ pinvocabtable.rating }} </td>
                 <td>  
@@ -84,9 +84,9 @@
             {% for allvocabtable in allvocabtable %}
             <tr>
                 <td> {{ allvocabtable.strinput }}  </td>
-                <td> {{ allvocabtable.langinput }} </td>
+                <td> {{ all_languages[allvocabtable.langinput] }} </td>
                 <td> {{ allvocabtable.strtrans }} </td>
-                <td> {{ allvocabtable.langtrans }} </td>
+                <td> {{ all_languages[allvocabtable.langtrans] }} </td>
                 <td> {{ allvocabtable.time }} </td>
                 <td> {{ allvocabtable.rating }} </td>
                 <td>  
