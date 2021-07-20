@@ -250,7 +250,7 @@ def profile():
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    return render_template("profile.html")
+    return render_template("profile.html", all_languages=all_languages)
 
 @app.route("/changepw", methods=["GET", "POST"])
 @login_required

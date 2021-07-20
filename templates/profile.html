@@ -13,8 +13,14 @@
         <thead>
             <tr>
                 <th>Default Original Language: </th>
+                <th> {{ all_languages[session.user_orglang] }} </th>
+            </tr>
+            <!-- test backup
+            <tr>
+                <th>Default Original Language: </th>
                 <th> {{ session.user_orglang }} </th>
             </tr>
+            -->
             <tr>
                 <th>Default Target Language: </th>
                 <th> {{ session.user_tgtlang }} </th>
