@@ -46,7 +46,8 @@
                         <option value="eo">Esperanto [eo]</option>
                     </select>
                 </div>
-            </div>            
+            </div>                        
+            <!-- experiment all_languages
             <div class="form-group align-items-center">
                 <div class="dropdown">
                     <label for="targetlang">
@@ -58,6 +59,21 @@
                         <option value="en">English [en]</option>
                         <option value="ja">Japanese [ja]</option>
                         <option value="eo">Esperanto [eo]</option>
+                    </select>
+                </div>
+            </div>
+            -->
+            <div class="form-group align-items-center">
+                <div class="dropdown">
+                    <label for="targetlang">
+                        <h5>Select Default<br>Target/Output Language</h5>
+                        <br>
+                    </label>
+                    <select class="form-select" aria-label="Target Language" name="targetlang" id="targetlang">
+                        <option selected disabled>Default Target Language</option>
+                        {% for all_languages in all_languages %}
+                            <option value="{{key}}">{{value}}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>

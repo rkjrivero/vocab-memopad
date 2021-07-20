@@ -155,7 +155,7 @@ def register():
     else:   
         # Show page if no user is not logged-in     
         if not session:                    
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
         # Redirect user to home page if already logged in
         else:            
             return redirect("/")
