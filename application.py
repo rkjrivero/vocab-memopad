@@ -76,20 +76,20 @@ db = SQL(db_uri)
 
 # Permanent dictionary of initially supported languages
 all_languages = {
-'en': 'English'
-'eo': 'Esperanto'
-'ja': 'Japanese'
-'la': 'Latin'
-'es': 'Spanish'
-'de': 'German'
-'fr': 'French'
-'it': 'Italian'
-'ru': 'Russian'
-'ar': 'Arabic'
-'id': 'Indonesian'
-'ms': 'Malaysian'
-'th': 'Thai'
-'vi': 'Vietnamese'
+'en': 'English',
+'eo': 'Esperanto',
+'ja': 'Japanese',
+'la': 'Latin',
+'es': 'Spanish',
+'de': 'German',
+'fr': 'French',
+'it': 'Italian',
+'ru': 'Russian',
+'ar': 'Arabic',
+'id': 'Indonesian',
+'ms': 'Malaysian',
+'th': 'Thai',
+'vi': 'Vietnamese',
 'tl': 'Tagalog'
 }
 
