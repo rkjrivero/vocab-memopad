@@ -14,7 +14,7 @@
                 <h5>Old Password</h5>                    
             </label>
             <br>
-            <input autocomplete="off" class="form-control" id="oldpw" name="oldpw" placeholder="old password" type="password">
+            <input autocomplete="off" class="form-control" id="oldpw" name="oldpw" placeholder="old password" type="password" required>
         </div>
         <br>
 
@@ -23,7 +23,7 @@
                 <h5>New Password</h5>                    
             </label>
             <br>
-            <input autocomplete="off" class="form-control" id="newpw" name="newpw" placeholder="new password" type="password">
+            <input autocomplete="off" class="form-control" id="newpw" name="newpw" placeholder="new password" type="password" required>
         </div>
         <br>
 
@@ -32,10 +32,18 @@
                 <h5>Confirm New Password</h5>                    
             </label>
             <br>
-            <input autocomplete="off" class="form-control" id="confirmnewpw" name="confirmnewpw" placeholder="confirm password" type="password">
+            <input autocomplete="off" class="form-control" id="confirmnewpw" name="confirmnewpw" placeholder="confirm password" type="password" required>
         </div>
         <br>
 
         <button class="btn btn-primary" type="submit">Change Password</button>
+        <br>
+    </form>
+
+    <form action="/" method="get" class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="container-sm align-items-center">            
+            <button class="btn btn-secondary" type="submit">Cancel Changes</button>
+            <br>
+        </div>
     </form>
 {% endblock %}

@@ -95,7 +95,7 @@ all_languages = {
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    # NOTE - REGISTER DEFINITION ORIGINALLY FROM CS50PSET9, WITHOUT MODIFICATION
+    # NOTE - REGISTER DEFINITION ORIGINALLY FROM CS50PSET9, WITH MODIFICATIONS
     """Register user"""
 
     # User reached route via POST (as by submitting a form via POST)
