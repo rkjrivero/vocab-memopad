@@ -74,6 +74,13 @@
             <button class="btn btn-primary" type="submit">Search Word/Phrase</button>
         </div>        
     </form>
+    
+    <form action="/" method="get" class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="container-sm align-items-center">            
+            <br>
+            <button class="btn btn-secondary" type="submit">Cancel Search</button>
+        </div>
+    </form>
 
     <!--swap autotranslate, moved out of form scope-->
     {% if not session.user_autotrans %}
