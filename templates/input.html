@@ -10,8 +10,11 @@
     <form action="/input" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">
             <div class="form-group align-items-center">
+                <label for="textinput">
+                    <h5>Type in word/phrase entry</h5>                        
+                </label>
                 <br>
-                <input autocomplete="off" autofocus class="form-control" name="textinput" placeholder="Add Word/Phrase" type="text">
+                <input autocomplete="off" autofocus class="form-control" id="textinput" name="textinput" placeholder="Type in Word/Phrase Entry" type="text">
                 <br><br>
                 <div class="dropdown">
                     <label for="originlang">
@@ -30,7 +33,8 @@
                     function changeoriginlang() {
                     document.getElementById("originlang").value = "{{session.user_orglang}}";
                     }
-                </script>    
+                </script>
+                <br>    
 
                 <div class="dropdown">
                     <label for="targetlang">
@@ -50,13 +54,15 @@
                     document.getElementById("targetlang").value = "{{session.user_tgtlang}}";
                     }
                 </script>   
+                <br>
+
                 <div class="form-group align-items-center">
                     <div class="form-check form-switch">
                         <label class="form-check-label" for="check_autotrans">Translate input?</label>
                         <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans" id="autotrans" checked>                    
                     </div>
                 </div>
-                {% if not session.user_autotrans %}
+                {% if session.user_autotrans %}
                 <script>
                     function changeautotrans() {
                     document.getElementById("autotrans").removeAttribute("checked"); 
