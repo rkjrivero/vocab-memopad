@@ -63,13 +63,13 @@
                         <input class="form-check-input" type="checkbox" id="autotrans" name="autotrans" value="true" checked>                    
                     </div>
                 </div>
-                <!-- {% if session.user_autotrans %} -->
+                <!-- {% if session.user_autotrans %}
                 <script>
                     function changeautotrans() {
                         document.getElementById("autotrans").removeAttribute("checked"); 
                         }
                 </script>
-                <!-- {% endif %} -->
+                {% endif %} -->
 
                 <!-- if/else logic for default translation option, because cbf to use JS
                 {% if session.user_autotrans %}
@@ -99,6 +99,10 @@
     
     <!-- Load all default swaps-->
     <script>
+    function changeautotrans() {
+        document.getElementById("autotrans").removeAttribute("checked"); 
+        }
+
     window.onload=function(){
         changeoriginlang();
         changetargetlang();
