@@ -272,6 +272,10 @@ def changepw():
         elif not request.form.get("newpw"):
             return apology("must provide new password", 403)
 
+        # Ensure confirmation password matches
+        elif not request.form.get("confirmnewpw") == request.form.get("newpw"):
+            return apology("ensure new password matches", 403)
+
         # Query database for username
         userdb = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
         print("userdb[0][hash]:", userdb[0]["hash"])

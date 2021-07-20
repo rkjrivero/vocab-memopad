@@ -9,10 +9,27 @@
     <br>
     <form action="/changepw" method="post">
         <div class="form-group">
-            <input autocomplete="off" class="form-control" name="oldpw" placeholder="old password" type="password">
+            <label for="oldpw">
+                <h5>Old Password</h5>                    
+            </label>
+            <br>
+            <input autocomplete="off" class="form-control" id="oldpw" name="oldpw" placeholder="old password" type="password">
         </div>
+        <br>
         <div class="form-group">
-            <input autocomplete="off" class="form-control" name="newpw" placeholder="new password" type="password">
+            <label for="newpw">
+                <h5>new Password</h5>                    
+            </label>
+            <br>
+            <input autocomplete="off" class="form-control" id="newpw" name="newpw" placeholder="new password" type="password">
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="confirmnewpw">
+                <h5>Confirm New Password</h5>                    
+            </label>
+            <br>
+            <input autocomplete="off" class="form-control" id="confirmnewpw" name="confirmnewpw" placeholder="confirm password" type="password">
         </div>
         <br>
         <button class="btn btn-primary" type="submit">Change Password</button>
