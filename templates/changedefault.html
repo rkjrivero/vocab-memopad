@@ -11,16 +11,18 @@
         <thead>
             <tr>
                 <th>Default Original Language: </th>
-                <th> {{ session.user_orglang }} </th>
+                <th> {{ all_languages[session.user_orglang] }} </th>
             </tr>
+
             <tr>
                 <th>Default Target Language: </th>
-                <th> {{ session.user_tgtlang }} </th>
+                <th> {{ all_languages[session.user_tgtlang] }} </th>
             </tr>    
+            
             <tr>
                 <th>Auto-Translate: </th>
                 <th> {{ session.user_autotrans }} </th>
-            </tr>  
+            </tr>   
         </thead>
     </table>
     <br>
@@ -123,16 +125,15 @@
                 </div>
             </div>
             <br>
-            
+
             <button class="btn btn-primary" type="submit">Change Default Settings</button>
-            <br>
         </div>        
     </form>
 
     <form action="/" method="get" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">            
-            <button class="btn btn-secondary" type="submit">Cancel Changes</button>
             <br>
+            <button class="btn btn-secondary" type="submit">Cancel Changes</button>
         </div>
     </form>
 
