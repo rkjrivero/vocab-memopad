@@ -335,7 +335,7 @@ def changedefault():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("changedefault.html")
+        return render_template("changedefault.html", all_languages=all_languages)
 
 @app.route("/")
 @login_required
