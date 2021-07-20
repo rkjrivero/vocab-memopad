@@ -12,39 +12,7 @@
             <div class="form-group align-items-center">
                 <br>
                 <input autocomplete="off" autofocus class="form-control" name="textinput" placeholder="Add Word/Phrase" type="text">
-                <br><br><br>
-                <!--REFERENCE
-                ####
-                1) changing dropdown
-                <form>
-                Select your favorite fruit:
-                <select id="mySelect">
-                    <option value="apple">Apple</option>
-                    <option value="orange">Orange</option>
-                    <option value="pineapple">Pineapple</option>
-                    <option value="banana">Banana</option>
-                </select>
-                </form>
-                <p>Click the button to change the selected fruit to banana.</p>
-                <button type="button" onclick="myFunction()">Try it</button>
-                <script>
-                function myFunction() {
-                document.getElementById("mySelect").value = "banana";
-                }
-                </script>                
-               
-                ####
-                2) onload
-                <body onload="myFunction()">
-                <h1>Hello World!</h1>
-                <script>
-                function myFunction() {
-                alert("Page is loaded");
-                }
-                </script>
-                </body>
-                -->
-
+                <br><br>
                 <div class="dropdown">
                     <label for="originlang">
                         <h5>Select Input Language</h5>                        
@@ -64,9 +32,38 @@
                     }
                 </script>    
 
-
-
-                <!-- if/else logic for default translation option, because cbf to use JS-->
+                <div class="dropdown">
+                    <label for="targetlang">
+                        <h5>Select Translation Language</h5>                        
+                    </label>
+                    <br>
+                    <select class="form-select" aria-label="Translation Language" name="targetlang" id="targetlang">
+                        <option selected disabled>Default Translation Language</option>
+                        {% for key in all_languages.keys() %}
+                            <option value="{{key}}">{{  all_languages[key]}}</option>
+                        {% endfor %}
+                    </select>
+                    </select>
+                </div>
+                <script>
+                    function changetargetlang() {
+                    document.getElementById("targetlang").value = "{{session.user_tgtlang}}";
+                    }
+                </script>   
+                <div class="form-group align-items-center">
+                    <div class="form-check form-switch">
+                        <label class="form-check-label" for="check_autotrans">Translate input?</label>
+                        <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans" id="autotrans" checked>                    
+                    </div>
+                </div>
+                {% if not session.user_autotrans %}
+                <script>
+                    function changeautotrans() {
+                    document.getElementsById("autotrans").removeAttribute("checked"); 
+                    }
+                </script>
+                {% endif %} 
+                <!-- if/else logic for default translation option, because cbf to use JS
                 {% if session.user_autotrans %}
                 <div class="form-group align-items-center">
                     <div class="form-check form-switch">
@@ -82,6 +79,7 @@
                     </div>
                 </div>
                 {% endif %} 
+                -->
             </div>
             <br><br>
             <button class="btn btn-primary" type="submit">Search Word/Phrase</button>
@@ -93,6 +91,7 @@
     <script>
     window.onload=function(){
         changeoriginlang();
+        changetargetlang();
         }
     </script>
 {% endblock %}
