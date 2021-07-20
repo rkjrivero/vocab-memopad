@@ -99,9 +99,11 @@
     
     <!-- Load all default swaps-->
     <script>
+    {% if session.user_autotrans %}
     function changeautotrans() {
         document.getElementById("autotrans").removeAttribute("checked"); 
         }
+    {% endif %}
 
     window.onload=function(){
         changeoriginlang();
