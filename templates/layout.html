@@ -41,7 +41,8 @@
             <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>                      
             </button>
-            -->      
+            -->
+                  
             <div class="collapse navbar-collapse" id="navbar">
                 {% if session.user_id %}
                     <ul class="navbar-nav ml-auto mt-2">
@@ -97,6 +98,7 @@
                 {% endif %}
             </div>
         </nav>
+
         <!--
         <nav class="navbar navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
             <ul class="navbar-nav ml-auto mt-2 nav-tabs">
@@ -131,14 +133,11 @@
             </header>
         {% endif %}
         <br><br>
+
         <main class="container p-5">
             {% block main %}{% endblock %}
         </main>
-        <!--
-        <h2>
-            Server Date/Time is {{ session.current_time }}
-        </h2>
-        -->
+
         <footer class="small text-center text-muted">
             VOCAB-MEMOPAD is a simple web app designed to quickly look up and save the translations of words/phrases and review them online.
             <br> 

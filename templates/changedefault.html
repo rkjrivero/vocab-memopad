@@ -27,6 +27,7 @@
     <form action="/changedefault" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">
             <br>
+
             <div class="form-group align-items-center">
                 <div class="dropdown">
                     <label for="originlang">
@@ -46,7 +47,8 @@
                     }
                 </script>
             </div>
-            <br>                        
+            <br>      
+
             <div class="form-group align-items-center">
                 <div class="dropdown">
                     <label for="targetlang">
@@ -66,6 +68,8 @@
                     }
                 </script>
             </div>
+            <br>
+
             <!-- NOTE: code block below is the "proper" variant to use, but disabled for now to stick to 3 languages for the meantime
             <div class="form-group align-items-center">
                 <div class="dropdown">
@@ -106,8 +110,10 @@
                     }
                 </script>
             </div>
-            -->
             <br>
+            -->
+
+            
             <div class="form-group align-items-center">
                 <div class="form-check form-switch">
                     <label class="form-check-label" for="check_autotrans">
@@ -139,5 +145,5 @@
         changeautotrans();
         }
     </script>
-    
+
 {% endblock %}

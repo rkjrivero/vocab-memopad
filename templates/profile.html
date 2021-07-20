@@ -8,6 +8,7 @@
     <h1>Currently Logged In As:</h1>
     <h2>{{ session.user_name }}</h2>
     <br>
+
     <table align="center" class="table table-bordered" style="width:40%">
         <thead>
             <tr>
@@ -24,12 +25,16 @@
             </tr>     
         </thead>
     </table>
-    <br>    
+    <br>
+
     <div>
         <a class="btn btn-secondary" href="/changedefault">Change Default Settings</a>
-    </div><br><div>
-        <a class="btn btn-secondary" href="/changepw">Change Account Password</a>
-        <br>
     </div>
+    <br>
+
+    <div>
+        <a class="btn btn-secondary" href="/changepw">Change Account Password</a>        
+    </div>
+    <br>
 
 {% endblock %}

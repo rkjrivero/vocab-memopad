@@ -7,6 +7,7 @@
 {% block main %}
     <h1>Confirm Deletion of Word/Phrase Entry?</h1>
     <br>
+
     <table align="center" id="topsaved" class="table table-striped table-bordered">
         <thead>
             <tr>
@@ -31,11 +32,13 @@
         </tbody>
     </table>
     <br><br>
+
     <form action="/deletion" method="post">
         <button type="submit" name="confirmdelete" class="btn btn-danger" value="{{deletiontable.wordid}}">Confirm Delete Word</button>
     </form>
     {% endfor %}
     <br>
+    
     <form action="/" method="get">
         <button type="submit" class="btn btn-secondary">Cancel Action</button>
     </form>        
