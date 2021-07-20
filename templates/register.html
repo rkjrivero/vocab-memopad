@@ -71,8 +71,8 @@
                     </label>
                     <select class="form-select" aria-label="Target Language" name="targetlang" id="targetlang">
                         <option selected disabled>Default Target Language</option>
-                        {% for all_languages in all_languages %}
-                            <option value="{{key}}">{{value}}</option>
+                        {% for key in all_languages.keys() %}
+                            <option value="{{key}}">{{all_languages[key]}}</option>
                         {% endfor %}
                     </select>
                 </div>
