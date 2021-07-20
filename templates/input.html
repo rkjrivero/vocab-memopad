@@ -60,11 +60,15 @@
                 <div class="form-group align-items-center">
                     <div class="form-check form-switch">
                         <label class="form-check-label" for="check_autotrans">Translate input?</label>
-                        <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans" id="autotrans" checked>                    
+                        <input class="form-check-input" type="checkbox" id="autotrans" name="autotrans" value="true" checked>                    
                     </div>
                 </div>
                 <!-- {% if session.user_autotrans %} -->
-
+                <script>
+                    function changeautotrans() {
+                        document.getElementById("autotrans").removeAttribute("checked"); 
+                        }
+                </script>
                 <!-- {% endif %} -->
 
                 <!-- if/else logic for default translation option, because cbf to use JS
@@ -95,10 +99,6 @@
     
     <!-- Load all default swaps-->
     <script>
-    function changeautotrans() {
-    document.getElementById("autotrans").removeAttribute("checked"); 
-    }
-
     window.onload=function(){
         changeoriginlang();
         changetargetlang();
