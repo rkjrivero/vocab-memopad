@@ -134,7 +134,12 @@ def register():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("register.html")
+        # User is not logged-in:
+        if not session:        
+            return render_template("register.html")
+        else:
+            # Redirect user to home page
+            return redirect("/")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

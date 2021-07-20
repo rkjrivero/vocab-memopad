@@ -10,18 +10,32 @@
     <form action="/register" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">
             <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
-            </div>
-            <div class="form-group">
-                <input class="form-control" name="password" placeholder="Password" type="password">
-            </div>
-            <div class="form-group">
-                <input class="form-control" name="confirmation" placeholder="Repeat Password" type="password">
+                <label for="username">
+                    <h4>Username</h4>
+                </label>
+                <input autocomplete="off" autofocus class="form-control" id="username" name="username" placeholder="Username" type="text" required>
             </div>
             <br>
+            <div class="form-group">
+                <label for="password">
+                    <h4>Password</h4>
+                </label>
+                <input class="form-control" id="password" name="password" placeholder="Password" type="password" required>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="repeat-password">
+                    <h4>Repeat Password</h4>
+                </label>
+                <input class="form-control" id="repeat-password" name="confirmation" placeholder="Repeat Password" type="password" required>
+            </div>
+            <br><br>
             <div class="form-group align-items-center">
                 <div class="dropdown">
-                    <select class="form-select" aria-label="Original Language" name="originlang">
+                    <label for="originlang">
+                        <h4>Select Default Original/Input Language</h4>
+                    </label>
+                    <select class="form-select" aria-label="Original Language" name="originlang" id="originlang">
                         <option selected disabled>Default Original Language</option>
                         <option value="en">English [en]</option>
                         <option value="ja">Japanese [ja]</option>
@@ -31,12 +45,15 @@
             </div>            
             <div class="form-group align-items-center">
                 <div class="dropdown">
-                        <select class="form-select" aria-label="Target Language" name="targetlang">
-                            <option selected disabled>Default Target Language</option>
-                            <option value="en">English [en]</option>
-                            <option value="ja">Japanese [ja]</option>
-                            <option value="eo">Esperanto [eo]</option>
-                        </select>
+                    <label for="targetlang">
+                        <h4>Select Default Target/Output Language</h4>
+                    </label>
+                    <select class="form-select" aria-label="Target Language" name="targetlang" id="targetlang">
+                        <option selected disabled>Default Target Language</option>
+                        <option value="en">English [en]</option>
+                        <option value="ja">Japanese [ja]</option>
+                        <option value="eo">Esperanto [eo]</option>
+                    </select>
                 </div>
             </div>
             <br>
