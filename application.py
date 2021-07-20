@@ -507,7 +507,7 @@ def input():
         )
         
         # Redirect to review.html
-        return render_template("review.html", translation=translation)
+        return render_template("review.html", translation=translation, all_languages=all_languages)
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:   
@@ -572,7 +572,7 @@ def review():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         # /review should not be directly accessible (redirect to /input instead)
-        return redirect("/input", all_languages=all_languages) 
+        return redirect("/input") 
 
 @app.route("/recallall")
 @login_required
