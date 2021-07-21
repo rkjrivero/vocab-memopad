@@ -114,25 +114,8 @@
             </div>
             <br>
 
-            <!--script to toggle visibility of translateblock above-->
-            <!-- try another approach
             <script>
-                function retranslatetoggle() {
-                    // debugging - remove later
-                    alert("The ontoggle event occured");           
-                    // If the checkbox is true, hide the output <div>                    
-                    if (document.getElementById("autotrans").style.checked) {
-                        document.getElementById("translateblock").style.display = "none";
-                    } else {
-                        document.getElementById("translateblock").style.display = "block";
-                    }
-                }                
-            </script>
-            -->
-            <script>
-                function retranslatetoggle() {
-                    // debugging - remove later
-                    alert("The ontoggle event occured");           
+                function retranslatetoggle() {     
                     // If the checkbox is true, hide the output <div>                    
                     if (document.getElementById("autotrans").style.checked) {
                         document.getElementById("translateblock").style.display = "none";
@@ -172,53 +155,6 @@
     <form action="/" method="get">
         <button type="submit" class="btn btn-secondary">Cancel Action</button>
     </form>        
-    
-    <!--script to toggle visibility-->
-    <!-- initial implementation, backup, moved inside form for testing
-    <script>
-        function retranslate() {
-            var x = document.getElementById("translateblock");
-                if (x.style.display === "none") {
-                    x.style.display = "block";
-                } else {
-                    x.style.display = "none";
-                }
-            }
-        document.getElementById("autotrans").addEventListener("toggle", retranslate); 
-    </script>
-    -->
-    <!--script to toggle visibility of translateblock above-->
-    <!-- comment out
-    <script>
-        function retranslatetoggle() {
-            //get checkbox
-            var autotrans =  document.getElementById("autotrans");
-            //get output <div>
-            var translateblock = document.getElementById("translateblock");
-
-            // If the checkbox is true, hide the output <div>                    
-                if (autotrans.checked == true) {
-                    translateblock.style.display = "none";
-                    document.getElementById("translateblock").style.display = "none";
-                } else {
-                    translateblock.style.display = "block";
-                    document.getElementById("translateblock").style.display = "block";
-                }
-            }                
-    </script>        
-    <script>
-        function retranslatetoggle() {
-            // debugging - remove later
-            alert("The ontoggle event occured");           
-            // If the checkbox is true, hide the output <div>                    
-            if (document.getElementById("autotrans").style.checked) {
-                document.getElementById("translateblock").style.display = "none";
-            } else {
-                document.getElementById("translateblock").style.display = "block";
-            }
-        }                
-    </script>
-    -->
     
     <!--implement swap to user default settings-->
     <script>
