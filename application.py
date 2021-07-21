@@ -696,9 +696,8 @@ def review():
         # /review should not be directly accessible (redirect to /input instead)
         return redirect("/input") 
 
-########## EDIT ENTRY / PIN ENTRY / UNPIN ENTRY ##########
+########## EDIT ENTRY / REVISION  ##########
 
-#TODO - EDIT ENTRY
 @app.route("/editentry", methods=["GET", "POST"])
 @login_required
 def editentry():
@@ -712,21 +711,24 @@ def editentry():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+        print("log: /revision-POST reached")
+        revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("editword"))
+        print("test, revisiontable[0]: ", revisiontable[0])
 
-        # Redirect to /deletion
-        return render_template("delete.html")
+        # Redirect to /revision
+        return render_template("edit.html", revisiontable=revisiontable, all_languages=all_languages)
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        print("log: /deletecheck-GET reached")
+        print("log: /revision-GET reached")
         # /deletion should not be directly accessible (redirect to /input instead)
         return redirect("/input") 
 
-#TODO - PIN ENTRY
-@app.route("/pinentry", methods=["GET", "POST"])
+#TODO - EDIT ENTRY
+@app.route("/revision", methods=["GET", "POST"])
 @login_required
-def pinentry():
-    """ENACT pin entry (must refresh the page)"""
+def revision():
+    """Enact revision (behind the scenes)"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
@@ -736,37 +738,39 @@ def pinentry():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+        print("log: /revision-POST reached")
+        revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmdelete"))
+        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
+        print("test, revisiontable[0]: ", revisiontable[0])
 
-        # Redirect to /deletion
-        return render_template("delete.html")
+        # Check if deleted entry is pinned/not
+        if revisiontable[0]["pin"] == True:
+            # Update user table wordcount and pincount
+            db.execute(
+                "UPDATE users SET wordcount = ?, pincount = ? WHERE userid = ?",
+                usernumbers[0]["wordcount"] - 1, usernumbers[0]["pincount"] - 1, session["user_id"]
+            )
+        else:
+            # Update user table wordcount only
+            db.execute(
+                "UPDATE users SET wordcount = ? WHERE userid = ?",
+                usernumbers[0]["wordcount"] - 1, session["user_id"]
+            )     
+
+        # Update session[] array based on "user" table on database (directly copied from /login route)
+        # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+        session["user_wordcount"] = usernumbers[0]["wordcount"] - 1
+        session["user_pincount"] = usernumbers[0]["pincount"] - 1
+        
+        # Delete entry from vocab table
+        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmedit"))  
+        
+        # Redirect to index.html
+        return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        print("log: /deletecheck-GET reached")
-        # /deletion should not be directly accessible (redirect to /input instead)
-        return redirect("/input") 
-
-#TODO - UNPIN ENTRY
-@app.route("/unpinentry", methods=["GET", "POST"])
-@login_required
-def unpinentry():
-    """ENACT unpin entry (must refresh the page)"""
-
-    # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
-    # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
-
-    # User reached route via POST (as by submitting a form via POST)
-    if request.method == "POST":
-
-        # Redirect to /deletion
-        return render_template("delete.html")
-
-    # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        print("log: /deletecheck-GET reached")
+        print("log: /deletion-GET reached")
         # /deletion should not be directly accessible (redirect to /input instead)
         return redirect("/input") 
 
@@ -788,6 +792,7 @@ def deletecheck():
         print("log: /deletecheck-POST reached")
         deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("deleteword"))
         print("test, deletiontable[0]: ", deletiontable[0])
+        
         # Redirect to /deletion
         return render_template("delete.html", deletiontable=deletiontable)
 
@@ -843,6 +848,56 @@ def deletion():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         print("log: /deletion-GET reached")
+        # /deletion should not be directly accessible (redirect to /input instead)
+        return redirect("/input") 
+
+########## PIN ENTRY / UNPIN ENTRY ##########
+
+#TODO - PIN ENTRY
+@app.route("/pinentry", methods=["GET", "POST"])
+@login_required
+def pinentry():
+    """ENACT pin entry (must refresh the page)"""
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Redirect to /deletion
+        return render_template("delete.html")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        print("log: /deletecheck-GET reached")
+        # /deletion should not be directly accessible (redirect to /input instead)
+        return redirect("/input") 
+
+#TODO - UNPIN ENTRY
+@app.route("/unpinentry", methods=["GET", "POST"])
+@login_required
+def unpinentry():
+    """ENACT unpin entry (must refresh the page)"""
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Redirect to /deletion
+        return render_template("delete.html")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        print("log: /deletecheck-GET reached")
         # /deletion should not be directly accessible (redirect to /input instead)
         return redirect("/input") 
 

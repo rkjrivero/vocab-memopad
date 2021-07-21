@@ -1,0 +1,187 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Entry
+{% endblock %}
+
+{% block main %}
+    <h1>Revision of Word/Phrase Entry</h1>
+    <br>
+
+    <table align="center" id="topsaved" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Input Word/Phrase</th>
+                <th>Input Language</th>
+                <th>Translated Word/Phrase</th>
+                <th>Translated Language</th>
+                <th>Date/Time Saved</th>
+                <th>Difficulty Rating</th>                
+                <th>Entry Pinned?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for revisiontable in revisiontable %}
+            <tr>
+                <td> {{ revisiontable.strinput }}  </td>
+                <td> {{ revisiontable.langinput }} </td>
+                <td> {{ revisiontable.strtrans }} </td>
+                <td> {{ revisiontable.langtrans }} </td>
+                <td> {{ revisiontable.time }} </td>
+                <td> {{ revisiontable.rating }} </td>                
+                <td> {{ revisiontable.pin }} </td>
+            </tr>         
+        </tbody>
+    </table>
+    <br><br>
+
+    <h1>Manually Revise Entry</h1>
+    <form action="/revision" method="post" class="row row-cols-lg-auto g-3 align-items-center">
+        
+        <div class="container-sm align-items-center">
+            
+            <!--change input phrase-->
+            <div class="form-group">
+                <label for="inputedit">
+                    <h5>Change Input Entry</h5>                    
+                </label>
+                <br>
+                <input autocomplete="off" autofocus class="form-control form-control-lg" id="inputedit" name="inputedit" placeholder="{{ revisiontable.strinput }}" type="text">
+            </div>
+            <br>
+
+            <!--change input language-->
+            <div class="form-group align-items-center">
+                <div class="dropdown">
+                    <label for="inputlang">
+                        <h5>Change Input Language</h5>
+                        <br>
+                    </label>
+                    <select class="form-select" aria-label="Input Language" name="inputlang" id="inputlang">
+                        <option selected disabled>Change Input Language</option>
+                        {% for key in all_languages.keys() %}
+                            <option value="{{key}}">{{  all_languages[key]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <script>
+                function changeinputlang() {
+                    document.getElementById("inputlang").value = "{{session.user_orglang}}";
+                }
+            </script>
+            <br>
+
+            <!--change output language-->
+            <div class="form-group align-items-center">
+                <div class="dropdown">
+                    <label for="outputlang">
+                        <h5>Change Translation Language</h5>
+                        <br>
+                    </label>
+                    <select class="form-select" aria-label="Output Language" name="outputlang" id="outputlang">
+                        <option selected disabled>Change Translation Language</option>
+                        {% for key in all_languages.keys() %}
+                            <option value="{{key}}">{{  all_languages[key]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <script>
+                function changeoutputlang() {
+                    document.getElementById("outputlang").value = "{{session.user_tgtlang}}";
+                }
+            </script>                                            
+            <br>
+
+            <!--check if retranslate-->
+            <div class="form-group align-items-center">
+                <div class="form-check form-switch">
+                    <label class="form-check-label" for="check_autotrans">
+                        <h5>Automatically retranslate input?</h5>
+                    </label>
+                    <input class="form-check-input" type="checkbox" id="autotrans" name="autotrans" value="true">                    
+                </div>
+            </div>
+
+            <!--change output phrase (manual)-->
+            <div class="form-group" id="translateblock">
+                <label for="inputedit">
+                    <h5>Change Translated Entry</h5>                    
+                </label>
+                <br>
+                <input autocomplete="off" autofocus class="form-control form-control-lg" id="outputedit" name="outputedit" placeholder="{{ revisiontable.stroutput }}" type="text">
+            </div>
+            <br>
+
+            <!--script to toggle visibility-->
+
+            <script>
+                document.getElementById("autotrans").addEventListener("toggle", retranslate);
+
+                function retranslate() {
+                    var x = document.getElementById("translateblock");
+                    if (x.style.display === "none") {
+                      x.style.display = "block";
+                    } else {
+                      x.style.display = "none";
+                    }
+                  }
+            </script>
+
+
+<script>
+    function myFunction() {
+      var x = document.getElementById("myDIV");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    </script>
+
+            <!--change difficulty-->
+            <div class="form-group align-items-center">
+                <div class="dropdown">
+                    <label for="difficulty">
+                        <h5>Change Difficulty Rating</h5>
+                        <br>
+                    </label>
+                    <select class="form-select" aria-label="Difficulty Rating" name="difficulty" id="difficulty">
+                        <option selected disabled>Change Difficulty Rating</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+            </div>
+            <script>
+                function changedifficulty() {
+                    document.getElementById("difficulty").value = "{{revisiontable.rating}}";
+                }
+            </script>
+            <br>
+
+
+        </div>
+        <br><br>
+
+        <button type="submit" name="confirmedit" class="btn btn-info" value="{{revisiontable.wordid}}">Confirm Edit Word</button>
+    </form>
+    <br>
+    
+    <form action="/" method="get">
+        <button type="submit" class="btn btn-secondary">Cancel Action</button>
+    </form>        
+
+
+    <!--implement swap to user default settings-->
+    <script>
+        window.onload=function(){
+            changeinputlang();
+            changeoutputlang();
+            changedifficulty();
+            }
+    </script>
+{% endblock %}
