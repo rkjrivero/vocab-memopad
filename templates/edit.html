@@ -114,7 +114,7 @@
             </div>
             <br>
 
-
+            <!--script to toggle visibility of div above-->
             <script>
                 document.getElementById("autotrans").ontoggle = function() {retranslate()};
         
@@ -127,8 +127,7 @@
                         } else {
                             x.style.display = "none";
                         }
-                    }
-                
+                    }                
             </script>
 
             <!--change difficulty-->
@@ -163,7 +162,7 @@
     </form>        
     
     <!--script to toggle visibility-->
-    <!-- initial implementation, backup
+    <!-- initial implementation, backup, moved inside form for testing
     <script>
         function retranslate() {
             var x = document.getElementById("translateblock");
@@ -176,7 +175,6 @@
         document.getElementById("autotrans").addEventListener("toggle", retranslate); 
     </script>
     -->
-
 
     <!--implement swap to user default settings-->
     <script>
