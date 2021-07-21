@@ -35,7 +35,7 @@
         </tbody>
     </table>
     <br><br>
->
+
     <form action="/revision" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         
         <div class="container-sm align-items-center">
@@ -100,12 +100,12 @@
                     <label class="form-check-label" for="check_autotrans">
                         <h5>Automatically retranslate input?</h5>
                     </label>
-                    <input class="form-check-input" type="checkbox" id="autotrans" name="autotrans" value="true">                    
+                    <input class="form-check-input" type="checkbox" id="autotrans" name="autotrans" value="true" checked>                    
                 </div>
             </div>
 
             <!--change output phrase (manual)-->
-            <div class="form-group" id="translateblock">
+            <div class="form-group" id="translateblock" style="display:none">
                 <label for="inputedit">
                     <h5>Change Translated Entry</h5>                    
                 </label>
@@ -114,15 +114,15 @@
             </div>
             <br>
 
-            <!--script to toggle visibility of div above-->
+            <!--script to toggle visibility of translateblock above-->
             <script>
                 function retranslate() {
-                    var checkbox =  document.getElementById("autotrans");
-                    var transblock = document.getElementById("translateblock");
-                        if (checkbox.checked === true) {
-                            transblock.style.display = "block";
+                    var autotrans =  document.getElementById("autotrans");
+                    var translateblock = document.getElementById("translateblock");
+                        if (autotrans.checked == true) {
+                            translateblock.style.display = "block";
                         } else {
-                            transblock.style.display = "none";
+                            translateblock.style.display = "none";
                         }
                     }                
             </script>
