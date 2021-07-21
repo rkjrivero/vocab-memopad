@@ -110,7 +110,7 @@
                     <h5>Change Translated Entry</h5>                    
                 </label>
                 <br>
-                <input autocomplete="off" autofocus class="form-control form-control-lg" id="outputedit" name="outputedit" placeholder="{{ revisiontable.stroutput }}" type="text">
+                <input autocomplete="off" autofocus class="form-control form-control-lg" id="outputedit" name="outputedit" placeholder="{{ revisiontable.strtrans }}" type="text">
             </div>
             <br>
 
@@ -146,9 +146,8 @@
     </form>        
     
     <!--script to toggle visibility-->
+    <!-- initial implementation, backup
     <script>
-        document.getElementById("autotrans").addEventListener("toggle", retranslate);
-
         function retranslate() {
             var x = document.getElementById("translateblock");
                 if (x.style.display === "none") {
@@ -157,6 +156,23 @@
                     x.style.display = "none";
                 }
             }
+        document.getElementById("autotrans").addEventListener("toggle", retranslate); 
+    </script>
+    -->
+    <script>
+        document.getElementById("autotrans").ontoggle = function() {retranslate()};
+
+        function retranslate() {
+            alert("The ontoggle event occured");
+
+            var x = document.getElementById("translateblock");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+        
     </script>
 
     <!--implement swap to user default settings-->
