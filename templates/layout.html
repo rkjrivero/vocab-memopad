@@ -45,24 +45,24 @@
                   
             <div class="collapse navbar-collapse" id="navbar">
                 {% if session.user_id %}
-                    <ul class="navbar-nav ml-auto mt-2">
+                    <ul class="navbar-nav ml-auto my-1">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-success "><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
+                            <button type="button" class="btn btn-sm btn-success mx-3"><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
                         </li>                                       
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-primary"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
+                            <button type="button" class="btn btn-sm btn-primary mx-3"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-primary"><a class="nav-link" href="/recallall">VIEW ALL ENTRIES</a></button>
+                            <button type="button" class="btn btn-sm btn-primary mx-3"><a class="nav-link" href="/recallall">VIEW ALL ENTRIES</a></button>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-secondary"><a class="nav-link" href="/profile">CHANGE SETTINGS</a></button>
+                            <button type="button" class="btn btn-sm btn-secondary mx-3"><a class="nav-link" href="/profile">CHANGE SETTINGS</a></button>
                         </li>
                     </ul>
 
-                    <ul class="navbar-nav ms-auto mt-2">
+                    <ul class="navbar-nav ms-auto my-1">
                         <li class="nav-item indicator">Active User: </li>
-                        <li class="nav-item indicated">{{ session.user_name }}</li>
+                        <li class="nav-item indicated mx-2">{{ session.user_name }}</li>
                         <!--
                         <li class="nav-item indicator">Total Pinned: </li>
                         <li class="nav-item indicated">{{ session.user_pincount }}</li>
@@ -76,9 +76,9 @@
                         <li class="nav-item indicated">{{ session.user_autotrans }}</li>                        
                         -->
                         <li class="nav-item indicator">Date/Time: </li>
-                        <li class="nav-item indicated">{{ session.current_time }}</li>
+                        <li class="nav-item indicated mx-2">{{ session.current_time }}</li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-secondary">
+                            <button type="button" class="btn btn-sm btn-secondary  mx-3">
                                 <a class="nav-link" href="/logout">LOG OUT</a></li>
                             </button>
                     </ul>
