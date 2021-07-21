@@ -178,6 +178,24 @@
         document.getElementById("autotrans").addEventListener("toggle", retranslate); 
     </script>
     -->
+    <!--script to toggle visibility of translateblock above-->
+    <script>
+        function retranslatetoggle() {
+            //get checkbox
+            var autotrans =  document.getElementById("autotrans");
+            //get output <div>
+            var translateblock = document.getElementById("translateblock");
+
+            // If the checkbox is true, hide the output <div>                    
+                if (autotrans.checked == true) {
+                    translateblock.style.display = "none";
+                    document.getElementById("translateblock").style.display = "none";
+                } else {
+                    translateblock.style.display = "block";
+                    document.getElementById("translateblock").style.display = "block";
+                }
+            }                
+    </script>
 
     <!--implement swap to user default settings-->
     <script>
