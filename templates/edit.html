@@ -114,21 +114,6 @@
             </div>
             <br>
 
-            <!--script to toggle visibility-->
-
-            <script>
-                document.getElementById("autotrans").addEventListener("toggle", retranslate);
-
-                function retranslate() {
-                    var x = document.getElementById("translateblock");
-                    if (x.style.display === "none") {
-                      x.style.display = "block";
-                    } else {
-                      x.style.display = "none";
-                    }
-                  }
-            </script>
-
             <!--change difficulty-->
             <div class="form-group align-items-center">
                 <div class="dropdown">
@@ -160,6 +145,19 @@
         <button type="submit" class="btn btn-secondary">Cancel Action</button>
     </form>        
     
+    <!--script to toggle visibility-->
+    <script>
+        document.getElementById("autotrans").addEventListener("toggle", retranslate);
+
+        function retranslate() {
+            var x = document.getElementById("translateblock");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+    </script>
 
     <!--implement swap to user default settings-->
     <script>
