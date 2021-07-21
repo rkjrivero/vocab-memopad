@@ -56,24 +56,24 @@
                 {% if fullvocabtable.pin %}
                 <td>  
                     <form action="/unpinentry" method="post">
-                        <button type="submit" name="unpinword" class="btn btn-primary" value="{{pinnedvocabtable.wordid}}">-</button>
+                        <button type="submit" name="unpinword" class="btn btn-primary" value="{{fullvocabtable.wordid}}">-</button>
                     </form>
                 </td>
                 {% else %}
                 <td>  
                     <form action="/pinentry" method="post">
-                        <button type="submit" name="pinword" class="btn btn-primary" value="{{pinnedvocabtable.wordid}}">+</button>
+                        <button type="submit" name="pinword" class="btn btn-primary" value="{{fullvocabtable.wordid}}">+</button>
                     </form>
                 </td>
                 {% endif %}
                 <td>  
                     <form action="/editentry" method="post">
-                        <button type="submit" name="editword" class="btn btn-success" value="{{pinnedvocabtable.wordid}}">!</button>
+                        <button type="submit" name="editword" class="btn btn-success" value="{{fullvocabtable.wordid}}">!</button>
                     </form>
                 </td>
                 <td>  
                     <form action="/deletecheck" method="post">
-                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{pinnedvocabtable.wordid}}">X</button>
+                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{fullvocabtable.wordid}}">X</button>
                     </form>
                 </td>
             </tr>

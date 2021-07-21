@@ -69,17 +69,17 @@
                 <td> {{ pinvocabtable.rating }} </td>
                 <td>  
                     <form action="/unpinentry" method="post">
-                        <button type="submit" name="unpinword" class="btn btn-primary" value="{{pinnedvocabtable.wordid}}">-</button>
+                        <button type="submit" name="unpinword" class="btn btn-primary" value="{{pinvocabtable.wordid}}">-</button>
                     </form>
                 </td>
                 <td>  
                     <form action="/editentry" method="post">
-                        <button type="submit" name="editword" class="btn btn-success" value="{{pinnedvocabtable.wordid}}">!</button>
+                        <button type="submit" name="editword" class="btn btn-success" value="{{pinvocabtable.wordid}}">!</button>
                     </form>
                 </td>
                 <td>  
                     <form action="/deletecheck" method="post">
-                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{pinnedvocabtable.wordid}}">X</button>
+                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{pinvocabtable.wordid}}">X</button>
                     </form>
                 </td>
             </tr>
@@ -116,17 +116,17 @@
                 <td> {{ allvocabtable.rating }} </td>
                 <td>  
                     <form action="/pinentry" method="post">
-                        <button type="submit" name="pinword" class="btn btn-primary" value="{{pinnedvocabtable.wordid}}">+</button>
+                        <button type="submit" name="pinword" class="btn btn-primary" value="{{allvocabtable.wordid}}">+</button>
                     </form>
                 </td>
                 <td>  
                     <form action="/editentry" method="post">
-                        <button type="submit" name="editword" class="btn btn-success" value="{{pinnedvocabtable.wordid}}">!</button>
+                        <button type="submit" name="editword" class="btn btn-success" value="{{allvocabtable.wordid}}">!</button>
                     </form>
                 </td>
                 <td>  
                     <form action="/deletecheck" method="post">
-                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{pinnedvocabtable.wordid}}">X</button>
+                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{allvocabtable.wordid}}">X</button>
                     </form>
                 </td>
             </tr>

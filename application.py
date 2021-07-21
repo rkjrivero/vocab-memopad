@@ -714,7 +714,7 @@ def editentry():
     if request.method == "POST":
 
         # Redirect to /deletion
-        return render_template("delete.html", deletiontable=deletiontable)
+        return render_template("delete.html")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -738,7 +738,7 @@ def pinentry():
     if request.method == "POST":
 
         # Redirect to /deletion
-        return render_template("delete.html", deletiontable=deletiontable)
+        return render_template("delete.html")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -762,7 +762,7 @@ def unpinentry():
     if request.method == "POST":
 
         # Redirect to /deletion
-        return render_template("delete.html", deletiontable=deletiontable)
+        return render_template("delete.html")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
