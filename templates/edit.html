@@ -116,16 +116,13 @@
 
             <!--script to toggle visibility of div above-->
             <script>
-                document.getElementById("autotrans").ontoggle = function() {retranslate()};
-        
                 function retranslate() {
-                    alert("The ontoggle event occured");
-        
-                    var x = document.getElementById("translateblock");
-                        if (x.style.display === "none") {
-                            x.style.display = "block";
+                    var checkbox =  document.getElementById("autotrans");
+                    var transblock = document.getElementById("translateblock");
+                        if (transblock.style.display === "none") {
+                            transblock.style.display = "block";
                         } else {
-                            x.style.display = "none";
+                            transblock  .style.display = "none";
                         }
                     }                
             </script>
