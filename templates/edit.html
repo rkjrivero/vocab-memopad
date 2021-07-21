@@ -119,7 +119,7 @@
                 function retranslate() {
                     var checkbox =  document.getElementById("autotrans");
                     var transblock = document.getElementById("translateblock");
-                        if (transblock.style.display === "none") {
+                        if (checkbox.checked === true) {
                             transblock.style.display = "block";
                         } else {
                             transblock.style.display = "none";
