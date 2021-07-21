@@ -9,8 +9,9 @@
         $(document).ready(function() {
             $('#allpinned').DataTable( {
                 columnDefs: [
-                    { orderable: false, targets: [6,7,8] } 
                     // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    { orderable: false, targets: [6,7,8] },
+                    { "width": "5%", "targets": [6,7,8] }     
                 ]   
             } );
         } );
@@ -53,12 +54,12 @@
                 <td> {{ pinnedvocabtable.rating }} </td>
                 <td>  
                     <form action="/unpinentry" method="post">
-                        <button type="submit" name="unpinword" class="btn btn-primary" value="{{pinnedvocabtable.wordid}}">-</button>
+                        <button type="submit" name="unpinword" class="btn btn-outline-danger" value="{{pinnedvocabtable.wordid}}">-</button>
                     </form>
                 </td>
                 <td>  
                     <form action="/editentry" method="post">
-                        <button type="submit" name="editword" class="btn btn-success" value="{{pinnedvocabtable.wordid}}">!</button>
+                        <button type="submit" name="editword" class="btn btn-outline-info" value="{{pinnedvocabtable.wordid}}">!</button>
                     </form>
                 </td>
                 <td>  

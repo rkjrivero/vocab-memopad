@@ -9,8 +9,9 @@
         $(document).ready(function() {
             $('#allsaved').DataTable( {
                 columnDefs: [
-                    { orderable: false, targets: [7,8,9] } 
                     // columns 7-9 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    { orderable: false, targets: [7,8,9] },
+                    { "width": "5%", "targets": [7,8,9] }                      
                 ]   
             } );
         } );
@@ -56,19 +57,19 @@
                 {% if fullvocabtable.pin %}
                 <td>  
                     <form action="/unpinentry" method="post">
-                        <button type="submit" name="unpinword" class="btn btn-primary" value="{{fullvocabtable.wordid}}">-</button>
+                        <button type="submit" name="unpinword" class="btn btn-outline-danger" value="{{fullvocabtable.wordid}}">-</button>
                     </form>
                 </td>
                 {% else %}
                 <td>  
                     <form action="/pinentry" method="post">
-                        <button type="submit" name="pinword" class="btn btn-primary" value="{{fullvocabtable.wordid}}">+</button>
+                        <button type="submit" name="pinword" class="btn btn-outline-success" value="{{fullvocabtable.wordid}}">+</button>
                     </form>
                 </td>
                 {% endif %}
                 <td>  
                     <form action="/editentry" method="post">
-                        <button type="submit" name="editword" class="btn btn-success" value="{{fullvocabtable.wordid}}">!</button>
+                        <button type="submit" name="editword" class="btn btn-outline-info" value="{{fullvocabtable.wordid}}">!</button>
                     </form>
                 </td>
                 <td>  
