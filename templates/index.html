@@ -9,8 +9,9 @@
             $(document).ready(function() {
                 $('#toppinned').DataTable( {
                     columnDefs: [
-                    { orderable: false, targets: [6,7,8] } 
                     // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    { orderable: false, targets: [6,7,8] },
+                    { "width": "10%", "targets": [6,7,8] }                    
                     ]   
                 } );
             } );
@@ -18,8 +19,9 @@
             $(document).ready(function() {
                 $('#topsaved').DataTable( {
                     columnDefs: [
-                        { orderable: false, targets: [6,7,8] } 
-                        // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    { orderable: false, targets: [6,7,8] },
+                    { "width": "10%", "targets": [6,7,8] }    
                     ]   
                 } );
             } );
@@ -74,7 +76,7 @@
                 </td>
                 <td>  
                     <form action="/editentry" method="post">
-                        <button type="submit" name="editword" class="btn btn-secondary" value="{{pinvocabtable.wordid}}">!</button>
+                        <button type="submit" name="editword" class="btn btn-outline-primary" value="{{pinvocabtable.wordid}}">!</button>
                     </form>
                 </td>
                 <td>  
@@ -121,7 +123,7 @@
                 </td>
                 <td>  
                     <form action="/editentry" method="post">
-                        <button type="submit" name="editword" class="btn btn-secondary" value="{{allvocabtable.wordid}}">!</button>
+                        <button type="submit" name="editword" class="btn btn-outline-primary" value="{{allvocabtable.wordid}}">!</button>
                     </form>
                 </td>
                 <td>  
