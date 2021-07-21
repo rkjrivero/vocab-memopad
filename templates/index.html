@@ -69,12 +69,12 @@
                 <td> {{ pinvocabtable.rating }} </td>
                 <td>  
                     <form action="/unpinentry" method="post">
-                        <button type="submit" name="unpinword" class="btn btn-primary" value="{{pinvocabtable.wordid}}">-</button>
+                        <button type="submit" name="unpinword" class="btn btn-outline-danger" value="{{pinvocabtable.wordid}}">-</button>
                     </form>
                 </td>
                 <td>  
                     <form action="/editentry" method="post">
-                        <button type="submit" name="editword" class="btn btn-success" value="{{pinvocabtable.wordid}}">!</button>
+                        <button type="submit" name="editword" class="btn btn-secondary" value="{{pinvocabtable.wordid}}">!</button>
                     </form>
                 </td>
                 <td>  
@@ -116,12 +116,12 @@
                 <td> {{ allvocabtable.rating }} </td>
                 <td>  
                     <form action="/pinentry" method="post">
-                        <button type="submit" name="pinword" class="btn btn-primary" value="{{allvocabtable.wordid}}">+</button>
+                        <button type="submit" name="pinword" class="btn btn-outline-success" value="{{allvocabtable.wordid}}">+</button>
                     </form>
                 </td>
                 <td>  
                     <form action="/editentry" method="post">
-                        <button type="submit" name="editword" class="btn btn-success" value="{{allvocabtable.wordid}}">!</button>
+                        <button type="submit" name="editword" class="btn btn-secondary" value="{{allvocabtable.wordid}}">!</button>
                     </form>
                 </td>
                 <td>  
