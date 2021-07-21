@@ -35,8 +35,7 @@
         </tbody>
     </table>
     <br><br>
-
-    <h1>Manually Revise Entry</h1>
+>
     <form action="/revision" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         
         <div class="container-sm align-items-center">
@@ -56,8 +55,8 @@
                 <div class="dropdown">
                     <label for="inputlang">
                         <h5>Change Input Language</h5>
-                        <br>
                     </label>
+                    <br>
                     <select class="form-select" aria-label="Input Language" name="inputlang" id="inputlang">
                         <option selected disabled>Change Input Language</option>
                         {% for key in all_languages.keys() %}
@@ -77,9 +76,9 @@
             <div class="form-group align-items-center">
                 <div class="dropdown">
                     <label for="outputlang">
-                        <h5>Change Translation Language</h5>
-                        <br>
+                        <h5>Change Translation Language</h5>                        
                     </label>
+                    <br>
                     <select class="form-select" aria-label="Output Language" name="outputlang" id="outputlang">
                         <option selected disabled>Change Translation Language</option>
                         {% for key in all_languages.keys() %}
@@ -150,10 +149,9 @@
                 }
             </script>
 
-        </div>
         <br><br>
-
         <button type="submit" name="confirmedit" class="btn btn-info" value="{{revisiontable.wordid}}">Confirm Edit Word</button>
+        </div>        
     </form>
     {% endfor %}
     <br>
