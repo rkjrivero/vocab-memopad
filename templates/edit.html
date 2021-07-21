@@ -123,12 +123,12 @@
                     var translateblock = document.getElementById("translateblock");
 
                     // If the checkbox is true, hide the output <div>                    
-                        if (autotrans.checked == true) {
-                            translateblock.style.display = none;
-                            document.getElementById("translateblock").style.display = none;
+                        if (translateblock.style.display = "block") {
+                            translateblock.style.display = "none";
+                            document.getElementById("translateblock").style.display = "none";
                         } else {
-                            translateblock.style.display = block;
-                            document.getElementById("translateblock").style.display = block;
+                            translateblock.style.display = "block";
+                            document.getElementById("translateblock").style.display = "block";
                         }
                     }                
             </script>
@@ -201,6 +201,7 @@
 
     <!--implement swap to user default settings-->
     <script>
+        document.getElementById("autotrans").addEventListener("toggle", retranslate); 
         window.onload=function(){
             changeinputlang();
             changeoutputlang();
