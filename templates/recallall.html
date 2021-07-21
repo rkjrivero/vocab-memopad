@@ -11,7 +11,7 @@
                 columnDefs: [
                     // columns 7-9 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
                     { orderable: false, targets: [7,8,9] },
-                    { "width": "5%", "targets": [7,8,9] }                      
+                    { "width": "7%", "targets": [7,8,9] }                      
                 ]   
             } );
         } );
@@ -39,7 +39,7 @@
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
                 <th>Entry Pinned?</th>
-                <th>PIN/UNPIN</th>
+                <th>PIN/ UNPIN</th>
                 <th>EDIT</th>
                 <th>DELETE</th>
             </tr>
@@ -69,7 +69,7 @@
                 {% endif %}
                 <td>  
                     <form action="/editentry" method="post">
-                        <button type="submit" name="editword" class="btn btn-outline-info" value="{{fullvocabtable.wordid}}">!</button>
+                        <button type="submit" name="editword" class="btn btn-info" value="{{fullvocabtable.wordid}}">!</button>
                     </form>
                 </td>
                 <td>  
