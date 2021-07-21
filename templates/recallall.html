@@ -6,9 +6,14 @@
 
 {% block main %}
     <script>
-    $(document).ready(function() {
-        $('#allsaved').DataTable();
-    } );
+        $(document).ready(function() {
+            $('#allsaved').DataTable( {
+                columnDefs: [
+                    { orderable: false, targets: [7,8,9] } 
+                    // columns 7-9 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                ]   
+            } );
+        } );
     </script>
 
     <h1>All Saved Word/Phrase Entries</h1>
@@ -33,6 +38,8 @@
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
                 <th>Pinned?</th>
+                <th>PIN/UNPIN ENTRY</th>
+                <th>EDIT ENTRY</th>
                 <th>DELETE ENTRY</th>
             </tr>
         </thead>
@@ -45,10 +52,28 @@
                 <td> {{ all_languages[fullvocabtable.langtrans] }} </td>
                 <td> {{ fullvocabtable.time }} </td>
                 <td> {{ fullvocabtable.rating }} </td>
-                <td> {{ fullvocabtable.pin }} </td>                
+                <td> {{ fullvocabtable.pin }} </td>
+                {% if fullvocabtable.pin %}
+                <td>  
+                    <form action="/unpinentry" method="post">
+                        <button type="submit" name="unpinword" class="btn btn-primary" value="{{pinnedvocabtable.wordid}}">-</button>
+                    </form>
+                </td>
+                {% else %}
+                <td>  
+                    <form action="/pinentry" method="post">
+                        <button type="submit" name="pinword" class="btn btn-primary" value="{{pinnedvocabtable.wordid}}">+</button>
+                    </form>
+                </td>
+                {% endif %}
+                <td>  
+                    <form action="/editentry" method="post">
+                        <button type="submit" name="editword" class="btn btn-success" value="{{pinnedvocabtable.wordid}}">!</button>
+                    </form>
+                </td>
                 <td>  
                     <form action="/deletecheck" method="post">
-                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{fullvocabtable.wordid}}">X</button>
+                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{pinnedvocabtable.wordid}}">X</button>
                     </form>
                 </td>
             </tr>

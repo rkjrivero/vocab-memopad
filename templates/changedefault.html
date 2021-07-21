@@ -141,20 +141,19 @@
     <!--swap autotranslate, moved out of form scope-->
     {% if not session.user_autotrans %}
     <script>
-    function changeautotrans() {
-        document.getElementById("autotrans").removeAttribute("checked"); 
-        }
-    
+        function changeautotrans() {
+            document.getElementById("autotrans").removeAttribute("checked"); 
+            }
     </script>
     {% endif %}
 
     <!--implement swap to user default settings-->
     <script>
-    window.onload=function(){
-        changeoriginlang();
-        changetargetlang();
-        changeautotrans();
-        }
+        window.onload=function(){
+            changeoriginlang();
+            changetargetlang();
+            changeautotrans();
+            }
     </script>
 
 {% endblock %}

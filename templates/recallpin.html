@@ -6,13 +6,14 @@
 
 {% block main %}
     <script>
-    $(document).ready(function() {
-        $('#allpinned').DataTable( {
-            columnDefs: [
-                { orderable: false, targets: 6 }
-            ]   
+        $(document).ready(function() {
+            $('#allpinned').DataTable( {
+                columnDefs: [
+                    { orderable: false, targets: [6,7,8], } 
+                    // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                ]   
+            } );
         } );
-    } );
     </script>
 
     <h1>Pinned Word/Phrase Entries</h1>
@@ -36,6 +37,8 @@
                 <th>Translated Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
+                <th>UNPIN ENTRY</th>
+                <th>EDIT ENTRY</th>
                 <th>DELETE ENTRY</th>
             </tr>
         </thead>
@@ -48,6 +51,16 @@
                 <td> {{ all_languages[pinnedvocabtable.langtrans] }} </td>
                 <td> {{ pinnedvocabtable.time }} </td>
                 <td> {{ pinnedvocabtable.rating }} </td>
+                <td>  
+                    <form action="/unpinentry" method="post">
+                        <button type="submit" name="unpinword" class="btn btn-primary" value="{{pinnedvocabtable.wordid}}">-</button>
+                    </form>
+                </td>
+                <td>  
+                    <form action="/editentry" method="post">
+                        <button type="submit" name="editword" class="btn btn-success" value="{{pinnedvocabtable.wordid}}">!</button>
+                    </form>
+                </td>
                 <td>  
                     <form action="/deletecheck" method="post">
                         <button type="submit" name="deleteword" class="btn btn-danger" value="{{pinnedvocabtable.wordid}}">X</button>

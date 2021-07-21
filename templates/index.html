@@ -4,14 +4,24 @@
     Main Page
 {% endblock %}
 
-{% block main %}
-    <script>
-    $(document).ready(function() {
-        $('#toppinned').DataTable();
-    } );
-    $(document).ready(function() {
-        $('#topsaved').DataTable();
-    } );
+    {% block main %}
+        <script>
+            $(document).ready(function() {
+                $('#toppinned').DataTable( {
+                    columnDefs: [
+                    { orderable: false, targets: [6,7,8], } 
+                    // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    ]   
+                } );
+            } );
+        $(document).ready(function() {
+            $('#topsaved').DataTable( {
+                columnDefs: [
+                    { orderable: false, targets: [6,7,8], } 
+                    // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                ]   
+            } );
+        } );
     </script>
     <h1>Memopad Statistics</h1>
     <br>
@@ -42,6 +52,8 @@
                 <th>Translated Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
+                <th>UNPIN ENTRY</th>
+                <th>EDIT ENTRY</th>
                 <th>DELETE ENTRY</th>
             </tr>
         </thead>
@@ -55,8 +67,18 @@
                 <td> {{ pinvocabtable.time }} </td>
                 <td> {{ pinvocabtable.rating }} </td>
                 <td>  
+                    <form action="/unpinentry" method="post">
+                        <button type="submit" name="unpinword" class="btn btn-primary" value="{{pinnedvocabtable.wordid}}">-</button>
+                    </form>
+                </td>
+                <td>  
+                    <form action="/editentry" method="post">
+                        <button type="submit" name="editword" class="btn btn-success" value="{{pinnedvocabtable.wordid}}">!</button>
+                    </form>
+                </td>
+                <td>  
                     <form action="/deletecheck" method="post">
-                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{pinvocabtable.wordid}}">X</button>
+                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{pinnedvocabtable.wordid}}">X</button>
                     </form>
                 </td>
             </tr>
@@ -77,6 +99,8 @@
                 <th>Translated Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
+                <th>PIN ENTRY</th>
+                <th>EDIT ENTRY</th>
                 <th>DELETE ENTRY</th>
             </tr>
         </thead>
@@ -90,8 +114,18 @@
                 <td> {{ allvocabtable.time }} </td>
                 <td> {{ allvocabtable.rating }} </td>
                 <td>  
+                    <form action="/pinentry" method="post">
+                        <button type="submit" name="pinword" class="btn btn-primary" value="{{pinnedvocabtable.wordid}}">+</button>
+                    </form>
+                </td>
+                <td>  
+                    <form action="/editentry" method="post">
+                        <button type="submit" name="editword" class="btn btn-success" value="{{pinnedvocabtable.wordid}}">!</button>
+                    </form>
+                </td>
+                <td>  
                     <form action="/deletecheck" method="post">
-                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{allvocabtable.wordid}}">X</button>
+                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{pinnedvocabtable.wordid}}">X</button>
                     </form>
                 </td>
             </tr>
