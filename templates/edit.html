@@ -115,6 +115,7 @@
             <br>
 
             <!--script to toggle visibility of translateblock above-->
+            <!-- try another approach
             <script>
                 function retranslatetoggle() {
                     // debugging - remove later
@@ -127,6 +128,7 @@
                     }
                 }                
             </script>
+            -->
 
             <!--change difficulty-->
             <div class="form-group align-items-center">
@@ -193,6 +195,18 @@
             }                
     </script>
     -->
+    <script>
+        function retranslatetoggle() {
+            // debugging - remove later
+            alert("The ontoggle event occured");           
+            // If the checkbox is true, hide the output <div>                    
+            if (document.getElementById("autotrans").style.checked) {
+                document.getElementById("translateblock").style.display = "none";
+            } else {
+                document.getElementById("translateblock").style.display = "block";
+            }
+        }                
+    </script>
 
     <!--implement swap to user default settings-->
     <script>
