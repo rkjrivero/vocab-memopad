@@ -100,7 +100,7 @@
                     <label class="form-check-label" for="autotrans">
                         <h5>Automatically retranslate input?</h5>
                     </label>
-                    <input class="form-check-input" type="checkbox" id="autotrans" name="autotrans" value="true" checked>                    
+                    <input class="form-check-input" type="checkbox" id="autotrans" name="autotrans" value="true" checked ontoggle="retranslatetoggle()">                    
                 </div>
             </div>
 
@@ -124,11 +124,9 @@
 
                     // If the checkbox is true, hide the output <div>                    
                         if (translateblock.style.display = "block") {
-                            translateblock.style.display = "none";
-                            document.getElementById("translateblock").style.display = "none";
+                            document.getElementById("translateblock").style.display = 'none';
                         } else {
-                            translateblock.style.display = "block";
-                            document.getElementById("translateblock").style.display = "block";
+                            document.getElementById("translateblock").style.display = 'block';
                         }
                     }                
             </script>
@@ -201,7 +199,6 @@
 
     <!--implement swap to user default settings-->
     <script>
-        document.getElementById('autotrans').addEventListener('toggle', retranslatetoggle); 
         window.onload=function(){
             changeinputlang();
             changeoutputlang();
