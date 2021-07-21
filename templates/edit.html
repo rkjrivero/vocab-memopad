@@ -30,7 +30,8 @@
                 <td> {{ revisiontable.time }} </td>
                 <td> {{ revisiontable.rating }} </td>                
                 <td> {{ revisiontable.pin }} </td>
-            </tr>         
+            </tr>
+
         </tbody>
     </table>
     <br><br>
@@ -154,12 +155,13 @@
 
         <button type="submit" name="confirmedit" class="btn btn-info" value="{{revisiontable.wordid}}">Confirm Edit Word</button>
     </form>
+    {% endfor %}
     <br>
     
     <form action="/" method="get">
         <button type="submit" class="btn btn-secondary">Cancel Action</button>
     </form>        
-
+    
 
     <!--implement swap to user default settings-->
     <script>
@@ -169,4 +171,5 @@
             changedifficulty();
             }
     </script>
+    
 {% endblock %}
