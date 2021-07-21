@@ -117,18 +117,15 @@
             <!--script to toggle visibility of translateblock above-->
             <script>
                 function retranslatetoggle() {
-                    //get checkbox
-                    var autotrans =  document.getElementById("autotrans");
-                    //get output <div>
-                    var translateblock = document.getElementById("translateblock");
-
+                    // debugging - remove later
+                    alert("The ontoggle event occured");           
                     // If the checkbox is true, hide the output <div>                    
-                        if (translateblock.style.display = "block") {
-                            document.getElementById("translateblock").style.display = 'none';
-                        } else {
-                            document.getElementById("translateblock").style.display = 'block';
-                        }
-                    }                
+                    if (document.getElementById("autotrans").style.checked) {
+                        document.getElementById("translateblock").style.display = "none";
+                    } else {
+                        document.getElementById("translateblock").style.display = "block";
+                    }
+                }                
             </script>
 
             <!--change difficulty-->
