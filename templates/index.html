@@ -9,20 +9,21 @@
             $(document).ready(function() {
                 $('#toppinned').DataTable( {
                     columnDefs: [
-                    { orderable: false, targets: [6,7,8], } 
+                    { orderable: false, targets: [6,7,8] } 
                     // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
                     ]   
                 } );
             } );
-        $(document).ready(function() {
-            $('#topsaved').DataTable( {
-                columnDefs: [
-                    { orderable: false, targets: [6,7,8], } 
-                    // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
-                ]   
+
+            $(document).ready(function() {
+                $('#topsaved').DataTable( {
+                    columnDefs: [
+                        { orderable: false, targets: [6,7,8] } 
+                        // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    ]   
+                } );
             } );
-        } );
-    </script>
+        </script>
     <h1>Memopad Statistics</h1>
     <br>
 
