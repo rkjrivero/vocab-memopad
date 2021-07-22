@@ -747,7 +747,20 @@ def revision():
         revisiondata = {}
         
         # !!!NOTE / ISSUE - if user did not specify an entry, ie. assumed to NOT EDIT, then request.form.get returns NULL value
-        # !!!TODO -  IF/ELSE function to substitue requestform NULL entry with revisiontable data instead - NOTE: or use html default value instead        
+        # !!!TODO -  IF/ELSE function to substitue requestform NULL entry with revisiontable data instead - NOTE: currently using value instead of placeholder instead        
+        """ issue log
+        2021-07-22T11:40:48.510668+00:00 app[web.1]:   File "/app/application.py", line 761, in revision
+        2021-07-22T11:40:48.510674+00:00 app[web.1]:     retranslated = retranslator.translate(request.form.get("inputedit"), 
+            src = request.form.get("originlang"), dest = request.form.get("targetlang"))
+        2021-07-22T11:40:48.510674+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.9/site-packages/googletrans/client.py", line 174, in translate
+        2021-07-22T11:40:48.510675+00:00 app[web.1]:     dest = dest.lower().split('_', 1)[0]
+        2021-07-22T11:40:48.510675+00:00 app[web.1]: [33mAttributeError: 'NoneType' object has no attribute 'lower'[0m
+        """
+        # PRINT TEST BLOCK        
+        print("test, input: ", request.form.get("inputedit"))
+        print("test, output: ", request.form.get("outputedit"))
+        print("test, orglang: ", request.form.get("originlang"))
+        print("test, tgtlang: ", request.form.get("targetlang"))
 
         # Lookup translation if check-box selected
         if request.form.get("retrans"):
