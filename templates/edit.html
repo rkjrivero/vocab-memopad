@@ -43,7 +43,7 @@
             <!--change input phrase-->
             <div class="form-group">
                 <label for="inputedit">
-                    <h5>Change Input Entry</h5>                    
+                    <h5>Change Input Entry?</h5>                    
                 </label>
                 <br>
                 <input autocomplete="off" autofocus class="form-control form-control-lg" id="inputedit" name="inputedit" placeholder="{{ revisiontable.strinput }}" type="text">
@@ -54,11 +54,11 @@
             <div class="form-group align-items-center">
                 <div class="dropdown">
                     <label for="inputlang">
-                        <h5>Change Input Language</h5>
+                        <h5>Change Input Language?</h5>
                     </label>
                     <br>
                     <select class="form-select" aria-label="Input Language" name="inputlang" id="inputlang">
-                        <option selected disabled>Change Input Language</option>
+                        <option selected disabled>Change Input Language?</option>
                         {% for key in all_languages.keys() %}
                             <option value="{{key}}">{{  all_languages[key]}}</option>
                         {% endfor %}
@@ -76,11 +76,11 @@
             <div class="form-group align-items-center">
                 <div class="dropdown">
                     <label for="outputlang">
-                        <h5>Change Translation Language</h5>                        
+                        <h5>Change Translation Language?</h5>                        
                     </label>
                     <br>
                     <select class="form-select" aria-label="Output Language" name="outputlang" id="outputlang">
-                        <option selected disabled>Change Translation Language</option>
+                        <option selected disabled>Change Translation Language?</option>
                         {% for key in all_languages.keys() %}
                             <option value="{{key}}">{{  all_languages[key]}}</option>
                         {% endfor %}
@@ -98,7 +98,7 @@
             <div class="form-group align-items-center">
                 <div class="form-check form-switch">
                     <label class="form-check-label" for="autotrans">
-                        <h5>Automatically retranslate input?</h5>
+                        <h5>Automatically Retranslate Input?</h5>
                     </label>
                     <input class="form-check-input" type="checkbox" id="autotrans" name="autotrans" value="true" checked ">                    
                 </div>
@@ -107,7 +107,7 @@
             <!--change output phrase-->
             <div class="form-group" id="translateblock" style="display:none">
                 <label for="outputedit">
-                    <h5>Change Translated Entry</h5>                    
+                    <h5>Change Translated Entry?</h5>                    
                 </label>
                 <br>
                 <input autocomplete="off" autofocus class="form-control form-control-lg" id="outputedit" name="outputedit" placeholder="{{ revisiontable.strtrans }}" type="text">
@@ -132,7 +132,7 @@
                 <div class="dropdown">
                     <label for="difficulty">
                         <label for="difficulty">
-                            <h5>Revise Difficulty</h5>
+                            <h5>Revise Difficulty?</h5>
                         </label>                        
                         <select class="form-select" aria-label="Word/Phrase Difficulty" id="difficulty" name="difficulty">
                             <option selected value="1">1</option>
@@ -148,7 +148,7 @@
             </script>
 
         <br><br>
-        <button type="submit" name="confirmedit" class="btn btn-info" value="{{revisiontable.wordid}}">Confirm Edit Word</button>
+        <button type="submit" name="confirmedit" class="btn btn-info" value="{{revisiontable.wordid}}">Confirm Edits</button>
         </div>        
     </form>
     {% endfor %}
