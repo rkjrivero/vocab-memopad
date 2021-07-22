@@ -91,7 +91,8 @@ all_languages = {
 'ms': 'Malaysian',
 'th': 'Thai',
 'vi': 'Vietnamese',
-'tl': 'Tagalog'
+'tl': 'Tagalog',
+'n/a': 'n/a'
 }
 
 #################### ROUTE DECLARATIONS ####################
@@ -334,7 +335,7 @@ def changedefault():
 
         # Update User Settings
         db.execute(
-            "UPDATE users SET orglang =?, tgtlang = ?, autotrans = ? WHERE userid = ?",
+            "UPDATE users SET orglang  = ?, tgtlang = ?, autotrans = ? WHERE userid = ?",
             request.form.get("originlang"), request.form.get("targetlang"), varautotrans, session["user_id"]
         )
 
@@ -622,7 +623,7 @@ def input():
         
         # Save translation data to shadow table
         # NOTE: shadow table = shawordid, shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin
-        # NOTE: "pin" value set to 0 to distinguish it from form-submitted ratings of 1-3
+        # NOTE: "rating" value set to 0 to distinguish it from form-submitted ratings of 1-3
         db.execute(
             "INSERT INTO shadow (shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(), 0, False
@@ -739,31 +740,94 @@ def revision():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         print("log: /revision-POST reached")
-        revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmdelete"))
+        revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("editword"))
         usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
-        print("test, revisiontable[0]: ", revisiontable[0])
+        print("test, pre-edit revisiontable[0]: ", revisiontable[0])
 
-        # Check if deleted entry is pinned/not
-        if revisiontable[0]["pin"] == True:
-            # Update user table wordcount and pincount
-            db.execute(
-                "UPDATE users SET wordcount = ?, pincount = ? WHERE userid = ?",
-                usernumbers[0]["wordcount"] - 1, usernumbers[0]["pincount"] - 1, session["user_id"]
-            )
-        else:
-            # Update user table wordcount only
-            db.execute(
-                "UPDATE users SET wordcount = ? WHERE userid = ?",
-                usernumbers[0]["wordcount"] - 1, session["user_id"]
-            )     
-
-        # Update session[] array based on "user" table on database (directly copied from /login route)
-        # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
-        session["user_wordcount"] = usernumbers[0]["wordcount"] - 1
-        session["user_pincount"] = usernumbers[0]["pincount"] - 1
+        # Initialize an empty dictionary
+        revisiondata = {}
         
-        # Delete entry from vocab table
-        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmedit"))  
+        # Lookup translation if check-box selected
+        if request.form.get("retrans"):
+            print("log: /revision: auto-retranslation option selected")
+
+            # Use googletrans library
+            # NOTE: class googletrans.models.Translated(src, dest, origin, text, pronunciation, extra_data=None, **kwargs)            
+            
+            # Use translator function
+            retranslator = Translator()            
+            retranslated = retranslator.translate(request.form.get("inputedit"), src = request.form.get("originlang"), dest = request.form.get("targetlang"))
+            
+            # Add values to translation dictionry (to pass to review.html)
+            revisiondata["input"] = request.form.get("inputedit")
+            revisiondata["output"] = retranslated.text
+            revisiondata["org"] = retranslated.src
+            revisiondata["tgt"] = retranslated.dest
+            revisiondata["rating"] = request.form.get("difficulty")
+
+            # PRINT TEST BLOCK        
+            print("test, input: ", revisiondata["input"])
+            print("test, orglang: ", revisiondata["org"])
+            print("test, tgtlang: ", revisiondata["tgt"])
+            print("test, output(object): ", revisiondata)
+            print("test, output(word): ", revisiondata["output"])
+            print("test, rating: ", revisiondata["rating"])
+            print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
+
+        else:
+            print("log: /revision: manual revision option selected")
+
+            # Add values to revisiondata dictionary
+            revisiondata["input"] = request.form.get("inputedit")
+            revisiondata["output"] = request.form.get("outputedit")
+            revisiondata["org"] = request.form.get("originlang")
+            revisiondata["tgt"] = "n/a"
+            revisiondata["rating"] = request.form.get("difficulty")
+
+            # PRINT TEST BLOCK        
+            print("test, input: ", revisiondata["input"])
+            print("test, output: ", revisiondata["output"])
+            print("test, orglang: ", revisiondata["org"])
+            print("test, tgtlang: ", revisiondata["tgt"])
+            print("log: autoretranslation option is not selected, manual output entry")
+            print("test, rating: ", revisiondata["rating"])
+            print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
+        
+        # Check if pin value was changed
+        print("test, initial pin:", revisiontable[0]["pin"])
+        print("test, edited pin:", request.form.get("editpin"))
+        if revisiontable[0]["pin"] == True and request.form.get("editpin") == False:
+            # Update user table pincount
+            print("log: entry pin status removed, reducing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] - 1, session["user_id"]
+            )
+            session["user_pincount"] = usernumbers[0]["pincount"] - 1
+        elif revisiontable[0]["pin"] == False and request.form.get("editpin") == True:
+            # Update user table pincount
+            print("log: entry pin status added, increasing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] + 1, session["user_id"]
+            )        
+            session["user_pincount"] = usernumbers[0]["pincount"] + 1
+        else:
+            # No updates
+            pass
+
+        # Update vocab table with revisiondata dictionary         
+        db.execute(
+            """
+            UPDATE vocab 
+            SET strinput = ?, strtrans = ?, langinput = ?, langtrans = ?, 
+            time = ?, rating = ?, pin = ?, edit = ?
+            WHERE userid = ?
+            """,
+            revisiondata["input"], revisiondata["output"],revisiondata["org"], revisiondata["tgt"], 
+            datetime.now(), revisiondata["rating"], request.form.get("editpin"), True,
+            session["user_id"]
+        )
         
         # Redirect to index.html
         return redirect("/")

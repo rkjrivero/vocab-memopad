@@ -25,9 +25,9 @@
             {% for revisiontable in revisiontable %}
             <tr>
                 <td> {{ revisiontable.strinput }}  </td>
-                <td> {{ revisiontable.langinput }} </td>
+                <td> {{ all_languages[revisiontable.langinput] }} </td>
                 <td> {{ revisiontable.strtrans }} </td>
-                <td> {{ revisiontable.langtrans }} </td>
+                <td> {{ all_languages[revisiontable.langtrans] }} </td>
                 <td> {{ revisiontable.time }} </td>
                 <td> {{ revisiontable.rating }} </td>                
                 <td> {{ revisiontable.pin }} </td>
@@ -99,10 +99,10 @@
             <!--check if retranslate-->
             <div class="form-group align-items-center">
                 <div class="form-check form-switch">
-                    <label class="form-check-label" for="autotrans">
+                    <label class="form-check-label" for="retrans">
                         <h5>Automatically Retranslate Input?</h5>
                     </label>
-                    <input class="form-check-input" type="checkbox" id="autotrans" name="autotrans" value="true" checked ">                    
+                    <input class="form-check-input" type="checkbox" id="retrans" name="retrans" value="true" checked ">                    
                 </div>
             </div>
 
@@ -116,12 +116,12 @@
             </div>
             <br>
             <script>
-                const checkbox = document.getElementById('autotrans');
+                const checkbox = document.getElementById('retrans');
                 checkbox.addEventListener("change", retranslatetoggle);
                 
                 function retranslatetoggle() {     
                     // If the checkbox is true, hide the output <div>                    
-                    if (document.getElementById("autotrans").checked) {
+                    if (document.getElementById("retrans").checked) {
                         document.getElementById("translateblock").style.display = "none";
                     } else {
                         document.getElementById("translateblock").style.display = "block";
