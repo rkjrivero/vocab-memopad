@@ -113,21 +113,16 @@
                 <input autocomplete="off" autofocus class="form-control form-control-lg" id="outputedit" name="outputedit" placeholder="{{ revisiontable.strtrans }}" type="text">
             </div>
             <br>
-
             <script>
-                const checkbox = document.getElementById('autotrans')
-
+                const checkbox = document.getElementById('autotrans');
                 checkbox.addEventListener("change", retranslatetoggle);
-
+                
                 function retranslatetoggle() {     
                     // If the checkbox is true, hide the output <div>                    
-                    if (document.getElementById("autotrans").checked) 
-                    {
+                    if (document.getElementById("autotrans").checked) {
                         document.getElementById("translateblock").style.display = "none";
-                        alert('checked');
                     } else {
                         document.getElementById("translateblock").style.display = "block";
-                        alert('not checked');
                     }
                 }                
             </script>
