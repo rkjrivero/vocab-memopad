@@ -92,7 +92,6 @@ all_languages = {
 'th': 'Thai',
 'vi': 'Vietnamese',
 'tl': 'Tagalog',
-'n/a': 'n/a'
 }
 
 #################### ROUTE DECLARATIONS ####################
