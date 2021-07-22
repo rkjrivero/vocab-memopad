@@ -38,6 +38,7 @@
                 <th>Translated Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
+                <th>Entry Edited?</th>
                 <th>UNPIN ENTRY</th>
                 <th>EDIT ENTRY</th>
                 <th>DELETE ENTRY</th>
@@ -52,6 +53,7 @@
                 <td> {{ all_languages[pinnedvocabtable.langtrans] }} </td>
                 <td> {{ pinnedvocabtable.time }} </td>
                 <td> {{ pinnedvocabtable.rating }} </td>
+                <td> {{ pinnedvocabtable.edit }} </td>
                 <td>  
                     <form action="/unpinentry" method="post">
                         <button type="submit" name="unpinword" class="btn btn-outline-danger" value="{{pinnedvocabtable.wordid}}">-</button>

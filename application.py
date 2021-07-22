@@ -680,10 +680,10 @@ def review():
         
         # Insert values from shadowcopy to vocab table, but utilize difficulty/inputpin values from review.html
         db.execute(
-            "INSERT INTO vocab (userlink, strinput, strtrans, langinput, langtrans, time, rating, pin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO vocab (userlink, strinput, strtrans, langinput, langtrans, time, rating, pin, edit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             shadowcopy[0]["shauserlink"], shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"], 
             shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"], 
-            request.form.get("difficulty"), varinputpin
+            request.form.get("difficulty"), varinputpin, False
         )
 
         # Purge shadow table after every successful insertion to vocab table
