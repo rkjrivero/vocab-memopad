@@ -746,6 +746,9 @@ def revision():
         # Initialize an empty dictionary
         revisiondata = {}
         
+        # !!!NOTE / ISSUE - if user did not specify an entry, ie. assumed to NOT EDIT, then request.form.get returns NULL value
+        # !!!TODO -  IF/ELSE function to substitue requestform NULL entry with revisiontable data instead - NOTE: or use html default value instead        
+
         # Lookup translation if check-box selected
         if request.form.get("retrans"):
             print("log: /revision: auto-retranslation option selected")
