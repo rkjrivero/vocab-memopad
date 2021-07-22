@@ -837,11 +837,11 @@ def revision():
             UPDATE vocab 
             SET strinput = ?, strtrans = ?, langinput = ?, langtrans = ?, 
             time = ?, rating = ?, pin = ?, edit = ?
-            WHERE userid = ?
+            WHERE wordid = ?
             """,
             revisiondata["input"], revisiondata["output"],revisiondata["org"], revisiondata["tgt"], 
             datetime.now(), revisiondata["rating"], request.form.get("editpin"), True,
-            session["user_id"]
+            revisiontable[0]["wordid"]
         )
         
         # Redirect to index.html
