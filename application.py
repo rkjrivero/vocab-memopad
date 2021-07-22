@@ -759,8 +759,8 @@ def revision():
         # PRINT TEST BLOCK        
         print("test, input: ", request.form.get("inputedit"))
         print("test, output: ", request.form.get("outputedit"))
-        print("test, orglang: ", request.form.get("originlang"))
-        print("test, tgtlang: ", request.form.get("targetlang"))
+        print("test, orglang: ", request.form.get("inputlang"))
+        print("test, tgtlang: ", request.form.get("outputlang"))
 
         # Lookup translation if check-box selected
         if request.form.get("retrans"):
@@ -771,7 +771,7 @@ def revision():
             
             # Use translator function
             retranslator = Translator()            
-            retranslated = retranslator.translate(request.form.get("inputedit"), src = request.form.get("originlang"), dest = request.form.get("targetlang"))
+            retranslated = retranslator.translate(request.form.get("inputedit"), src = request.form.get("inputlang"), dest = request.form.get("outputlang"))
             
             # Add values to translation dictionry (to pass to review.html)
             revisiondata["input"] = request.form.get("inputedit")
