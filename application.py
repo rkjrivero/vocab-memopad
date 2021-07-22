@@ -739,7 +739,7 @@ def revision():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         print("log: /revision-POST reached")
-        revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("editword"))
+        revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmedit"))
         usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
         print("test, pre-edit revisiontable[0]: ", revisiontable[0])
 
