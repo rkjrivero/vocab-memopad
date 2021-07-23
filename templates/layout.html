@@ -29,7 +29,14 @@
 
         <title>VOCAB MEMOPAD: {% block title %}{% endblock %}</title>
     </head>
-
+    <!--
+        from: https://levelup.gitconnected.com/automatic-conversion-to-local-time-client-side-with-javascript-1b7c27e8b6f2
+    -->
+    <script>
+        for (let time of document.getElementsByTagName('time')) {
+        time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
+        }
+    </script>
     <body>
 
         <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
@@ -52,11 +59,7 @@
                         </li>
                     </ul>
 
-                    <script>
-                    for (let time of document.getElementsByTagName('time')) {
-                    time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
-                    }
-                    </script>
+                    
 
                     <ul class="navbar-nav ms-auto my-1">
                         <li class="nav-item indicator">Active User: </li>
@@ -78,7 +81,7 @@
                         <li class="nav-item indicated mx-2">{{ session.current_time }}</li>
                         -->
                         <li class="nav-item indicated mx-2">
-                            <time datetime="{{ session.current_time }}">
+                            <time datetime="{{ session.current_time }} GMT">
                                 {{ session.current_time }}
                             </time>
                         </li>
