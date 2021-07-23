@@ -340,17 +340,26 @@ def changedefault():
         print("log: current default orglang is ", session["user_orglang"], ", new default orglang is ", request.form.get("originlang"))       
         print("log: current default tgtlang is ", session["user_tgtlang"], ",  new default tgtlang is ", request.form.get("targetlang"))
         print("log: current default autotrans is ", session["user_autotrans"], ", new default autotrans is ", varautotrans)
+        print("log: current default visible all saved is ", session["user_recallall"], ", new default visible all saved is ", request.form.get("visiblesaved"))       
+        print("log: current default visible pinned is ", session["user_recallpinned"], ",  new default visible pinned is ", request.form.get("visiblepinned"))
 
         # Update User Settings
         db.execute(
-            "UPDATE users SET orglang  = ?, tgtlang = ?, autotrans = ? WHERE userid = ?",
-            request.form.get("originlang"), request.form.get("targetlang"), varautotrans, session["user_id"]
+            """
+            UPDATE users 
+            SET orglang  = ?, tgtlang = ?, autotrans = ?,  
+            user_recallall = ?, user_recallpinned = ? WHERE userid = ?
+            """,
+            request.form.get("originlang"), request.form.get("targetlang"), varautotrans,
+            request.form.get("visiblesaved"), request.form.get("visiblepinned"), session["user_id"]
         )
 
        # Update session[] array
         session["user_tgtlang"] = request.form.get("targetlang")
         session["user_orglang"] = request.form.get("originlang")
         session["user_autotrans"] = request.form.get("autotrans")
+        session["user_recallall"] = request.form.get("visiblesaved")
+        session["user_recallpinned"] = request.form.get("visiblepinned")
 
         # Redirect user to profile page
         return redirect("/profile")

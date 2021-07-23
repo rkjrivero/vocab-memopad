@@ -8,8 +8,6 @@
     <h1>Change Default Settings</h1>
     <br>
 
-    <h3>Input Settings</h3>
-    <br>
     <table align="center" class="table table-bordered" style="width:40%">
         <thead>
             <tr>
@@ -26,6 +24,16 @@
                 <th>Auto-Translate: </th>
                 <th> {{ session.user_autotrans }} </th>
             </tr>   
+            
+            <tr>
+                <th>Default Visible Pinned Entries : </th>
+                <th> {{ session.user_recallpinned }} </th>
+            </tr> 
+            
+            <tr>
+                <th>Default Visible All Entries : </th>
+                <th> {{ session.user_recallall }} </th>
+            </tr> 
         </thead>
     </table>
     <br>
@@ -89,26 +97,46 @@
             </div>
             <br>
 
-            <h3>Input Settings</h3>
+            <!-- change visible pinned entries-->
+            <div class="form-group align-items-center">
+                <div class="dropdown">
+                    <label for="Visible Pinned">
+                        <h5>Default Visible Pinned Entries </h5>
+                    </label>                        
+                    <select class="form-select" aria-label="Visible Pinned" id="visiblepinned" name="visiblepinned">
+                        <option selected value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <script>
+                function changevisiblepinned() {
+                    document.getElementById("visiblepinned").value = "{{session.user_user_recallpinned}}";
+                }
+            </script>
             <br>
-            <table align="center" class="table table-bordered" style="width:40%">
-                <thead>
-                    <tr>
-                        <th>Default Original Language: </th>
-                        <th> {{ all_languages[session.user_orglang] }} </th>
-                    </tr>
-
-                    <tr>
-                        <th>Default Target Language: </th>
-                        <th> {{ all_languages[session.user_tgtlang] }} </th>
-                    </tr>    
-                    
-                    <tr>
-                        <th>Auto-Translate: </th>
-                        <th> {{ session.user_autotrans }} </th>
-                    </tr>   
-                </thead>
-            </table>
+            
+            <!-- change visible all saved entries-->
+            <div class="form-group align-items-center">
+                <div class="dropdown">
+                    <label for="Visible All Saved">
+                        <h5>Default Visible All Saved Entries </h5>
+                    </label>                        
+                    <select class="form-select" aria-label="Visible All Saved" id="visiblesaved" name="visiblesaved">
+                        <option value="10">10</option>
+                        <option selected value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <script>
+                function changevisiblesaved() {
+                    document.getElementById("visiblesaved").value = "{{session.user_user_recallsaved}}";
+                }
+            </script>
             <br>
 
             <button class="btn btn-primary" type="submit">Change Default Settings</button>
@@ -137,6 +165,8 @@
             changeoriginlang();
             changetargetlang();
             changeautotrans();
+            changevisiblepinned();
+            changevisiblesaved();
             }
     </script>
 
