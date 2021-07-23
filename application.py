@@ -348,7 +348,7 @@ def changedefault():
             """
             UPDATE users 
             SET orglang  = ?, tgtlang = ?, autotrans = ?,  
-            user_recallall = ?, user_recallpinned = ? WHERE userid = ?
+            recallall = ?, recallpinned = ? WHERE userid = ?
             """,
             request.form.get("originlang"), request.form.get("targetlang"), varautotrans,
             request.form.get("visiblesaved"), request.form.get("visiblepinned"), session["user_id"]
