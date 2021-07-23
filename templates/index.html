@@ -73,7 +73,48 @@
                 <td> {{ pinvocabtable.edit }} </td>
                 <td>  
                     <form action="/unpinentry" method="post">
-                        <button type="submit" name="unpinword" class="btn btn-outline-danger" value="{{pinvocabtable.wordid}}">-</button>
+                        <button type="button" name="unpinword" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#unpinmodal">-</button>                        
+                        <!-- Unpin Modal -->
+                        <div class="modal fade" id="unpinmodal" tabindex="-1" aria-labelledby="unpinmodallabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Confirm Unpin</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Input Word/Phrase</th>
+                                                    <th>Input Language</th>
+                                                    <th>Translated Word/Phrase</th>
+                                                    <th>Translated Language</th>
+                                                    <th>Date/Time Saved</th>
+                                                    <th>Difficulty Rating</th>
+                                                    <th>Entry Edited?</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td> {{ pinvocabtable.strinput }}  </td>
+                                                    <td> {{ all_languages[pinvocabtable.langinput] }} </td>
+                                                    <td> {{ pinvocabtable.strtrans }} </td>
+                                                    <td> {{ all_languages[pinvocabtable.langtrans] }} </td>
+                                                    <td> {{ pinvocabtable.time }} </td>
+                                                    <td> {{ pinvocabtable.rating }} </td>
+                                                    <td> {{ pinvocabtable.edit }} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary"  value="{{pinvocabtable.wordid}}">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </td>
                 <td>  
