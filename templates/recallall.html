@@ -90,7 +90,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
-                                        <button type="submit" class="btn btn-outline-danger" name="unpinentry" value="{{fullvocabtable.wordid}}">Unpin Entry</button>                                        
+                                        <button type="submit" class="btn btn-outline-danger" name="recallallunpinentry" value="{{fullvocabtable.wordid}}">Unpin Entry</button>                                        
                                     </div>
                                 </div>
                             </div>
@@ -122,16 +122,16 @@
                                             <tbody>
                                                 <tr>
                                                     <td> {{ fullvocabtable.strinput }}  </td>
-                                                    <td> {{ full_languages[allvocabtable.langinput] }} </td>
+                                                    <td> {{ full_languages[fullvocabtable.langinput] }} </td>
                                                     <td> {{ fullvocabtable.strtrans }} </td>
-                                                    <td> {{ full_languages[allvocabtable.langtrans] }} </td>
+                                                    <td> {{ full_languages[fullvocabtable.langtrans] }} </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
-                                        <button type="submit" class="btn btn-outline-success" name="pinentry" value="{{fullvocabtable.wordid}}">Pin Entry</button>                                        
+                                        <button type="submit" class="btn btn-outline-success" name="recallallpinentry" value="{{fullvocabtable.wordid}}">Pin Entry</button>                                        
                                     </div>
                                 </div>
                             </div>

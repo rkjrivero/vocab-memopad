@@ -921,6 +921,18 @@ def deletion():
 
 ########## PIN ENTRY / UNPIN ENTRY ##########
 
+"""
+NOTE: index/recallall/recallpin should have different redirects
+index.html
+<button type="submit" class="btn btn-outline-danger" name="indexunpinentry" value="{{pinvocabtable.wordid}}">Unpin Entry</button>
+<button type="submit" class="btn btn-outline-success" name="indexpinentry" value="{{allvocabtable.wordid}}">Pin Entry</button> 
+recallall.html
+<button type="submit" class="btn btn-outline-danger" name="recallallunpinentry" value="{{fullvocabtable.wordid}}">Unpin Entry</button>
+<button type="submit" class="btn btn-outline-success" name="recallallpinentry" value="{{fullvocabtable.wordid}}">Pin Entry</button>  
+recallpin.html
+<button type="submit" class="btn btn-outline-danger" name="recallpinunpinentry" value="{{pinnedvocabtable.wordid}}">Unpin Entry</button>
+"""
+
 #TODO - PIN ENTRY
 @app.route("/pinentry", methods=["GET", "POST"])
 @login_required
@@ -936,14 +948,21 @@ def pinentry():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        # Redirect to /deletion
-        return render_template("delete.html")
+        # TESTS
+        if request.form.get("indexunpinentry"):
+            print("log: /pin-POST-indexunpinentry reached")
+ 
+        if request.form.get("indexpinentry"):
+            print("log: /pin-POST-indexpinentry reached")
+
+        # Redirect to homepage
+        return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        print("log: /deletecheck-GET reached")
-        # /deletion should not be directly accessible (redirect to /input instead)
-        return redirect("/input") 
+        print("log: /pin-GET reached")
+        # (/pinentry should not be directly accessible) redirect to homepage
+        return redirect("/") 
 
 #TODO - UNPIN ENTRY
 @app.route("/unpinentry", methods=["GET", "POST"])
@@ -960,14 +979,14 @@ def unpinentry():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        # Redirect to /deletion
-        return render_template("delete.html")
+        # Redirect to homepage
+        return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        print("log: /deletecheck-GET reached")
-        # /deletion should not be directly accessible (redirect to /input instead)
-        return redirect("/input") 
+        print("log: /unpin-GET reached")
+        # (/unpinentry should not be directly accessible) redirect to homepage
+        return redirect("/") 
 
 #################### ERROR CHECKING (INHERITED FROM CS50 PSET9 BASE CODE) ####################
 
