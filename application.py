@@ -949,11 +949,11 @@ def pinentry():
     if request.method == "POST":
 
         # TESTS
-        if request.form.get("indexunpinentry"):
-            print("log: /pin-POST-indexunpinentry reached")
- 
         if request.form.get("indexpinentry"):
             print("log: /pin-POST-indexpinentry reached")
+
+        if request.form.get("recallallpinentry"):
+            print("log: /pin-POST-recallallpinentry reached")            
 
         # Redirect to homepage
         return redirect("/")
@@ -978,6 +978,16 @@ def unpinentry():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+
+        # TESTS
+        if request.form.get("indexunpinentry"):
+            print("log: /pin-POST-indexunpinentry reached")
+
+        if request.form.get("recallallunpinentry"):
+            print("log: /pin-POST-recallallunpinentry reached")    
+
+        if request.form.get("recallpinunpinentry"):
+            print("log: /pin-POST-recallpinunpinentry reached")    
 
         # Redirect to homepage
         return redirect("/")
