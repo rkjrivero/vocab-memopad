@@ -74,7 +74,7 @@
                 <td>  
                     <form action="/unpinentry" method="post">
                         <button type="button" name="unpinword" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#unpinmodal">-</button>                        
-                        <!-- Unpin Modal -->
+                        <!-- Pop-up Modal -->
                         <div class="modal fade" id="unpinmodal" tabindex="-1" aria-labelledby="unpinmodallabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
@@ -104,8 +104,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-outline-danger"  value="{{pinvocabtable.wordid}}">Unpin Entry</button>
-                                        <br>
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                                        
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +157,42 @@
                 <td> {{ allvocabtable.edit }} </td>
                 <td>  
                     <form action="/pinentry" method="post">
-                        <button type="submit" name="pinword" class="btn btn-outline-success" value="{{allvocabtable.wordid}}">+</button>
+                        <button type="submit" name="pinword" class="btn btn-outline-success" value="{{allvocabtable.wordid}}">+</button>                        
+                        <!-- Pop-up Modal -->
+                        <div class="modal fade" id="unpinmodal" tabindex="-1" aria-labelledby="unpinmodallabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Confirm Pin</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Input Word/Phrase</th>
+                                                    <th>Input Language</th>
+                                                    <th>Translated Word/Phrase</th>
+                                                    <th>Translated Language</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td> {{ allvocabtable.strinput }}  </td>
+                                                    <td> {{ all_languages[allvocabtable.langinput] }} </td>
+                                                    <td> {{ allvocabtable.strtrans }} </td>
+                                                    <td> {{ all_languages[allvocabtable.langtrans] }} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-outline-success"  value="{{allvocabtable.wordid}}">Pin Entry</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </td>
                 <td>  
