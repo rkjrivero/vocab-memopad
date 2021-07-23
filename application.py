@@ -234,7 +234,8 @@ def login():
 
         # Update current display time - display format: dd/mm/YY H:M:S
         session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
-
+        print("test, datetime.now(pytz.utc): ", datetime.now(pytz.utc))
+        
         """ NOTE: back up prior datetime setting prior to experiment
         # Update current display time - display format: dd/mm/YY H:M:S
         session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")

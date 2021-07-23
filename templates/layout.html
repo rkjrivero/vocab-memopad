@@ -29,6 +29,7 @@
 
         <title>VOCAB MEMOPAD: {% block title %}{% endblock %}</title>
     </head>
+    
     <!--
         from: https://levelup.gitconnected.com/automatic-conversion-to-local-time-client-side-with-javascript-1b7c27e8b6f2
     -->
@@ -37,6 +38,7 @@
         time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
         }
     </script>
+
     <body>
 
         <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
@@ -58,8 +60,6 @@
                             <button type="button" class="btn btn-sm btn-secondary mx-3"><a class="nav-link" href="/profile">CHANGE SETTINGS</a></button>
                         </li>
                     </ul>
-
-                    
 
                     <ul class="navbar-nav ms-auto my-1">
                         <li class="nav-item indicator">Active User: </li>
