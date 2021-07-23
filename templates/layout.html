@@ -52,6 +52,12 @@
                         </li>
                     </ul>
 
+                    <script>
+                    for (let time of document.getElementsByTagName('time')) {
+                    time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
+                    }
+                    </script>
+
                     <ul class="navbar-nav ms-auto my-1">
                         <li class="nav-item indicator">Active User: </li>
                         <li class="nav-item indicated mx-2">{{ session.user_name }}</li>
@@ -68,7 +74,14 @@
                         <li class="nav-item indicated">{{ session.user_autotrans }}</li>                        
                         -->
                         <li class="nav-item indicator">Date/Time: </li>
+                        <!--
                         <li class="nav-item indicated mx-2">{{ session.current_time }}</li>
+                        -->
+                        <li class="nav-item indicated mx-2">
+                            <time datetime="{{ session.current_time }}">
+                                {{ session.current_time }}
+                            </time>
+                        </li>
                         <li class="nav-item">
                             <button type="button" class="btn btn-sm btn-danger mx-3">
                                 <a class="nav-link" href="/logout">LOG OUT</a></li>
