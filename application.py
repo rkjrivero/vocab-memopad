@@ -149,8 +149,12 @@ def register():
             newpass = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8)
             print("test, /register input: username:", request.form.get("username") ," hash:", newpass," tgtlang:", tgtlang," orglang:", 
                 orglang, " autotrans (raw):", request.form.get("autotrans")," autotrans (if/else):", autotrans)            
-            db.execute("INSERT INTO users (username, hash, tgtlang, orglang, autotrans, wordcount, pincount) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                request.form.get("username"), newpass, tgtlang, orglang, autotrans, 0, 0)            
+            db.execute(
+                """
+                INSERT INTO users (username, hash, tgtlang, orglang, autotrans, wordcount, pincount, indexpinned, indexunpinned, recallall, recallpinned) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                request.form.get("username"), newpass, tgtlang, orglang, autotrans, 0, 0, 10, 25, 25, 25)            
             flash("User registered", category="message")
 
         # Redirect user to home page
