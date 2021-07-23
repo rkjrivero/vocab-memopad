@@ -7,6 +7,9 @@
 {% block main %}
     <h1>Change Default Settings</h1>
     <br>
+
+    <h3>Input Settings</h3>
+    <br>
     <table align="center" class="table table-bordered" style="width:40%">
         <thead>
             <tr>
@@ -26,53 +29,10 @@
         </thead>
     </table>
     <br>
+
     <form action="/changedefault" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">
             <br>
-
-            <!-- three language variant for backup
-            <div class="form-group align-items-center">
-                <div class="dropdown">
-                    <label for="originlang">
-                        <h5>Change Default<br>Input Language</h5>                        
-                    </label>
-                    <br>
-                    <select class="form-select" aria-label="Input Language" name="originlang" id="originlang">
-                        <option selected disabled>Default Input Language</option>
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                <script>
-                    function changeoriginlang() {
-                    document.getElementById("originlang").value = "{{session.user_orglang}}";
-                    }
-                </script>
-            </div>
-            <br>      
-
-            <div class="form-group align-items-center">
-                <div class="dropdown">
-                    <label for="targetlang">
-                        <h5>Change Default<br>Translation Language</h5>                        
-                    </label>
-                    <br>
-                    <select class="form-select" aria-label="Translation Language" name="targetlang" id="targetlang">
-                        <option selected disabled>Default Translation Language</option>
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>                
-                <script>
-                    function changetargetlang() {
-                    document.getElementById("targetlang").value = "{{session.user_tgtlang}}";
-                    }
-                </script>
-            </div>
-            <br>
-            -->
             
             <!--change input language-->
             <div class="form-group align-items-center">
@@ -101,7 +61,6 @@
                 <div class="dropdown">
                     <label for="targetlang">
                         <h5>Change Default<br>Translation Language</h5>
-                        <br>
                     </label>
                     <select class="form-select" aria-label="Translation Language" name="targetlang" id="targetlang">
                         <option selected disabled>Default Translation Language</option>
@@ -128,6 +87,28 @@
                     <input class="form-check-input" type="checkbox" id="autotrans" name="autotrans" value="true" checked>                    
                 </div>
             </div>
+            <br>
+
+            <h3>Input Settings</h3>
+            <br>
+            <table align="center" class="table table-bordered" style="width:40%">
+                <thead>
+                    <tr>
+                        <th>Default Original Language: </th>
+                        <th> {{ all_languages[session.user_orglang] }} </th>
+                    </tr>
+
+                    <tr>
+                        <th>Default Target Language: </th>
+                        <th> {{ all_languages[session.user_tgtlang] }} </th>
+                    </tr>    
+                    
+                    <tr>
+                        <th>Auto-Translate: </th>
+                        <th> {{ session.user_autotrans }} </th>
+                    </tr>   
+                </thead>
+            </table>
             <br>
 
             <button class="btn btn-primary" type="submit">Change Default Settings</button>

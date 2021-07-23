@@ -223,6 +223,11 @@ def login():
         # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
         session["user_wordcount"] = usertable[0]["wordcount"]
         session["user_pincount"] = usertable[0]["pincount"]
+        # user_indexpinned//indexunpinned/recallall//recallpinned are used for table size, and are dynamic (manually changed in profile options)
+        session["user_indexpinned"] = usertable[0]["indexpinned"]
+        session["user_indexunpinned"] = usertable[0]["indexunpinned"]
+        session["user_recallall"] = usertable[0]["recallall"]
+        session["user_recallpinned"] = usertable[0]["recallpinned"]
 
         # Update current display time - display format: dd/mm/YY H:M:S
         session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")

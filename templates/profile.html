@@ -19,12 +19,22 @@
             <tr>
                 <th>Default Target Language: </th>
                 <th> {{ all_languages[session.user_tgtlang] }} </th>
-            </tr>    
+            </tr>
             
             <tr>
                 <th>Auto-Translate: </th>
                 <th> {{ session.user_autotrans }} </th>
-            </tr>     
+            </tr> 
+            
+            <tr>
+                <th>Default Visible Pinned Entries : </th>
+                <th> {{ session.user_recallpinned }} </th>
+            </tr> 
+            
+            <tr>
+                <th>Default Visible All Entries : </th>
+                <th> {{ session.user_recallall }} </th>
+            </tr>   
         </thead>
     </table>
     <br>
