@@ -947,15 +947,49 @@ def pinentry():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
 
-        # TESTS
+        # User reached route from index page
         if request.form.get("indexpinentry"):
-            print("log: /pin-POST-indexpinentry reached")
+            print("log: /pin-POST-indexpinentry reached")            
 
+            # Update user table pincount
+            print("log: entry pin status added, increasing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] + 1, session["user_id"]
+            )        
+            session["user_pincount"] = usernumbers[0]["pincount"] + 1
+
+            # Update vocab table pin column         
+            db.execute(
+                "UPDATE vocab SET pin = ? WHERE wordid = ?",
+                True, request.form.get("indexpinentry")
+            )
+
+            return redirect("/")
+
+        # User reached route from recalll all page
         if request.form.get("recallallpinentry"):
-            print("log: /pin-POST-recallallpinentry reached")            
+            print("log: /pin-POST-recallallpinentry reached")
 
-        # Redirect to homepage
+            # Update user table pincount
+            print("log: entry pin status added, increasing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] + 1, session["user_id"]
+            )        
+            session["user_pincount"] = usernumbers[0]["pincount"] + 1
+
+            # Update vocab table pin column         
+            db.execute(
+                "UPDATE vocab SET pin = ? WHERE wordid = ?",
+                True, request.form.get("recallallpinentry")
+            )
+
+            return redirect("/recallall")
+
+        # Redirect to homepage (backup redirect)
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
@@ -978,18 +1012,70 @@ def unpinentry():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
 
-        # TESTS
+        # User reached route from index page
         if request.form.get("indexunpinentry"):
             print("log: /pin-POST-indexunpinentry reached")
 
-        if request.form.get("recallallunpinentry"):
-            print("log: /pin-POST-recallallunpinentry reached")    
+            # Update user table pincount
+            print("log: entry pin status added, increasing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] - 1, session["user_id"]
+            )        
+            session["user_pincount"] = usernumbers[0]["pincount"] - 1
 
+            # Update vocab table pin column         
+            db.execute(
+                "UPDATE vocab SET pin = ? WHERE wordid = ?",
+                False, request.form.get("indexunpinentry")
+            )
+
+            return redirect("/")
+
+        # User reached route from recall pinned page                
         if request.form.get("recallpinunpinentry"):
-            print("log: /pin-POST-recallpinunpinentry reached")    
+            print("log: /pin-POST-recallpinunpinentry reached")
 
-        # Redirect to homepage
+            # Update user table pincount
+            print("log: entry pin status added, increasing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] - 1, session["user_id"]
+            )        
+            session["user_pincount"] = usernumbers[0]["pincount"] - 1
+
+            # Update vocab table pin column         
+            db.execute(
+                "UPDATE vocab SET pin = ? WHERE wordid = ?",
+                False, request.form.get("recallpinunpinentry")
+            ) 
+
+            return redirect("/recallpin")  
+        
+
+        # User reached route from recall all page
+        if request.form.get("recallallunpinentry"):
+            print("log: /pin-POST-recallallunpinentry reached") 
+
+            # Update user table pincount
+            print("log: entry pin status added, increasing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] - 1, session["user_id"]
+            )        
+            session["user_pincount"] = usernumbers[0]["pincount"] - 1
+
+            # Update vocab table pin column         
+            db.execute(
+                "UPDATE vocab SET pin = ? WHERE wordid = ?",
+                False, request.form.get("recallallunpinentry")
+            ) 
+
+            return redirect("/recallall")
+
+        # Redirect to homepage (backup redirect)
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
