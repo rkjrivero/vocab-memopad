@@ -230,8 +230,13 @@ def login():
         session["user_recallpinned"] = usertable[0]["recallpinned"]
 
         # Update current display time - display format: dd/mm/YY H:M:S
-        session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+        session["current_time"] = datetime.now()
 
+
+        """ NOTE: back up prior datetime setting prior to experiment
+        # Update current display time - display format: dd/mm/YY H:M:S
+        session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+        """
         # Redirect user to home page
         return redirect("/")
 
@@ -267,7 +272,7 @@ def profile():
     """Profile Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -281,7 +286,7 @@ def changepw():
     """Change Password Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -325,7 +330,7 @@ def changedefault():
     """Change Settings Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -394,7 +399,7 @@ def index():
     session["user_pincount"] = usertable[0]["pincount"]
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -497,7 +502,7 @@ def recallpin():
     session["user_pincount"] = usertable[0]["pincount"]
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -551,7 +556,7 @@ def recallall():
     session["user_pincount"] = usertable[0]["pincount"]
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -587,7 +592,7 @@ def input():
     """Show INPUT.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -659,7 +664,7 @@ def review():
     """Show REVIEW.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # NOTE: only /review route should not purge shadow table
 
@@ -722,7 +727,7 @@ def editentry():
     """Show EDIT.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -748,7 +753,7 @@ def revision():
     """Enact revision (behind the scenes)"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -868,7 +873,7 @@ def deletecheck():
     """Show DELETE.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -894,7 +899,7 @@ def deletion():
     """Enact deletion (behind the scenes)"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -958,7 +963,7 @@ def pinentry():
     """ENACT pin entry (must refresh the page)"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -1023,7 +1028,7 @@ def unpinentry():
     """ENACT unpin entry (must refresh the page)"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now()
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
