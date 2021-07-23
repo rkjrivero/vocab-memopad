@@ -12,6 +12,9 @@ from datetime import datetime
 from googletrans import Translator
 # Import SQLAlchemy NOTE: currently vestigial due to CS50 reliance
 from sqlalchemy.sql.expression import false
+# Import pytz for timezone conversion
+import pytz
+
 
 # TODO - INSPECT IMPORT LIST BELOW AND REMOVE THOSE NOT RELEVANT EVENTUALLY !!!
 """
@@ -230,7 +233,12 @@ def login():
         session["user_recallpinned"] = usertable[0]["recallpinned"]
 
         # Update current display time - display format: dd/mm/YY H:M:S
+        session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
+
+        """ NOTE: back up prior datetime setting prior to experiment
+        # Update current display time - display format: dd/mm/YY H:M:S
         session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+        """
 
         # Redirect user to home page
         return redirect("/")
@@ -267,7 +275,7 @@ def profile():
     """Profile Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -281,7 +289,7 @@ def changepw():
     """Change Password Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -325,7 +333,7 @@ def changedefault():
     """Change Settings Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -394,7 +402,7 @@ def index():
     session["user_pincount"] = usertable[0]["pincount"]
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -497,7 +505,7 @@ def recallpin():
     session["user_pincount"] = usertable[0]["pincount"]
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -551,7 +559,7 @@ def recallall():
     session["user_pincount"] = usertable[0]["pincount"]
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -587,7 +595,7 @@ def input():
     """Show INPUT.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -643,7 +651,7 @@ def input():
         # NOTE: "rating" value set to 0 to distinguish it from form-submitted ratings of 1-3
         db.execute(
             "INSERT INTO shadow (shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(), 0, False
+            session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(pytz.utc), 0, False
         )
         
         # Redirect to review.html
@@ -659,7 +667,7 @@ def review():
     """Show REVIEW.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # NOTE: only /review route should not purge shadow table
 
@@ -722,7 +730,7 @@ def editentry():
     """Show EDIT.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -748,7 +756,7 @@ def revision():
     """Enact revision (behind the scenes)"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -847,7 +855,7 @@ def revision():
             WHERE wordid = ?
             """,
             revisiondata["input"], revisiondata["output"],revisiondata["org"], revisiondata["tgt"], 
-            datetime.now(), revisiondata["rating"], request.form.get("editpin"), True,
+            datetime.now(pytz.utc), revisiondata["rating"], request.form.get("editpin"), True,
             revisiontable[0]["wordid"]
         )
         
@@ -868,7 +876,7 @@ def deletecheck():
     """Show DELETE.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -894,7 +902,7 @@ def deletion():
     """Enact deletion (behind the scenes)"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -958,7 +966,7 @@ def pinentry():
     """ENACT pin entry (must refresh the page)"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -1023,7 +1031,7 @@ def unpinentry():
     """ENACT unpin entry (must refresh the page)"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc).strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
