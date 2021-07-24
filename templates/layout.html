@@ -27,42 +27,36 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
-        <title>VOCAB MEMOPAD: {% block title %}{% endblock %}</title>
+        <title>VOCAB-MEMOPAD: {% block title %}{% endblock %}</title>
     </head>
 
     <body>
-        <!-- backup for deleted/edited tags/bars            
-            <nav class="navbar navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
-                <div class="container-fluid">
-        --> 
+
         <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
-            <a class="navbar-brand" href="/">VOCAB-MEMOPAD</a>
-            <!-- vestigial code? double check
-            <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
-                <span class="navbar-toggler-icon"></span>                      
-            </button>
-            -->      
+            <a class="navbar-brand" href="/">VOCAB-<span class="green">ME</span><span class="blue">MO</span><span class="red">PAD</span>
+            </a>
+                  
             <div class="collapse navbar-collapse" id="navbar">
                 {% if session.user_id %}
-                    <ul class="navbar-nav ml-auto mt-2">
+                    <ul class="navbar-nav ml-auto my-1">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-success "><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
+                            <button type="button" class="btn btn-sm btn-success mx-2"><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
                         </li>                                       
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-primary"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
+                        <li class="nav-item">   
+                            <button type="button" class="btn btn-sm btn-primary mx-2"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-primary"><a class="nav-link" href="/recallall">VIEW ALL ENTRIES</a></button>
+                            <button type="button" class="btn btn-sm btn-primary mx-2"><a class="nav-link" href="/recallall">VIEW ALL SAVED ENTRIES</a></button>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-secondary"><a class="nav-link" href="/profile">CHANGE SETTINGS</a></button>
+                            <button type="button" class="btn btn-sm btn-secondary mx-2"><a class="nav-link" href="/profile">PROFILE SETTINGS</a></button>
                         </li>
                     </ul>
 
-                    <ul class="navbar-nav ms-auto mt-2">
+                    <ul class="navbar-nav ms-auto my-1">
                         <li class="nav-item indicator">Active User: </li>
-                        <li class="nav-item indicated">{{ session.user_name }}</li>
-                        <!--
+                        <li class="nav-item indicated mx-1">{{ session.user_name }}</li>
+                        <!-- disabled for brevity, code retained as backup
                         <li class="nav-item indicator">Total Pinned: </li>
                         <li class="nav-item indicated">{{ session.user_pincount }}</li>
                         <li class="nav-item indicator">Total Saved: </li>
@@ -75,21 +69,26 @@
                         <li class="nav-item indicated">{{ session.user_autotrans }}</li>                        
                         -->
                         <li class="nav-item indicator">Date/Time: </li>
-                        <li class="nav-item indicated">{{ session.current_time }}</li>
+                        <li class="nav-item indicated mx-1">
+                            <time datetime="{{ session.current_time }}">
+                                {{ session.current_time }}                          
+                            </time>
+                        </li>
+
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-secondary">
+                            <button type="button" class="btn btn-sm btn-danger mx-3">
                                 <a class="nav-link" href="/logout">LOG OUT</a></li>
                             </button>
                     </ul>
 
                 {% else %}
-                    <ul class="navbar-nav mr-auto mt-2">
+                    <ul class="navbar-nav mr-auto my-1">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-secondary">
+                            <button type="button" class="btn btn-sm btn-success mx-2">
                                 <a class="nav-link" href="/register">REGISTER</a></li>
                             </button>
                         <li class="nav-item">                            
-                            <button type="button" class="btn btn-sm btn-secondary">
+                            <button type="button" class="btn btn-sm btn-primary mx-2">
                                 <a class="nav-link" href="/login">LOGIN</a>
                             </button>
                         </li>
@@ -97,32 +96,7 @@
                 {% endif %}
             </div>
         </nav>
-        <!--
-        <nav class="navbar navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
-            <ul class="navbar-nav ml-auto mt-2 nav-tabs">
-                {% if session.user_id %}
-                <li class="nav-item indicator">Active User: </li>
-                <li class="nav-item indicated">{{ session.user_name }}</li>
-                <li class="nav-item indicator">Total Pinned: </li>
-                <li class="nav-item indicated">{{ session.user_pincount }}</li>
-                <li class="nav-item indicator">Total Saved: </li>
-                <li class="nav-item indicated">{{ session.user_wordcount }}</li>
-                <li class="nav-item indicator">Default Original: </li>
-                <li class="nav-item indicated">{{ session.user_orglang }}</li>                        
-                <li class="nav-item indicator">Default Target: </li>
-                <li class="nav-item indicated">{{ session.user_tgtlang }}</li>                                 
-                <li class="nav-item indicator">Auto-translate: </li>
-                <li class="nav-item indicated">{{ session.user_autotrans }}</li>                        
-                <li class="nav-item indicator">Date/Time: </li>
-                <li class="nav-item indicated">{{ session.current_time }}</li>
-                <li class="nav-item">
-                    <button type="button" class="btn btn-sm btn-secondary">
-                        <a class="nav-link" href="/logout">LOG OUT</a></li>
-                    </button>
-                {% endif %}
-            </ul>
-        </nav>
-        -->
+        <!-- disabled header, code retained as backup
         {% if get_flashed_messages() %}
             <header>
                 <div class="alert alert-primary border text-center" role="alert">
@@ -130,27 +104,28 @@
                 </div>
             </header>
         {% endif %}
-        <br><br>
-        <main class="container p-5">
-            {% block main %}{% endblock %}
-        </main>
-        <!--
-        <h2>
-            Server Date/Time is {{ session.current_time }}
-        </h2>
         -->
-        <footer class="small text-center text-muted">
-            VOCAB-MEMOPAD is a simple web app designed to quickly look up and save the translations of words/phrases and review them online.
-            <br> 
-            Only three language translations are currently supported (English/Japanese/Esperanto), with the UI currently only in English.
-            <br>
-            Application UI is currently only designed with desktop browsers in mind, and is currently mobile-friendly.
-            <br>
-            <!-- 
-            Feel free to leave comments/suggestions at the <a href="https://github.com/rkjrivero/vocab-memopad">github page</a> (repository currently private). 
-            <br>
+        <main class="container p-5">
+            <br><br>
+            {% block main %}{% endblock %}
+            <!--
+                script to convert server time (UTC) to client local time
+                from: https://levelup.gitconnected.com/automatic-conversion-to-local-time-client-side-with-javascript-1b7c27e8b6f2
             -->
-            DISCLAIMER: UI elements and underlying code borrow from <a href="https://cs50.harvard.edu/x/2021/">CS50's</a> <a href="https://cs50.harvard.edu/x/2021/psets/9/finance/">Finance problem set</a>.            
+            <script>
+                for (let time of document.getElementsByTagName('time')) {
+                time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
+                }
+            </script>
+        </main>
+
+        <footer class="small text-center text-muted">
+            VOCAB-MEMOPAD is a simple web app to look up and save 
+            <br>
+            translations of words/phrases and review them online.
+            <br>
+            For more information, visit the <a href="/about">about</a> page.
+            <br><br><br>
         </footer>
  
     </body>

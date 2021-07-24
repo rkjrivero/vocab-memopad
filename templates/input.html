@@ -6,84 +6,119 @@
 
 {% block main %}
     <h1>Type in word/phrase for translation and addition</h1>
-    <!--TODO: design logic for defaults (might need JS)-->
+    <br><br>
+    
     <form action="/input" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">
             <div class="form-group align-items-center">
+
+                <label for="textinput">
+                    <h5>Type In Word/Phrase</h5>                        
+                </label>
                 <br>
-                <input autocomplete="off" autofocus class="form-control" name="textinput" placeholder="Add Word/Phrase" type="text">
-                <br><br><br>
-                <!-- if/else logic for default input language, because cbf to use JS-->
-                {% if session.user_orglang == "en" %}
-                    <div class="dropdown">
-                        <select class="form-select" aria-label="Input Language" name="originlang">
-                            <option selected value="en">English [en]</option>
-                            <option value="ja">Japanese [ja]</option>
-                            <option value="eo">Esperanto [eo]</option>
-                        </select>
-                    </div>
-                {% elif session.user_orglang == "ja" %}
+
+                <input autocomplete="off" autofocus class="form-control form-control-lg" id="textinput" name="textinput" placeholder="Type in Word/Phrase" type="text" required>
+                <br><br>
+                
+                <!--change input language-->
                 <div class="dropdown">
-                    <select class="form-select" aria-label="Input Language" name="originlang">
-                        <option value="en">English [en]</option>
-                        <option selected value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
+                    <label for="originlang">
+                        <h5>Select Input Language</h5>                        
+                    </label>
+                    <br>
+                    <select class="form-select firstlang" aria-label="Input Language" name="originlang" id="originlang" required>
+                        <option selected disabled value="">Default Input Language</option>
+                        {% for key in all_languages.keys() %}
+                            <option value="{{key}}">{{  all_languages[key]}}</option>
+                        {% endfor %}
                     </select>
                 </div>
-                {% else %}
+                <script>
+                    function changeoriginlang() {
+                    document.getElementById("originlang").value = "{{session.user_orglang}}";
+                    }
+                </script>
+                            
+                <!-- swap language, script from: https://stackoverflow.com/questions/46018835/how-to-swap-selected-option-in-2-select-elements/46019430 -->
+                <button type="button" class="btn-sm btn-primary my-3" id="swapbox" onclick="swapper()">
+                    ▲▼               
+                </button>
+                <script>
+                    function swapper () {
+                        var tmpval=$(".firstlang").val();
+                        $(".firstlang").val($(".secondlang").val());
+                        $(".secondlang").val(tmpval);
+                }
+                </script>
+                <br>
+                
+                <!--change target language-->
                 <div class="dropdown">
-                    <select class="form-select" aria-label="Input Language" name="originlang">
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option selected value="eo">Esperanto [eo]</option>
+                    <label for="targetlang">
+                        <h5>Select Translation Language</h5>                        
+                    </label>
+                    <br>
+                    <select class="form-select secondlang" aria-label="Translation Language" name="targetlang" id="targetlang" required>
+                        <option selected disabled  value="">Default Translation Language</option>
+                        {% for key in all_languages.keys() %}
+                            <option value="{{key}}">{{  all_languages[key]}}</option>
+                        {% endfor %}
+                    </select>
                     </select>
                 </div>
-                {% endif %} 
-                <!-- if/else logic for default translated language, because cbf to use JS-->
-                {% if session.user_translang == "en" %}
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option selected value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% elif session.user_translang == "en" %}
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option value="en">English [en]</option>
-                        <option selected value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% else %}
-                <div class="dropdown">
-                    <select class="form-select" aria-label="Translation Language" name="targetlang">
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option selected value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-                {% endif %} 
-                <!-- if/else logic for default translation option, because cbf to use JS-->
-                {% if session.user_autotrans %}
+                <script>
+                    function changetargetlang() {
+                    document.getElementById("targetlang").value = "{{session.user_tgtlang}}";
+                    }
+                </script>   
+                <br>
+                
+                <!--check auto-translate -->
                 <div class="form-group align-items-center">
                     <div class="form-check form-switch">
-                        <label class="form-check-label" for="check_autotrans">Translate input?</label>
-                        <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans" checked>                    
+                        <label class="form-check-label" for="check_autotrans">
+                            <h5>Translate input?</h5>
+                        </label>
+                        <input class="form-check-input" type="checkbox" id="autotrans" name="autotrans" value="true" checked>                    
                     </div>
                 </div>
-                {% else %}
-                <div class="form-group align-items-center">
-                    <div class="form-check form-switch">
-                        <label class="form-check-label" for="check_autotrans">Translate input?</label>
-                        <input class="form-check-input" type="checkbox" id="check_autotrans" value="false" name="autotrans">                    
-                    </div>
-                </div>
-                {% endif %} 
+
             </div>
             <br><br>
+
             <button class="btn btn-primary" type="submit">Search Word/Phrase</button>
         </div>        
     </form>
+
+    <form action="/" method="get" class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="container-sm align-items-center">            
+            <br>
+            <button class="btn btn-secondary" type="submit">Cancel Search</button>
+        </div>
+    </form>
+
+    <!--swap autotranslate, moved out of form scope-->
+    {% if not session.user_autotrans %}
+    <script>
+        function changeautotrans() {
+            document.getElementById("autotrans").removeAttribute("checked"); 
+            }
+    </script>
+    {% else %}
+    <script>
+        function changeautotrans() {
+            // pass (added to avoid errors)
+            }
+    </script>
+    {% endif %}
+
+    <!--implement swap to user default settings-->
+    <script>
+        window.onload=function(){
+            changeoriginlang();
+            changetargetlang();
+            changeautotrans();
+            }
+    </script>
+
 {% endblock %}

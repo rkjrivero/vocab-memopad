@@ -1,4 +1,5 @@
-### NOTE / DISCLAIMER: GENERAL APPLICATION FOUNDATION IS BUILT UPON THE APPLICATION.PY FILE OF CS50 PSET 9
+#################### APPLICATION SETUP ####################
+##### NOTE / DISCLAIMER: GENERAL APPLICATION FOUNDATION IS BUILT UPON THE APPLICATION.PY FILE OF CS50 PSET 9 #####
 import os
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
@@ -10,7 +11,10 @@ from datetime import datetime
 # Import googletrans (https://pypi.org/project/googletrans/ , https://py-googletrans.readthedocs.io/en/latest/)
 from googletrans import Translator
 # Import SQLAlchemy NOTE: currently vestigial due to CS50 reliance
-from sqlalchemy.sql.expression import false
+from sqlalchemy.sql.expression import false, null
+# Import pytz for timezone conversion
+import pytz
+
 
 # TODO - INSPECT IMPORT LIST BELOW AND REMOVE THOSE NOT RELEVANT EVENTUALLY !!!
 """
@@ -74,13 +78,39 @@ if db_uri.startswith("postgres://"):
     db_uri = db_uri.replace("postgres://", "postgresql://", 1)
 db = SQL(db_uri)
 
+# Permanent dictionary of initially supported languages
+all_languages = {
+'en': 'English',
+'eo': 'Esperanto',
+'ja': 'Japanese',
+'la': 'Latin',
+'es': 'Spanish',
+'de': 'German',
+'fr': 'French',
+'it': 'Italian',
+'ru': 'Russian',
+'ar': 'Arabic',
+'id': 'Indonesian',
+'ms': 'Malaysian',
+'th': 'Thai',
+'vi': 'Vietnamese',
+'tl': 'Tagalog',
+}
+
+#################### ROUTE DECLARATIONS ####################
+
+########## REGISTER / LOGIN / LOGOUT ##########
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    # NOTE - REGISTER DEFINITION ORIGINALLY FROM CS50PSET9, WITHOUT MODIFICATION
+    # NOTE - REGISTER DEFINITION ORIGINALLY FROM CS50PSET9, WITH MODIFICATIONS
     """Register user"""
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+
+        # Forget any userid
+        session.clear()
 
         # Ensure username was submitted
         if not request.form.get("username"):
@@ -116,8 +146,8 @@ def register():
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?;", request.form.get("username"))
         print(usertable)
-        # Check if username exists
 
+        # Check if username exists
         if len(usertable) != 0:
             return apology("existing user detected", 400)
 
@@ -125,30 +155,46 @@ def register():
             newpass = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8)
             print("test, /register input: username:", request.form.get("username") ," hash:", newpass," tgtlang:", tgtlang," orglang:", 
                 orglang, " autotrans (raw):", request.form.get("autotrans")," autotrans (if/else):", autotrans)            
-            db.execute("INSERT INTO users (username, hash, tgtlang, orglang, autotrans, wordcount, pincount) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                request.form.get("username"), newpass, tgtlang, orglang, autotrans, 0, 0)            
+            db.execute(
+                """
+                INSERT INTO users (username, hash, tgtlang, orglang, autotrans, wordcount, pincount, indexpinned, indexunpinned, recallall, recallpinned) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                request.form.get("username"), newpass, tgtlang, orglang, autotrans, 0, 0, 10, 25, 25, 25)            
             flash("User registered", category="message")
 
-        # Redirect user to home page
-        return redirect("/")
+        # Redirect user to login page
+        return render_template("login.html")
 
     # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("register.html")
+    else:   
+        # Show page if no user is not logged-in     
+        if not session:                    
+            return render_template("register.html", all_languages=all_languages)
+        # Redirect user to home page if already logged in
+        else:            
+            return redirect("/")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     # NOTE - LOGIN DEFINITION ORIGINALLY FROM CS50PSET9, WITH MODIFICATIONS
     """Log user in"""
 
-    # Forget any userid
-    session.clear()
-
-    # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
-
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+        
+        # Forget any userid
+        session.clear()
+
+        # Purge shadow table to ensure no errant entries
+        db.execute("DELETE FROM shadow") 
+
+        """
+        # NOTE: temporary code to block none "tester" accounts
+        # TODO: remove during transfer to main branch
+        if not request.form.get("username") == "tester":
+            return apology("Unauthorized Access", 401)
+        """
 
         # Ensure username was submitted
         if not request.form.get("username"):
@@ -185,16 +231,29 @@ def login():
         # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
         session["user_wordcount"] = usertable[0]["wordcount"]
         session["user_pincount"] = usertable[0]["pincount"]
+        # user_indexpinned//indexunpinned/recallall//recallpinned are used for table size, and are dynamic (manually changed in profile options)
+        session["user_indexpinned"] = usertable[0]["indexpinned"]
+        session["user_indexunpinned"] = usertable[0]["indexunpinned"]
+        session["user_recallall"] = usertable[0]["recallall"]
+        session["user_recallpinned"] = usertable[0]["recallpinned"]
+        # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+        session["last_page"] = "/login"
 
         # Update current display time - display format: dd/mm/YY H:M:S
-        session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
+        session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
+        print("test, datetime.now(pytz.utc): ", datetime.now(pytz.utc))
+ 
         # Redirect user to home page
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
-    else:
-        return render_template("login.html")
+    else:   
+        # Show page if no user is not logged-in     
+        if not session:                    
+            return render_template("login.html")
+        # Redirect user to home page if already logged in
+        else:            
+            return redirect("/")
 
 @app.route("/logout")
 def logout():
@@ -208,30 +267,33 @@ def logout():
     db.execute("DELETE FROM shadow") 
 
     # Redirect user to login form
-    return redirect("/")
+    return redirect("/login")
+
+########## PROFILE / CHANGE PASSWORD / CHANGE DEFAULT SETTINGS ##########
 
 @app.route("/profile")
 @login_required
 def profile():
-    # NOTE/TODO FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
     """Profile Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    return render_template("profile.html")
+    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    session["last_page"] = "profile"
+
+    return render_template("profile.html", all_languages=all_languages)
 
 @app.route("/changepw", methods=["GET", "POST"])
 @login_required
 def changepw():
-    # NOTE/TODO FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
     """Change Password Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -243,6 +305,10 @@ def changepw():
         # Ensure password was submitted
         elif not request.form.get("newpw"):
             return apology("must provide new password", 403)
+
+        # Ensure confirmation password matches
+        elif not request.form.get("confirmnewpw") == request.form.get("newpw"):
+            return apology("ensure new password matches", 403)
 
         # Query database for username
         userdb = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
@@ -257,8 +323,8 @@ def changepw():
             db.execute("UPDATE users SET hash = ? WHERE id = ?", changepass, session["user_id"])
             flash("Password Changed", category="message")
 
-        # Redirect user to home page
-        return redirect("/")
+        # Redirect user to profile page
+        return redirect("/profile")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -267,11 +333,10 @@ def changepw():
 @app.route("/changedefault", methods=["GET", "POST"])
 @login_required
 def changedefault():
-    # NOTE/TODO FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
     """Change Settings Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -286,24 +351,35 @@ def changedefault():
         print("log: current default orglang is ", session["user_orglang"], ", new default orglang is ", request.form.get("originlang"))       
         print("log: current default tgtlang is ", session["user_tgtlang"], ",  new default tgtlang is ", request.form.get("targetlang"))
         print("log: current default autotrans is ", session["user_autotrans"], ", new default autotrans is ", varautotrans)
+        print("log: current default visible all saved is ", session["user_recallall"], ", new default visible all saved is ", request.form.get("visiblesaved"))       
+        print("log: current default visible pinned is ", session["user_recallpinned"], ",  new default visible pinned is ", request.form.get("visiblepinned"))
 
         # Update User Settings
         db.execute(
-            "UPDATE users SET orglang =?, tgtlang = ?, autotrans = ? WHERE userid = ?",
-            request.form.get("originlang"), request.form.get("targetlang"), varautotrans, session["user_id"]
+            """
+            UPDATE users 
+            SET orglang  = ?, tgtlang = ?, autotrans = ?,  
+            recallall = ?, recallpinned = ? WHERE userid = ?
+            """,
+            request.form.get("originlang"), request.form.get("targetlang"), varautotrans,
+            request.form.get("visiblesaved"), request.form.get("visiblepinned"), session["user_id"]
         )
 
        # Update session[] array
         session["user_tgtlang"] = request.form.get("targetlang")
         session["user_orglang"] = request.form.get("originlang")
         session["user_autotrans"] = request.form.get("autotrans")
+        session["user_recallall"] = request.form.get("visiblesaved")
+        session["user_recallpinned"] = request.form.get("visiblepinned")
 
-        # Redirect user to home page
-        return redirect("/")
+        # Redirect user to profile page
+        return redirect("/profile")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("changedefault.html")
+        return render_template("changedefault.html", all_languages=all_languages)
+
+########## INDEX / SHOW PINNED / SHOW ALL ##########
 
 @app.route("/")
 @login_required
@@ -327,9 +403,11 @@ def index():
     # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
     session["user_wordcount"] = usertable[0]["wordcount"]
     session["user_pincount"] = usertable[0]["pincount"]
+    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    session["last_page"] = "/"
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -406,8 +484,119 @@ def index():
                 #print("log: function break due to pincount at ", pincount)
                 break  
     #print("test, pinvocabtable (after): ", pinvocabtable)
+    
+    return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable, all_languages=all_languages)
 
-    return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable)
+@app.route("/recallpin")
+@login_required
+def recallpin():
+    """Show RECALLPIN.html"""
+
+    # RETRIEVE FROM DATABASE
+    # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
+    #   inside of which are keys and values representing a table’s fields and cells, respectively.
+    # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
+    # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
+    usertable = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
+    vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
+    
+    # Update session[] array based on "user" table on database (directly copied from /login route)
+    # user_tgtlang/orglang/autotrans are used for layout display, and are dynamic (manually changed in profile options)
+    session["user_tgtlang"] = usertable[0]["tgtlang"]
+    session["user_orglang"] = usertable[0]["orglang"]
+    session["user_autotrans"] = usertable[0]["autotrans"]
+    # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+    session["user_wordcount"] = usertable[0]["wordcount"]
+    session["user_pincount"] = usertable[0]["pincount"]
+    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    session["last_page"] = "/recallpin"
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    # Create empty list, to populate with *list of dictionaries*
+    pinnedvocabtable = []
+
+    # PRINT TEST BLOCK
+    #print("test, vocabtable[{}]: ", vocabtable)
+    #print("test, pinnedvocabtable (before): ", pinnedvocabtable)
+    
+    # Filter out for pinnedvocabtable
+    # NOTE: go through all dictionary items within the list that db.execute returns
+    for vocabtable_list in vocabtable:
+        #print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
+        testvtlist = vocabtable_list.items()                        
+        # NOTE: go through all key/value pairs and search if they're for the current user
+        for (vt_key, vt_value) in testvtlist:                        
+            if vt_key == "userlink" and vt_value == session["user_id"]:
+                #print("log: userlink match")                                
+                # NOTE: go through all key/value pairs and search if they're pinned or not
+                for (vt_key, vt_value) in testvtlist:                
+                    if vt_key == "pin" and vt_value == True:
+                        #print("log: pin=True match")
+                        #print("test, vocabtable_list (dict): ", vocabtable_list)
+                        pinnedvocabtable.append(vocabtable_list)
+    #print("test, pinnedvocabtable (after): ", pinnedvocabtable)
+
+    return render_template("recallpin.html", pinnedvocabtable=pinnedvocabtable, all_languages=all_languages)
+
+@app.route("/recallall")
+@login_required
+def recallall():
+    """Show RECALLALL.html"""
+
+    # RETRIEVE FROM DATABASE
+    # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
+    #   inside of which are keys and values representing a table’s fields and cells, respectively.
+    # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
+    # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
+    usertable = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
+    vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
+    
+    # Update session[] array based on "user" table on database (directly copied from /login route)
+    # user_tgtlang/orglang/autotrans are used for layout display, and are dynamic (manually changed in profile options)
+    session["user_tgtlang"] = usertable[0]["tgtlang"]
+    session["user_orglang"] = usertable[0]["orglang"]
+    session["user_autotrans"] = usertable[0]["autotrans"]
+    # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+    session["user_wordcount"] = usertable[0]["wordcount"]
+    session["user_pincount"] = usertable[0]["pincount"]
+    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    session["last_page"] = "/recallall"
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    # Create empty list, to populate with *list of dictionaries*
+    fullvocabtable = []
+
+    # PRINT TEST BLOCK
+    #print("test, vocabtable[{}]: ", vocabtable)
+    #print("test, fullvocabtable (before): ", fullvocabtable)
+    
+    # Filter out for fullvocabtable
+    # NOTE: go through all dictionary items within the list that db.execute returns
+    for vocabtable_list in vocabtable:
+        #print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
+        testvtlist = vocabtable_list.items()                        
+        # NOTE: go through all key/value pairs and search if they're for the current user
+        for (vt_key, vt_value) in testvtlist:                        
+            if vt_key == "userlink" and vt_value == session["user_id"]:
+                #print("log: userlink match")                
+                #print("test, vocabtable_list (dict): ", vocabtable_list)
+                fullvocabtable.append(vocabtable_list)
+                #print("test, fullvocabtable.append: ", fullvocabtable)
+    #print("test, fullvocabtable (after): ", fullvocabtable)
+
+    return render_template("recallall.html", fullvocabtable=fullvocabtable, all_languages=all_languages)
+
+########## INPUT / REVIEW ##########
 
 @app.route("/input", methods=["GET", "POST"])
 @login_required
@@ -415,7 +604,7 @@ def input():
     """Show INPUT.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -468,18 +657,18 @@ def input():
         
         # Save translation data to shadow table
         # NOTE: shadow table = shawordid, shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin
-        # NOTE: "pin" value set to 0 to distinguish it from form-submitted ratings of 1-3
+        # NOTE: "rating" value set to 0 to distinguish it from form-submitted ratings of 1-3
         db.execute(
             "INSERT INTO shadow (shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(), 0, False
+            session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(pytz.utc), 0, False
         )
         
         # Redirect to review.html
-        return render_template("review.html", translation=translation)
+        return render_template("review.html", translation=translation, all_languages=all_languages)
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:   
-        return render_template("input.html")
+        return render_template("input.html", all_languages=all_languages)
 
 @app.route("/review", methods=["GET", "POST"])
 @login_required
@@ -487,7 +676,7 @@ def review():
     """Show REVIEW.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # NOTE: only /review route should not purge shadow table
 
@@ -526,10 +715,10 @@ def review():
         
         # Insert values from shadowcopy to vocab table, but utilize difficulty/inputpin values from review.html
         db.execute(
-            "INSERT INTO vocab (userlink, strinput, strtrans, langinput, langtrans, time, rating, pin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO vocab (userlink, strinput, strtrans, langinput, langtrans, time, rating, pin, edit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             shadowcopy[0]["shauserlink"], shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"], 
             shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"], 
-            request.form.get("difficulty"), varinputpin
+            request.form.get("difficulty"), varinputpin, False
         )
 
         # Purge shadow table after every successful insertion to vocab table
@@ -542,110 +731,164 @@ def review():
         # /review should not be directly accessible (redirect to /input instead)
         return redirect("/input") 
 
-@app.route("/recallall")
-@login_required
-def recallall():
-    """Show RECALLALL.html"""
+########## EDIT ENTRY / REVISION  ##########
 
-    # RETRIEVE FROM DATABASE
-    # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
-    #   inside of which are keys and values representing a table’s fields and cells, respectively.
-    # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
-    # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
-    usertable = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
-    vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
-    
-    # Update session[] array based on "user" table on database (directly copied from /login route)
-    # user_tgtlang/orglang/autotrans are used for layout display, and are dynamic (manually changed in profile options)
-    session["user_tgtlang"] = usertable[0]["tgtlang"]
-    session["user_orglang"] = usertable[0]["orglang"]
-    session["user_autotrans"] = usertable[0]["autotrans"]
-    # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
-    session["user_wordcount"] = usertable[0]["wordcount"]
-    session["user_pincount"] = usertable[0]["pincount"]
+@app.route("/editentry", methods=["GET", "POST"])
+@login_required
+def editentry():
+    """Show EDIT.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    # Create empty list, to populate with *list of dictionaries*
-    fullvocabtable = []
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        print("log: /revision-POST reached")
+        revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("editword"))
+        print("test, revisiontable[0]: ", revisiontable[0])
 
-    # PRINT TEST BLOCK
-    #print("test, vocabtable[{}]: ", vocabtable)
-    #print("test, fullvocabtable (before): ", fullvocabtable)
-    
-    # Filter out for fullvocabtable
-    # NOTE: go through all dictionary items within the list that db.execute returns
-    for vocabtable_list in vocabtable:
-        #print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
-        testvtlist = vocabtable_list.items()                        
-        # NOTE: go through all key/value pairs and search if they're for the current user
-        for (vt_key, vt_value) in testvtlist:                        
-            if vt_key == "userlink" and vt_value == session["user_id"]:
-                #print("log: userlink match")                
-                #print("test, vocabtable_list (dict): ", vocabtable_list)
-                fullvocabtable.append(vocabtable_list)
-                #print("test, fullvocabtable.append: ", fullvocabtable)
-    #print("test, fullvocabtable (after): ", fullvocabtable)
+        # Redirect to /revision
+        return render_template("edit.html", revisiontable=revisiontable, all_languages=all_languages)
 
-    return render_template("recallall.html", fullvocabtable=fullvocabtable)
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        print("log: /revision-GET reached")
+        # /deletion should not be directly accessible (redirect to /input instead)
+        return redirect("/input") 
 
-@app.route("/recallpin")
+@app.route("/revision", methods=["GET", "POST"])
 @login_required
-def recallpin():
-    """Show RECALLPIN.html"""
-
-    # RETRIEVE FROM DATABASE
-    # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
-    #   inside of which are keys and values representing a table’s fields and cells, respectively.
-    # NOTE: user table info (name/id + tgtlang/orglang/autotrans + wordcount/pincount) are saved in session[] array (initially in /login, updated as required)
-    # NOTE: vocab table = wordid, userlink, strinput, strtrans, langinput, langtrans, time, rating, pin
-    usertable = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
-    vocabtable = db.execute("SELECT * FROM vocab where userlink = ?", session["user_id"])        
-    
-    # Update session[] array based on "user" table on database (directly copied from /login route)
-    # user_tgtlang/orglang/autotrans are used for layout display, and are dynamic (manually changed in profile options)
-    session["user_tgtlang"] = usertable[0]["tgtlang"]
-    session["user_orglang"] = usertable[0]["orglang"]
-    session["user_autotrans"] = usertable[0]["autotrans"]
-    # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
-    session["user_wordcount"] = usertable[0]["wordcount"]
-    session["user_pincount"] = usertable[0]["pincount"]
+def revision():
+    """Enact revision (behind the scenes)"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    # Create empty list, to populate with *list of dictionaries*
-    pinnedvocabtable = []
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        print("log: /revision-POST reached")
+        revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmedit"))
+        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
+        print("test, pre-edit revisiontable[0]: ", revisiontable[0])
 
-    # PRINT TEST BLOCK
-    #print("test, vocabtable[{}]: ", vocabtable)
-    #print("test, pinnedvocabtable (before): ", pinnedvocabtable)
-    
-    # Filter out for pinnedvocabtable
-    # NOTE: go through all dictionary items within the list that db.execute returns
-    for vocabtable_list in vocabtable:
-        #print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
-        testvtlist = vocabtable_list.items()                        
-        # NOTE: go through all key/value pairs and search if they're for the current user
-        for (vt_key, vt_value) in testvtlist:                        
-            if vt_key == "userlink" and vt_value == session["user_id"]:
-                #print("log: userlink match")                                
-                # NOTE: go through all key/value pairs and search if they're pinned or not
-                for (vt_key, vt_value) in testvtlist:                
-                    if vt_key == "pin" and vt_value == True:
-                        #print("log: pin=True match")
-                        #print("test, vocabtable_list (dict): ", vocabtable_list)
-                        pinnedvocabtable.append(vocabtable_list)
-    #print("test, pinnedvocabtable (after): ", pinnedvocabtable)
+        # Initialize an empty dictionary
+        revisiondata = {}
+        
+        # PRINT TEST BLOCK        
+        print("test, form input: ", request.form.get("inputedit"))
+        print("test, form output: ", request.form.get("outputedit"))
+        print("test, form orglang: ", request.form.get("inputlang"))
+        print("test, form tgtlang: ", request.form.get("outputlang"))
 
-    return render_template("recallpin.html", pinnedvocabtable=pinnedvocabtable)
+        # Lookup translation if check-box selected
+        if request.form.get("retrans"):
+            print("log: /revision: auto-retranslation option selected")
+
+            # Use googletrans library
+            # NOTE: class googletrans.models.Translated(src, dest, origin, text, pronunciation, extra_data=None, **kwargs)            
+            
+            # Use translator function
+            retranslator = Translator()            
+            retranslated = retranslator.translate(request.form.get("inputedit"), src = request.form.get("inputlang"), dest = request.form.get("outputlang"))
+            
+            # Add values to translation dictionry (to pass to review.html)
+            revisiondata["input"] = request.form.get("inputedit")
+            revisiondata["output"] = retranslated.text
+            revisiondata["org"] = retranslated.src
+            revisiondata["tgt"] = retranslated.dest
+            revisiondata["rating"] = request.form.get("difficulty")
+
+            # PRINT TEST BLOCK        
+            print("test, input: ", revisiondata["input"])
+            print("test, orglang: ", revisiondata["org"])
+            print("test, tgtlang: ", revisiondata["tgt"])
+            print("test, output(object): ", revisiondata)
+            print("test, output(word): ", revisiondata["output"])
+            print("test, rating: ", revisiondata["rating"])
+            print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
+
+        else:
+            print("log: /revision: manual revision option selected")
+
+            # Add values to revisiondata dictionary
+            revisiondata["input"] = request.form.get("inputedit")
+            revisiondata["output"] = request.form.get("outputedit")
+            revisiondata["org"] = request.form.get("inputlang")
+            revisiondata["tgt"] = request.form.get("outputlang")
+            revisiondata["rating"] = request.form.get("difficulty")
+
+            # PRINT TEST BLOCK        
+            print("test, input: ", revisiondata["input"])
+            print("test, output: ", revisiondata["output"])
+            print("test, orglang: ", revisiondata["org"])
+            print("test, tgtlang: ", revisiondata["tgt"])
+            print("log: autoretranslation option is not selected, manual output entry")
+            print("test, rating: ", revisiondata["rating"])
+            print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
+        
+        # Check if pin value was changed
+        print("test, initial pin:", revisiontable[0]["pin"])
+        print("test, edited pin:", request.form.get("editpin"))    
+        # NOTE: "editpin" should be either True or None
+        if revisiontable[0]["pin"] == True and request.form.get("editpin") == None:            
+            # Update user table pincount
+            print("log: entry pin status removed, reducing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] - 1, session["user_id"]
+            )
+            session["user_pincount"] = usernumbers[0]["pincount"] - 1            
+            # Set new pin value (to prevent None value)
+            newpinvalue = False
+        elif revisiontable[0]["pin"] == False and request.form.get("editpin") == True:
+            # Update user table pincount
+            print("log: entry pin status added, increasing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] + 1, session["user_id"]
+            )        
+            session["user_pincount"] = usernumbers[0]["pincount"] + 1
+            # Set new pin value (to prevent None value)
+            newpinvalue = True
+        elif revisiontable[0]["pin"] == True and request.form.get("editpin") == True:
+            # Set new pin value (to prevent None value)
+            newpinvalue = True
+        elif revisiontable[0]["pin"] == False and request.form.get("editpin") == None:
+            # Set new pin value (to prevent None value)
+            newpinvalue = False
+        else:
+            # No updates
+            pass
+
+        # Update vocab table with revisiondata dictionary         
+        db.execute(
+            """
+            UPDATE vocab 
+            SET strinput = ?, strtrans = ?, langinput = ?, langtrans = ?, 
+            time = ?, rating = ?, pin = ?, edit = ?
+            WHERE wordid = ?
+            """,
+            revisiondata["input"], revisiondata["output"],revisiondata["org"], revisiondata["tgt"], 
+            datetime.now(pytz.utc), revisiondata["rating"], newpinvalue, True,
+            revisiontable[0]["wordid"]
+        )
+        
+        # Redirect to index.html
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        print("log: /deletion-GET reached")
+        # /deletion should not be directly accessible (redirect to /input instead)
+        return redirect("/input") 
+
+########## DELETE CHECK / DELETION ##########
 
 @app.route("/deletecheck", methods=["GET", "POST"])
 @login_required
@@ -653,7 +896,7 @@ def deletecheck():
     """Show DELETE.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -663,6 +906,7 @@ def deletecheck():
         print("log: /deletecheck-POST reached")
         deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("deleteword"))
         print("test, deletiontable[0]: ", deletiontable[0])
+        
         # Redirect to /deletion
         return render_template("delete.html", deletiontable=deletiontable)
 
@@ -678,7 +922,7 @@ def deletion():
     """Enact deletion (behind the scenes)"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
@@ -721,7 +965,168 @@ def deletion():
         # /deletion should not be directly accessible (redirect to /input instead)
         return redirect("/input") 
 
-# NOTE CS50PSET9 BASE CODE BELOW RETAINED
+########## PIN ENTRY / UNPIN ENTRY ##########
+
+@app.route("/pinentry", methods=["GET", "POST"])
+@login_required
+def pinentry():
+    """ENACT pin entry (must refresh the page)"""
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
+
+        # User reached route from index page
+        if request.form.get("indexpinentry"):
+            print("log: /pin-POST-indexpinentry reached")            
+
+            # Update user table pincount
+            print("log: entry pin status added, increasing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] + 1, session["user_id"]
+            )        
+            session["user_pincount"] = usernumbers[0]["pincount"] + 1
+
+            # Update vocab table pin column         
+            db.execute(
+                "UPDATE vocab SET pin = ? WHERE wordid = ?",
+                True, request.form.get("indexpinentry")
+            )
+
+            return redirect("/")
+
+        # User reached route from recalll all page
+        if request.form.get("recallallpinentry"):
+            print("log: /pin-POST-recallallpinentry reached")
+
+            # Update user table pincount
+            print("log: entry pin status added, increasing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] + 1, session["user_id"]
+            )        
+            session["user_pincount"] = usernumbers[0]["pincount"] + 1
+
+            # Update vocab table pin column         
+            db.execute(
+                "UPDATE vocab SET pin = ? WHERE wordid = ?",
+                True, request.form.get("recallallpinentry")
+            )
+
+            return redirect("/recallall")
+
+        # Redirect to homepage (backup redirect)
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        print("log: /pin-GET reached")
+        # (/pinentry should not be directly accessible) redirect to homepage
+        return redirect("/") 
+
+@app.route("/unpinentry", methods=["GET", "POST"])
+@login_required
+def unpinentry():
+    """ENACT unpin entry (must refresh the page)"""
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
+
+        # User reached route from index page
+        if request.form.get("indexunpinentry"):
+            print("log: /pin-POST-indexunpinentry reached")
+
+            # Update user table pincount
+            print("log: entry pin status added, increasing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] - 1, session["user_id"]
+            )        
+            session["user_pincount"] = usernumbers[0]["pincount"] - 1
+
+            # Update vocab table pin column         
+            db.execute(
+                "UPDATE vocab SET pin = ? WHERE wordid = ?",
+                False, request.form.get("indexunpinentry")
+            )
+
+            return redirect("/")
+
+        # User reached route from recall pinned page                
+        if request.form.get("recallpinunpinentry"):
+            print("log: /pin-POST-recallpinunpinentry reached")
+
+            # Update user table pincount
+            print("log: entry pin status added, increasing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] - 1, session["user_id"]
+            )        
+            session["user_pincount"] = usernumbers[0]["pincount"] - 1
+
+            # Update vocab table pin column         
+            db.execute(
+                "UPDATE vocab SET pin = ? WHERE wordid = ?",
+                False, request.form.get("recallpinunpinentry")
+            ) 
+
+            return redirect("/recallpin")  
+        
+
+        # User reached route from recall all page
+        if request.form.get("recallallunpinentry"):
+            print("log: /pin-POST-recallallunpinentry reached") 
+
+            # Update user table pincount
+            print("log: entry pin status added, increasing pin count")
+            db.execute(
+                "UPDATE users SET pincount = ? WHERE userid = ?",
+                usernumbers[0]["pincount"] - 1, session["user_id"]
+            )        
+            session["user_pincount"] = usernumbers[0]["pincount"] - 1
+
+            # Update vocab table pin column         
+            db.execute(
+                "UPDATE vocab SET pin = ? WHERE wordid = ?",
+                False, request.form.get("recallallunpinentry")
+            ) 
+
+            return redirect("/recallall")
+
+        # Redirect to homepage (backup redirect)
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        print("log: /unpin-GET reached")
+        # (/unpinentry should not be directly accessible) redirect to homepage
+        return redirect("/") 
+
+########## ABOUT ##########
+
+@app.route("/about")
+def about():
+    """Show ABOUT page"""
+
+    # Redirect user to login form
+    return render_template("about.html", all_languages=all_languages)
+
+#################### ERROR CHECKING (INHERITED FROM CS50 PSET9 BASE CODE) ####################
+
 def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):

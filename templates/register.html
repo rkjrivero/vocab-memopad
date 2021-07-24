@@ -7,47 +7,97 @@
 {% block main %}
     <h1>Register an account</h1>
     <br>
+
     <form action="/register" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">
+            
+            <!--username/password/repeatpassword-->
             <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
-            </div>
-            <div class="form-group">
-                <input class="form-control" name="password" placeholder="Password" type="password">
-            </div>
-            <div class="form-group">
-                <input class="form-control" name="confirmation" placeholder="Repeat Password" type="password">
+                <label for="username">
+                    <h5>Username</h5>                    
+                </label>
+                <br>
+                <input autocomplete="off" autofocus class="form-control" id="username" name="username" placeholder="Username" type="text" required>
             </div>
             <br>
+
+            <div class="form-group">
+                <label for="password">
+                    <h5>Password</h5>
+                </label>
+                <br>
+                <input class="form-control" id="password" name="password" placeholder="Password" type="password" required>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label for="repeat-password">
+                    <h5>Repeat Password</h5>
+                </label>
+                <br>
+                <input class="form-control" id="repeat-password" name="confirmation" placeholder="Repeat Password" type="password" required>
+            </div>
+            <br>
+
+            <!--change input language-->
             <div class="form-group align-items-center">
                 <div class="dropdown">
-                    <select class="form-select" aria-label="Original Language" name="originlang">
-                        <option selected disabled>Default Original Language</option>
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
+                    <label for="originlang">
+                        <h5>Select Default<br>Input Language</h5>                        
+                    </label>
+                    <br>
+                    <select class="form-select firstlang" aria-label="Input Language" name="originlang" id="originlang" required>
+                        <option selected disabled value="">Default Input Language</option>
+                        {% for key in all_languages.keys() %}
+                            <option value="{{key}}">{{  all_languages[key]}}</option>
+                        {% endfor %}
                     </select>
                 </div>
-            </div>            
+            </div>
+
+            <!-- swap language, script from: https://stackoverflow.com/questions/46018835/how-to-swap-selected-option-in-2-select-elements/46019430 -->
+            <button type="button" class="btn-sm btn-primary my-3" id="swapbox" onclick="swapper()">
+                ▲▼               
+            </button>
+            <script>
+                function swapper () {
+                    var tmpval=$(".firstlang").val();
+                    $(".firstlang").val($(".secondlang").val());
+                    $(".secondlang").val(tmpval);
+            }
+            </script>
+            <br>
+
+            <!--change target language-->
             <div class="form-group align-items-center">
                 <div class="dropdown">
-                        <select class="form-select" aria-label="Target Language" name="targetlang">
-                            <option selected disabled>Default Target Language</option>
-                            <option value="en">English [en]</option>
-                            <option value="ja">Japanese [ja]</option>
-                            <option value="eo">Esperanto [eo]</option>
-                        </select>
+                    <label for="targetlang secondlang">
+                        <h5>Select Default<br>Translation Language</h5>
+                        <br>
+                    </label>
+                    <select class="form-select secondlang" aria-label="Translation Language" name="targetlang" id="targetlang" required>
+                        <option selected disabled value="">Default Translation Language</option>
+                        {% for key in all_languages.keys() %}
+                            <option value="{{key}}">{{  all_languages[key]}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
             <br>
+
+            <!--check auto-translate -->
             <div class="form-group align-items-center">
                 <div class="form-check form-switch">
-                    <label class="form-check-label" for="check_autotrans">Automatically translate input?</label>
+                    <label class="form-check-label" for="check_autotrans">
+                        <h5>Automatically translate input?</h5>
+                    </label>
                     <input class="form-check-input" type="checkbox" id="check_autotrans" value="true" name="autotrans" checked>                    
                 </div>
             </div>
-            <br><br>
-            <button class="btn btn-primary" type="submit">Register</button>
+            <br>
+
+            <button class="btn btn-success" type="submit">Register</button>
         </div>
     </form>
+
 {% endblock %}

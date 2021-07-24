@@ -8,28 +8,45 @@
     <h1>Currently Logged In As:</h1>
     <h2>{{ session.user_name }}</h2>
     <br>
+
     <table align="center" class="table table-bordered" style="width:40%">
         <thead>
             <tr>
                 <th>Default Original Language: </th>
-                <th> {{ session.user_orglang }} </th>
+                <th> {{ all_languages[session.user_orglang] }} </th>
             </tr>
+
             <tr>
                 <th>Default Target Language: </th>
-                <th> {{ session.user_tgtlang }} </th>
-            </tr>    
+                <th> {{ all_languages[session.user_tgtlang] }} </th>
+            </tr>
+            
             <tr>
                 <th>Auto-Translate: </th>
                 <th> {{ session.user_autotrans }} </th>
-            </tr>     
+            </tr> 
+            
+            <tr>
+                <th>Default Visible Pinned Entries : </th>
+                <th> {{ session.user_recallpinned }} </th>
+            </tr> 
+            
+            <tr>
+                <th>Default Visible All Entries : </th>
+                <th> {{ session.user_recallall }} </th>
+            </tr>   
         </thead>
     </table>
-    <br>    
+    <br>
+
     <div>
         <a class="btn btn-secondary" href="/changedefault">Change Default Settings</a>
-    </div><br><div>
-        <a class="btn btn-secondary" href="/changepw">Change Account Password</a>
-        <br>
     </div>
+    <br>
+
+    <div>
+        <a class="btn btn-secondary" href="/changepw">Change Account Password</a>        
+    </div>
+    <br>
 
 {% endblock %}

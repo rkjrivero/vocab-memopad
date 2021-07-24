@@ -6,12 +6,18 @@
 
 {% block main %}
     <script>
-    $(document).ready(function() {
-        $('#allsaved').DataTable();
-    } );
+        $(document).ready(function() {
+            $('#allsaved').DataTable( {
+                columnDefs: [
+                    // columns 8-10 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    { orderable: false, targets: [8,9,10] },
+                    { "width": "7%", "targets": [8,9,10] }                      
+                ]   
+            } );
+        } );
     </script>
 
-    <h1>All Saved Entries</h1>
+    <h1>All Saved Word/Phrase Entries</h1>
     <br>
     <table align="center" class="table table-bordered" style="width:40%">
         <thead>
@@ -21,8 +27,9 @@
             </tr>    
         </thead>
     </table>
-    <br><br>
-    <table align="center" id="allsaved" class="table table-striped table-bordered">
+    <br>
+    
+    <table align="center" id="allsaved" class="table table-striped table-bordered" data-page-length="{{ session.user_recallall }}">
         <thead>
             <tr>
                 <th>Input Word/Phrase</th>
@@ -31,20 +38,116 @@
                 <th>Translated Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
-                <th>Pinned?</th>
-                <th>DELETE ENTRY</th>
+                <th>Entry Pinned?</th>
+                <th>Entry Edited?</th>
+                <th>PIN/ UNPIN</th>
+                <th>EDIT</th>
+                <th>DELETE</th>
             </tr>
         </thead>
         <tbody>
             {% for fullvocabtable in fullvocabtable %}
             <tr>
                 <td> {{ fullvocabtable.strinput }}  </td>
-                <td> {{ fullvocabtable.langinput }} </td>
+                <td> {{ all_languages[fullvocabtable.langinput] }} </td>
                 <td> {{ fullvocabtable.strtrans }} </td>
-                <td> {{ fullvocabtable.langtrans }} </td>
-                <td> {{ fullvocabtable.time }} </td>
+                <td> {{ all_languages[fullvocabtable.langtrans] }} </td>                
+                <td> 
+                    <time datetime="{{ fullvocabtable.time }}">
+                        {{ fullvocabtable.time }}                          
+                    </time>
+                </td>
                 <td> {{ fullvocabtable.rating }} </td>
-                <td> {{ fullvocabtable.pin }} </td>                
+                <td> {{ fullvocabtable.pin }} </td>
+                <td> {{ fullvocabtable.edit }} </td>
+                {% if fullvocabtable.pin %}
+                <td>  
+                    <form action="/unpinentry" method="post">
+                        <button type="button" name="unpinword" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#unpinmodal">-</button>                        
+                        <!-- Pop-up Modal -->
+                        <div class="modal fade" id="unpinmodal" tabindex="-1" aria-labelledby="unpinmodallabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="unpinmodalheader">Confirm Unpin</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Input Word/Phrase</th>
+                                                    <th>Input Language</th>
+                                                    <th>Translated Word/Phrase</th>
+                                                    <th>Translated Language</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td> {{ fullvocabtable.strinput }}  </td>
+                                                    <td> {{ all_languages[fullvocabtable.langinput] }} </td>
+                                                    <td> {{ fullvocabtable.strtrans }} </td>
+                                                    <td> {{ all_languages[fullvocabtable.langtrans] }} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
+                                        <button type="submit" class="btn btn-outline-danger" name="recallallunpinentry" value="{{fullvocabtable.wordid}}">Unpin Entry</button>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+                {% else %}
+                <td>  
+                    <form action="/pinentry" method="post">
+                        <button type="button" name="pinword" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#pinmodal">+</button>                        
+                        <!-- Pop-up Modal -->
+                        <div class="modal fade" id="pinmodal" tabindex="-1" aria-labelledby="pinmodallabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="pinmodalheader">Confirm Pin</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Input Word/Phrase</th>
+                                                    <th>Input Language</th>
+                                                    <th>Translated Word/Phrase</th>
+                                                    <th>Translated Language</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td> {{ fullvocabtable.strinput }}  </td>
+                                                    <td> {{ all_languages[fullvocabtable.langinput] }} </td>
+                                                    <td> {{ fullvocabtable.strtrans }} </td>
+                                                    <td> {{ all_languages[fullvocabtable.langtrans] }} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
+                                        <button type="submit" class="btn btn-outline-success" name="recallallpinentry" value="{{fullvocabtable.wordid}}">Pin Entry</button>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+                {% endif %}
+                <td>  
+                    <form action="/editentry" method="post">
+                        <button type="submit" name="editword" class="btn btn-info" value="{{fullvocabtable.wordid}}">!</button>
+                    </form>
+                </td>
                 <td>  
                     <form action="/deletecheck" method="post">
                         <button type="submit" name="deleteword" class="btn btn-danger" value="{{fullvocabtable.wordid}}">X</button>
@@ -54,6 +157,14 @@
             {% endfor %}
         </tbody>
     </table>
+    <br>
+    
+    <form action="/" method="get" class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="container-sm align-items-center">            
+            <br>
+            <button class="btn btn-secondary" type="submit">Return to Homepage</button>
+        </div>
+    </form>
     <br>
 
 {% endblock %}

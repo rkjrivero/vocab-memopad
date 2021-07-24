@@ -6,9 +6,15 @@
 
 {% block main %}
     <script>
-    $(document).ready(function() {
-        $('#allpinned').DataTable();
-    } );
+        $(document).ready(function() {
+            $('#allpinned').DataTable( {
+                columnDefs: [
+                    // columns 7-9 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    { orderable: false, targets: [7,8,9] },
+                    { "width": "7%", "targets": [7,8,9] }      
+                ]   
+            } );
+        } );
     </script>
 
     <h1>Pinned Word/Phrase Entries</h1>
@@ -21,8 +27,9 @@
             </tr>  
         </thead>
     </table>
-    <br><br>
-    <table align="center" id="allpinned" class="table table-striped table-bordered">
+    <br>
+
+    <table align="center" id="allpinned" class="table table-striped table-bordered" data-page-length="{{ session.user_recallpinned }}">
         <thead>
             <tr>
                 <th>Input Word/Phrase</th>
@@ -31,6 +38,9 @@
                 <th>Translated Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
+                <th>Entry Edited?</th>
+                <th>UNPIN ENTRY</th>
+                <th>EDIT ENTRY</th>
                 <th>DELETE ENTRY</th>
             </tr>
         </thead>
@@ -38,11 +48,61 @@
             {% for pinnedvocabtable in pinnedvocabtable %}
             <tr>
                 <td> {{ pinnedvocabtable.strinput }}  </td>
-                <td> {{ pinnedvocabtable.langinput }} </td>
+                <td> {{ all_languages[pinnedvocabtable.langinput] }} </td>
                 <td> {{ pinnedvocabtable.strtrans }} </td>
-                <td> {{ pinnedvocabtable.langtrans }} </td>
-                <td> {{ pinnedvocabtable.time }} </td>
+                <td> {{ all_languages[pinnedvocabtable.langtrans] }} </td>                                
+                <td> 
+                    <time datetime="{{ pinnedvocabtable.time }}">
+                        {{ pinnedvocabtable.time }}                          
+                    </time>
+                </td>
                 <td> {{ pinnedvocabtable.rating }} </td>
+                <td> {{ pinnedvocabtable.edit }} </td>
+                <td>  
+                    <form action="/unpinentry" method="post">
+                        <button type="button" name="unpinword" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#unpinmodal">-</button>                        
+                        <!-- Pop-up Modal -->
+                        <div class="modal fade" id="unpinmodal" tabindex="-1" aria-labelledby="unpinmodallabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="unpinmodalheader">Confirm Unpin</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Input Word/Phrase</th>
+                                                    <th>Input Language</th>
+                                                    <th>Translated Word/Phrase</th>
+                                                    <th>Translated Language</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td> {{ pinnedvocabtable.strinput }}  </td>
+                                                    <td> {{ all_languages[pinnedvocabtable.langinput] }} </td>
+                                                    <td> {{ pinnedvocabtable.strtrans }} </td>
+                                                    <td> {{ all_languages[pinnedvocabtable.langtrans] }} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
+                                        <button type="submit" class="btn btn-outline-danger" name="recallpinunpinentry" value="{{pinnedvocabtable.wordid}}">Unpin Entry</button>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+                <td>  
+                    <form action="/editentry" method="post">
+                        <button type="submit" name="editword" class="btn btn-info" value="{{pinnedvocabtable.wordid}}">!</button>
+                    </form>
+                </td>
                 <td>  
                     <form action="/deletecheck" method="post">
                         <button type="submit" name="deleteword" class="btn btn-danger" value="{{pinnedvocabtable.wordid}}">X</button>
@@ -52,6 +112,14 @@
             {% endfor %}
         </tbody>
     </table>
+    <br>
+    
+    <form action="/" method="get" class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="container-sm align-items-center">            
+            <br>
+            <button class="btn btn-secondary" type="submit">Return to Homepage</button>
+        </div>
+    </form>
     <br>
 
 {% endblock %}

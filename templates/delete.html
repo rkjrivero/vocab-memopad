@@ -7,6 +7,7 @@
 {% block main %}
     <h1>Confirm Deletion of Word/Phrase Entry?</h1>
     <br>
+
     <table align="center" id="topsaved" class="table table-striped table-bordered">
         <thead>
             <tr>
@@ -15,7 +16,9 @@
                 <th>Translated Word/Phrase</th>
                 <th>Translated Language</th>
                 <th>Date/Time Saved</th>
-                <th>Difficulty Rating</th>
+                <th>Difficulty Rating</th>                
+                <th>Entry Pinned?</th>                
+                <th>Entry Edited?</th>
             </tr>
         </thead>
         <tbody>
@@ -24,18 +27,26 @@
                 <td> {{ deletiontable.strinput }}  </td>
                 <td> {{ deletiontable.langinput }} </td>
                 <td> {{ deletiontable.strtrans }} </td>
-                <td> {{ deletiontable.langtrans }} </td>
-                <td> {{ deletiontable.time }} </td>
-                <td> {{ deletiontable.rating }} </td>
+                <td> {{ deletiontable.langtrans }} </td>                
+                <td> 
+                    <time datetime="{{ deletiontable.time }}">
+                        {{ deletiontable.time }}                          
+                    </time>
+                </td>
+                <td> {{ deletiontable.rating }} </td>                
+                <td> {{ deletiontable.pin }} </td>
+                <td> {{ deletiontable.edit }} </td>
             </tr>         
         </tbody>
     </table>
     <br><br>
+
     <form action="/deletion" method="post">
         <button type="submit" name="confirmdelete" class="btn btn-danger" value="{{deletiontable.wordid}}">Confirm Delete Word</button>
     </form>
     {% endfor %}
     <br>
+    
     <form action="/" method="get">
         <button type="submit" class="btn btn-secondary">Cancel Action</button>
     </form>        
