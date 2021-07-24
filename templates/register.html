@@ -46,7 +46,7 @@
                         <h5>Select Default<br>Input Language</h5>                        
                     </label>
                     <br>
-                    <select class="form-select firstlang" aria-label="Input Language" name="originlang" id="originlang">
+                    <select class="form-select firstlang" aria-label="Input Language" name="originlang" id="originlang" required>
                         <option selected disabled>Default Input Language</option>
                         {% for key in all_languages.keys() %}
                             <option value="{{key}}">{{  all_languages[key]}}</option>
@@ -75,7 +75,7 @@
                         <h5>Select Default<br>Translation Language</h5>
                         <br>
                     </label>
-                    <select class="form-select" aria-label="Translation Language" name="targetlang" id="targetlang">
+                    <select class="form-select" aria-label="Translation Language" name="targetlang" id="targetlang" required>
                         <option selected disabled>Default Translation Language</option>
                         {% for key in all_languages.keys() %}
                             <option value="{{key}}">{{  all_languages[key]}}</option>
