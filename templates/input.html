@@ -33,6 +33,23 @@
                         {% endfor %}
                     </select>
                     </select>
+                     <!-- swap language script from: https://stackoverflow.com/questions/46018835/how-to-swap-selected-option-in-2-select-elements/46019430 -->
+                    <button class="select-swap">
+                        &nbsp;
+                    </button>
+                    <script>
+                        $(document).ready(function() {
+                        $(".select-swap").on('click', function (ev) {
+                            swaper();
+                        });
+                    });
+
+                    function swaper () {
+                        var co=$(".firstlang").val();
+                        $(".firstlang").val($(".secondlang").val());
+                        $(".secondlang").val(co);
+                    }
+                    </script>
                 </div>
                 <script>
                     function changeoriginlang() {
@@ -41,22 +58,6 @@
                 </script>
                 <br>    
                 
-                <!--test swap-->
-                <button class="select-swap">&nbsp;</button>
-                <script>
-                    $(document).ready(function() {
-                    $(".select-swap").on('click', function (ev) {
-                        swaper();
-                    });
-                });
-
-                function swaper () {
-                    var co=$(".firstlang").val();
-                    $(".firstlang").val($(".secondlang").val());
-                    $(".secondlang").val(co);
-                }
-                </script>
-
                 <!--change target language-->
                 <div class="dropdown">
                     <label for="targetlang">
@@ -107,6 +108,12 @@
     <script>
         function changeautotrans() {
             document.getElementById("autotrans").removeAttribute("checked"); 
+            }
+    </script>
+    {% else %}
+    <script>
+        function changeautotrans() {
+            // pass (added to avoid errors)
             }
     </script>
     {% endif %}
