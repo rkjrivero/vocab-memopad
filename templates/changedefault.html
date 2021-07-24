@@ -64,20 +64,14 @@
             </div>
                             
             <!-- swap language, script from: https://stackoverflow.com/questions/46018835/how-to-swap-selected-option-in-2-select-elements/46019430 -->
-            <button class="select-swap btn-sm btn-primary my-3">
+            <button type="button" class="btn-sm btn-primary my-3" id="swapbox" onclick="swapper()">
                 ▲▼               
             </button>
             <script>
-                $(document).ready(function() {
-                $(".select-swap").on('click', function (ev) {
-                    swaper();
-                });
-            });
-
-            function swaper () {
-                var co=$(".firstlang").val();
-                $(".firstlang").val($(".secondlang").val());
-                $(".secondlang").val(co);
+                function swapper () {
+                    var tmpval=$(".firstlang").val();
+                    $(".firstlang").val($(".secondlang").val());
+                    $(".secondlang").val(tmpval);
             }
             </script>
             <br>

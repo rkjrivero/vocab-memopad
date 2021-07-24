@@ -39,40 +39,6 @@
             </div>
             <br>
 
-            <!-- three language variant for backup
-            <div class="form-group align-items-center">
-                <div class="dropdown">
-                    <label for="originlang">
-                        <h5>Select Default<br>Input Language</h5>                        
-                    </label>
-                    <br>
-                    <select class="form-select" aria-label="Input Language" name="originlang" id="originlang">
-                        <option selected disabled>Default Input Language</option>
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-            </div>
-            <br>          
-
-            <div class="form-group align-items-center">
-                <div class="dropdown">
-                    <label for="targetlang">
-                        <h5>Select Default<br>Translation Language</h5>                        
-                    </label>
-                    <br>
-                    <select class="form-select" aria-label="Translation Language" name="targetlang" id="targetlang">
-                        <option selected disabled>Default Translation Language</option>
-                        <option value="en">English [en]</option>
-                        <option value="ja">Japanese [ja]</option>
-                        <option value="eo">Esperanto [eo]</option>
-                    </select>
-                </div>
-            </div>
-            <br>
-            -->
-
             <!--change input language-->
             <div class="form-group align-items-center">
                 <div class="dropdown">
@@ -80,7 +46,7 @@
                         <h5>Select Default<br>Input Language</h5>                        
                     </label>
                     <br>
-                    <select class="form-select" aria-label="Input Language" name="originlang" id="originlang">
+                    <select class="form-select firstlang" aria-label="Input Language" name="originlang" id="originlang">
                         <option selected disabled>Default Input Language</option>
                         {% for key in all_languages.keys() %}
                             <option value="{{key}}">{{  all_languages[key]}}</option>
@@ -88,12 +54,24 @@
                     </select>
                 </div>
             </div>
+
+            <!-- swap language, script from: https://stackoverflow.com/questions/46018835/how-to-swap-selected-option-in-2-select-elements/46019430 -->
+            <button type="button" class="btn-sm btn-primary my-3" id="swapbox" onclick="swapper()">
+                ▲▼               
+            </button>
+            <script>
+                function swapper () {
+                    var tmpval=$(".firstlang").val();
+                    $(".firstlang").val($(".secondlang").val());
+                    $(".secondlang").val(tmpval);
+            }
+            </script>
             <br>
 
             <!--change target language-->
             <div class="form-group align-items-center">
                 <div class="dropdown">
-                    <label for="targetlang">
+                    <label for="targetlang secondlang">
                         <h5>Select Default<br>Translation Language</h5>
                         <br>
                     </label>
