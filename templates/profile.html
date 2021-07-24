@@ -13,27 +13,27 @@
         <thead>
             <tr>
                 <th>Default Original Language: </th>
-                <th> {{ all_languages[session.user_orglang] }} </th>
+                <td> {{ all_languages[session.user_orglang] }} </td>
             </tr>
 
             <tr>
                 <th>Default Target Language: </th>
-                <th> {{ all_languages[session.user_tgtlang] }} </th>
+                <td> {{ all_languages[session.user_tgtlang] }} </td>
             </tr>
             
             <tr>
                 <th>Auto-Translate: </th>
-                <th> {{ session.user_autotrans }} </th>
+                <td> {{ session.user_autotrans }} </td>
             </tr> 
             
             <tr>
                 <th>Default Visible Pinned Entries : </th>
-                <th> {{ session.user_recallpinned }} </th>
+                <td> {{ session.user_recallpinned }} </td>
             </tr> 
             
             <tr>
                 <th>Default Visible All Entries : </th>
-                <th> {{ session.user_recallall }} </th>
+                <td> {{ session.user_recallall }} </td>
             </tr>   
         </thead>
     </table>
