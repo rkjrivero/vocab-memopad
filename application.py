@@ -109,6 +109,9 @@ def register():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
+        # Forget any userid
+        session.clear()
+
         # Ensure username was submitted
         if not request.form.get("username"):
             return apology("must provide username", 400)
@@ -161,7 +164,7 @@ def register():
             flash("User registered", category="message")
 
         # Redirect user to login page
-        return redirect("/login")
+        return render_template("login.html")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:   
@@ -262,7 +265,7 @@ def logout():
     db.execute("DELETE FROM shadow") 
 
     # Redirect user to login form
-    return redirect("/")
+    return redirect("/login")
 
 ########## PROFILE / CHANGE PASSWORD / CHANGE DEFAULT SETTINGS ##########
 
