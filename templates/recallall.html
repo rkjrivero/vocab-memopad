@@ -51,8 +51,12 @@
                 <td> {{ fullvocabtable.strinput }}  </td>
                 <td> {{ all_languages[fullvocabtable.langinput] }} </td>
                 <td> {{ fullvocabtable.strtrans }} </td>
-                <td> {{ all_languages[fullvocabtable.langtrans] }} </td>
-                <td> {{ fullvocabtable.time }} </td>
+                <td> {{ all_languages[fullvocabtable.langtrans] }} </td>                
+                <td> 
+                    <time datetime="{{ fullvocabtable.time }}">
+                        {{ fullvocabtable.time }}                          
+                    </time>
+                </td>
                 <td> {{ fullvocabtable.rating }} </td>
                 <td> {{ fullvocabtable.pin }} </td>
                 <td> {{ fullvocabtable.edit }} </td>

@@ -50,8 +50,12 @@
                 <td> {{ pinnedvocabtable.strinput }}  </td>
                 <td> {{ all_languages[pinnedvocabtable.langinput] }} </td>
                 <td> {{ pinnedvocabtable.strtrans }} </td>
-                <td> {{ all_languages[pinnedvocabtable.langtrans] }} </td>
-                <td> {{ pinnedvocabtable.time }} </td>
+                <td> {{ all_languages[pinnedvocabtable.langtrans] }} </td>                                
+                <td> 
+                    <time datetime="{{ pinnedvocabtable.time }}">
+                        {{ pinnedvocabtable.time }}                          
+                    </time>
+                </td>
                 <td> {{ pinnedvocabtable.rating }} </td>
                 <td> {{ pinnedvocabtable.edit }} </td>
                 <td>  
