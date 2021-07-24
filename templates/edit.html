@@ -64,7 +64,7 @@
                     </label>
                     <br>
                     <select class="form-select firstlang" aria-label="Input Language" name="inputlang" id="inputlang">
-                        <option selected disabled>Change Input Language?</option>
+                        <option selected disabled value ="">Change Input Language?</option required>
                         {% for key in all_languages.keys() %}
                             <option value="{{key}}">{{  all_languages[key]}}</option>
                         {% endfor %}
@@ -97,8 +97,8 @@
                         <h5>Change Translation Language?</h5>                        
                     </label>
                     <br>
-                    <select class="form-select secondlang" aria-label="Output Language" name="outputlang" id="outputlang">
-                        <option selected disabled>Change Translation Language?</option>
+                    <select class="form-select secondlang" aria-label="Output Language" name="outputlang" id="outputlang" required>
+                        <option selected disabled value ="">Change Translation Language?</option>
                         {% for key in all_languages.keys() %}
                             <option value="{{key}}">{{  all_languages[key]}}</option>
                         {% endfor %}
