@@ -28,7 +28,11 @@
                 <td> {{ all_languages[revisiontable.langinput] }} </td>
                 <td> {{ revisiontable.strtrans }} </td>
                 <td> {{ all_languages[revisiontable.langtrans] }} </td>
-                <td> {{ revisiontable.time }} </td>
+                <td> 
+                    <time datetime="{{ allvocabtable.time }}">
+                        {{ revisiontable.time }}                          
+                    </time>
+                </td>
                 <td> {{ revisiontable.rating }} </td>                
                 <td> {{ revisiontable.pin }} </td>
                 <td> {{ revisiontable.edit }} </td>
