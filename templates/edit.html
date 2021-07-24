@@ -190,7 +190,8 @@
     {% endfor %}
     <br>
     
-    <form action="/" method="get">
+    <!--dynamic cancel action-->
+    <form action="{{session.last_page}}" method="get">
         <button type="submit" class="btn btn-secondary">Cancel Action</button>
     </form>        
 
