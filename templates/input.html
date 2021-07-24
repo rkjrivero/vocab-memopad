@@ -39,8 +39,8 @@
                     }
                 </script>
                 
-                <!-- swap language, script from: https://stackoverflow.com/questions/46018835/how-to-swap-selected-option-in-2-select-elements/46019430 -->
-                <button class="select-swap btn-sm btn-primary my-3" id="swapbox" onclick="swapper()">
+                <!-- swap language button-->
+                <button class="btn-sm btn-primary my-3" id="swapbox" onclick="swapper()">
                     ▲▼               
                 </button>
 
@@ -83,28 +83,24 @@
             <button class="btn btn-primary" type="submit">Search Word/Phrase</button>
         </div>        
     </form>
-    <script>
-        //const swapbox = document.getElementById('swapbox');
-        //swapbox.addEventListener("change", swapper);                
-        //$(document).ready(function() {
-        //$(".select-swap").on('click', function (ev) {
-            //swaper();
-        //});
-    //});
 
-        function swapper () {
-            alert("swapper");
-            var tmpval=$(".firstlang").val();
-            $(".firstlang").val($(".secondlang").val());
-            $(".secondlang").val(tmpval);
-    }
-    </script>
     <form action="/" method="get" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">            
             <br>
             <button class="btn btn-secondary" type="submit">Cancel Search</button>
         </div>
     </form>
+
+
+    <!-- swap language, script from: https://stackoverflow.com/questions/46018835/how-to-swap-selected-option-in-2-select-elements/46019430 -->
+    <script>
+        function swapper () {
+            var tmpval=$(".firstlang").val();
+            $(".firstlang").val($(".secondlang").val());
+            $(".secondlang").val(tmpval);
+    }
+    </script>
+
 
     <!--swap autotranslate, moved out of form scope-->
     {% if not session.user_autotrans %}
