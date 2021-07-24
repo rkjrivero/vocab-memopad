@@ -1095,7 +1095,7 @@ def unpinentry():
 
 
 @app.route("/about")
-def logout():
+def about():
     """Show ABOUT page"""
 
     # Redirect user to login form
