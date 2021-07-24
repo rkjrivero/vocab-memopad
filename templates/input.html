@@ -43,23 +43,7 @@
                 <button class="select-swap btn-sm btn-primary my-3" id="swapbox" onclick="swapper()">
                     ▲▼               
                 </button>
-                <script>
-                    const swapbox = document.getElementById('swapbox');
-                    swapbox.addEventListener("change", swapper);
-                
-                    //$(document).ready(function() {
-                    //$(".select-swap").on('click', function (ev) {
-                        //swaper();
-                    //});
-                //});
 
-                    function swapper () {
-                        alert("swapper");
-                        var tmpval=$(".firstlang").val();
-                        $(".firstlang").val($(".secondlang").val());
-                        $(".secondlang").val(tmpval);
-                }
-                </script>
                 <br>
                 
                 <!--change target language-->
@@ -99,7 +83,22 @@
             <button class="btn btn-primary" type="submit">Search Word/Phrase</button>
         </div>        
     </form>
-    
+    <script>
+        //const swapbox = document.getElementById('swapbox');
+        //swapbox.addEventListener("change", swapper);                
+        //$(document).ready(function() {
+        //$(".select-swap").on('click', function (ev) {
+            //swaper();
+        //});
+    //});
+
+        function swapper () {
+            alert("swapper");
+            var tmpval=$(".firstlang").val();
+            $(".firstlang").val($(".secondlang").val());
+            $(".secondlang").val(tmpval);
+    }
+    </script>
     <form action="/" method="get" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="container-sm align-items-center">            
             <br>
