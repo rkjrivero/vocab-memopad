@@ -41,7 +41,7 @@
                         <li class="nav-item">
                             <button type="button" class="btn btn-sm btn-success mx-3"><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
                         </li>                                       
-                        <li class="nav-item">
+                        <li class="nav-item">   
                             <button type="button" class="btn btn-sm btn-primary mx-3"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
                         </li>
                         <li class="nav-item">
@@ -107,15 +107,15 @@
 
         <main class="container p-5">
             {% block main %}{% endblock %}
-        <!--
-            script to convert server time (UTC) to client local time
-            from: https://levelup.gitconnected.com/automatic-conversion-to-local-time-client-side-with-javascript-1b7c27e8b6f2
-        -->
-        <script>
-            for (let time of document.getElementsByTagName('time')) {
-            time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
-            }
-        </script>
+            <!--
+                script to convert server time (UTC) to client local time
+                from: https://levelup.gitconnected.com/automatic-conversion-to-local-time-client-side-with-javascript-1b7c27e8b6f2
+            -->
+            <script>
+                for (let time of document.getElementsByTagName('time')) {
+                time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
+                }
+            </script>
         </main>
 
         <footer class="small text-center text-muted">
