@@ -143,8 +143,8 @@ def register():
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?;", request.form.get("username"))
         print(usertable)
-        # Check if username exists
 
+        # Check if username exists
         if len(usertable) != 0:
             return apology("existing user detected", 400)
 
@@ -160,8 +160,8 @@ def register():
                 request.form.get("username"), newpass, tgtlang, orglang, autotrans, 0, 0, 10, 25, 25, 25)            
             flash("User registered", category="message")
 
-        # Redirect user to home page
-        return redirect("/")
+        # Redirect user to login page
+        return redirect("/login")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:   
