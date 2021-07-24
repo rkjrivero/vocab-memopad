@@ -99,7 +99,7 @@ all_languages = {
 
 #################### ROUTE DECLARATIONS ####################
 
-########## REGISTER/LOGIN/LOGOUT ##########
+########## REGISTER / LOGIN / LOGOUT ##########
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -269,7 +269,6 @@ def logout():
 @app.route("/profile")
 @login_required
 def profile():
-    # NOTE/TODO FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
     """Profile Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -283,7 +282,6 @@ def profile():
 @app.route("/changepw", methods=["GET", "POST"])
 @login_required
 def changepw():
-    # NOTE/TODO FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
     """Change Password Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -327,7 +325,6 @@ def changepw():
 @app.route("/changedefault", methods=["GET", "POST"])
 @login_required
 def changedefault():
-    # NOTE/TODO FROM CS50PSET9 SUBMISSION, REVISE AS NECESSARY LATER !!!
     """Change Settings Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -1093,6 +1090,16 @@ def unpinentry():
         print("log: /unpin-GET reached")
         # (/unpinentry should not be directly accessible) redirect to homepage
         return redirect("/") 
+
+########## ABOUT ##########
+
+
+@app.route("/about")
+def logout():
+    """Show ABOUT page"""
+
+    # Redirect user to login form
+    return render_template("about.html", all_languages=all_languages)
 
 #################### ERROR CHECKING (INHERITED FROM CS50 PSET9 BASE CODE) ####################
 
