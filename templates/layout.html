@@ -23,20 +23,12 @@
         <!-- JS FILES -->
         <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
-        <!-- datatable plugin, seems not to be needed?
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
-        <script src="https://cdn.datatables.net/plug-ins/1.10.25/sorting/datetime-moment.js"></script>
-        -->
         <!-- CSS FILES-->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
         <title>VOCAB MEMOPAD: {% block title %}{% endblock %}</title>
     </head>
-    
-    <!--
-        from: https://levelup.gitconnected.com/automatic-conversion-to-local-time-client-side-with-javascript-1b7c27e8b6f2
-    -->
 
     <body>
 
@@ -76,16 +68,6 @@
                         <li class="nav-item indicated">{{ session.user_autotrans }}</li>                        
                         -->
                         <li class="nav-item indicator">Date/Time: </li>
-                        <!--
-                        <li class="nav-item indicated mx-2">{{ session.current_time }}</li>
-                        -->
-                        <!-- test experiment
-                        <li class="nav-item indicated mx-2">
-                            <time datetime="{{ session.current_time }}">
-                                {{ session.current_time }}
-                            </time>
-                        </li>
-                        -->
                         <li class="nav-item indicated mx-2">
                             <time datetime="{{ session.current_time }}">
                                 {{ session.current_time }}                          
@@ -97,13 +79,6 @@
                                 <a class="nav-link" href="/logout">LOG OUT</a></li>
                             </button>
                     </ul>
-                    <!--
-                    <script>
-                        for (let time of document.getElementsByTagName('time')) {
-                        time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
-                        }
-                    </script>
-                    -->
 
                 {% else %}
                     <ul class="navbar-nav mr-auto my-1">
@@ -132,8 +107,10 @@
 
         <main class="container p-5">
             {% block main %}{% endblock %}
-
-        
+        <!--
+            script to convert server time (UTC) to client local time
+            from: https://levelup.gitconnected.com/automatic-conversion-to-local-time-client-side-with-javascript-1b7c27e8b6f2
+        -->
         <script>
             for (let time of document.getElementsByTagName('time')) {
             time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
@@ -143,17 +120,13 @@
 
         <footer class="small text-center text-muted">
             VOCAB-MEMOPAD is a simple web app designed to quickly look up and save the translations of words/phrases and review them online.
-            <br> 
+            <br>            
+            Application uses Google Translate and supports translations across 15 different languages, but UI is currently only in English.
             <!--
-            Only three language translations are currently supported (English/Japanese/Esperanto), with the UI currently only in English.
+            English, Esperanto, Japanese, Latin, Spanish, German, French, Italian, Russian, Arabic, Indonesian, Malaysian, Thai, Vietnamese, Tagalog
+            -->  
             <br>
-            -->
-            <!--
-                English, Esperanto, Japanese, Latin, Spanish, German, French, Italian, Russian, Arabic, Indonesian, Malaysian, Thai, Vietnamese, Tagalog
-            -->             
-            Application supports translations across 15 different languages, but UI is currently only in English.
-            <br>
-            Application UI is currently only designed with desktop browsers in mind, and is currently not mobile-friendly.
+            Application UI currently only designed with desktop browsers in mind, and is not mobile-friendly.
             <br>
             <!-- 
             Feel free to leave comments/suggestions at the <a href="https://github.com/rkjrivero/vocab-memopad">github page</a> (repository currently private). 
