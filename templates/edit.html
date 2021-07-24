@@ -24,18 +24,18 @@
         <tbody>
             {% for revisiontable in revisiontable %}
             <tr>
-                <td> {{ revisiontable.strinput }}  </td>
-                <td> {{ all_languages[revisiontable.langinput] }} </td>
-                <td> {{ revisiontable.strtrans }} </td>
-                <td> {{ all_languages[revisiontable.langtrans] }} </td>
-                <td> 
+                <th> {{ revisiontable.strinput }}  </th>
+                <th> {{ all_languages[revisiontable.langinput] }} </th>
+                <th> {{ revisiontable.strtrans }} </th>
+                <th> {{ all_languages[revisiontable.langtrans] }} </th>
+                <th> 
                     <time datetime="{{ revisiontable.time }}">
                         {{ revisiontable.time }}                          
                     </time>
-                </td>
-                <td> {{ revisiontable.rating }} </td>                
-                <td> {{ revisiontable.pin }} </td>
-                <td> {{ revisiontable.edit }} </td>
+                </th>
+                <th> {{ revisiontable.rating }} </th>                
+                <th> {{ revisiontable.pin }} </th>
+                <th> {{ revisiontable.edit }} </th>
             </tr>
 
         </tbody>

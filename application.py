@@ -1093,7 +1093,6 @@ def unpinentry():
 
 ########## ABOUT ##########
 
-
 @app.route("/about")
 def about():
     """Show ABOUT page"""
