@@ -808,8 +808,8 @@ def revision():
             # Add values to revisiondata dictionary
             revisiondata["input"] = request.form.get("inputedit")
             revisiondata["output"] = request.form.get("outputedit")
-            revisiondata["org"] = request.form.get("originlang")
-            revisiondata["tgt"] = "n/a"
+            revisiondata["org"] = request.form.get("inputlang")
+            revisiondata["tgt"] = request.form.get("outputlang")
             revisiondata["rating"] = request.form.get("difficulty")
 
             # PRINT TEST BLOCK        
