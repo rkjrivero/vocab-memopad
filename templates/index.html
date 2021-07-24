@@ -68,7 +68,11 @@
                 <td> {{ all_languages[pinvocabtable.langinput] }} </td>
                 <td> {{ pinvocabtable.strtrans }} </td>
                 <td> {{ all_languages[pinvocabtable.langtrans] }} </td>
-                <td> {{ pinvocabtable.time }} </td>
+                <td> 
+                    <time datetime="{{ pinvocabtable.time }}">
+                        {{ pinvocabtable.time }}                          
+                    </time>
+                </td>
                 <td> {{ pinvocabtable.rating }} </td>
                 <td> {{ pinvocabtable.edit }} </td>
                 <td>  
@@ -152,7 +156,11 @@
                 <td> {{ all_languages[allvocabtable.langinput] }} </td>
                 <td> {{ allvocabtable.strtrans }} </td>
                 <td> {{ all_languages[allvocabtable.langtrans] }} </td>
-                <td> {{ allvocabtable.time }} </td>
+                <td> 
+                    <time datetime="{{ allvocabtable.time }}">
+                        {{ allvocabtable.time }}                          
+                    </time>
+                </td>
                 <td> {{ allvocabtable.rating }} </td>
                 <td> {{ allvocabtable.edit }} </td>
                 <td>  
