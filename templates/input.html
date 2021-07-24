@@ -45,12 +45,13 @@
                 </button>
                 <script>
                     const swapbox = document.getElementById('swapbox');
-                    swapbox.addEventListener("onclick", swapper);
-                    //function swaplang() {
-                      //  $(".select-swap").on('click', function (ev) {
-                            //swapper();
-                        //});
-                //};
+                    swapbox.addEventListener("change", swapper);
+                
+                    //$(document).ready(function() {
+                    //$(".select-swap").on('click', function (ev) {
+                        //swaper();
+                    //});
+                //});
 
                     function swapper () {
                         alert("swapper");
