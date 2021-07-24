@@ -5,102 +5,158 @@
 {% endblock %}
 
 {% block main %}
-    <h1>About VOCAB-MEMOPAD</h1>
+    <h1>VOCAB-MEMOPAD</h1>
     <br>
 
     <div>
         <p>
-            <h5>
-                VOCAB-MEMOPAD is a simple web app designed to quickly look up and save the translations of words/phrases and review them online.
-            </h5>
-            <br>    
-            Application primarily uses Google Translate (via the <a href="https://py-googletrans.readthedocs.io/en/latest/">googletrans python library</a>) 
-            and supports translations across 15 different languages, but UI is currently only available in English.
-            <br>
+            <h5>About The App</h5>
+            <br>            
+            VOCAB-MEMOPAD is a simple web app designed to quickly look up and save the translations of words/phrases and review them online, 
+            just like a small memopad to jot down vocabulary entries when studying a language.
 
-            <table align="center" class="table table-bordered" style="width:40%">
-                <thead>
-                    <tr>
-                        <th>Supported Languages:</th>
-                        <th>Translation API Used: </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>English</th>
-                        <td>Google Translate</td>
-                    </tr>
-                    <tr>
-                        <th>Esperanto</th>
-                        <td>Google Translate</td>
-                    </tr>                
-                    <tr>   
-                        <th>Japanese</th>
-                        <td>Google Translate</td>
-                    </tr>
-                    <tr>   
-                        <th>Latin</th>
-                        <td>Google Translate</td>
-                    </tr> 
-                    <tr>
-                        <th>Spanish</th>
-                        <td>Google Translate</td>
-                    </tr>   
-                    <tr>
-                        <th>German</th>
-                        <td>Google Translate</td>
-                    </tr>   
-                    <tr>
-                        <th>French</th>
-                        <td>Google Translate</td>
-                    </tr> 
-                    <tr>
-                        <th>Italian</th>
-                        <td>Google Translate</td>
-                    </tr>   
-                    <tr>
-                        <th>Russian</th>
-                        <td>Google Translate</td>
-                    </tr>   
-                    <tr>
-                        <th>Arabic</th>
-                        <td>Google Translate</td>
-                    </tr> 
-                    <tr>
-                        <th>Indonesian</th>
-                        <td>Google Translate</td>
-                    </tr>   
-                    <tr>
-                        <th>Malaysian</th>
-                        <td>Google Translate</td>
-                    </tr> 
-                    <tr>
-                        <th>Thai</th>
-                        <td>Google Translate</td>
-                    </tr> 
-                    <tr>
-                        <th>Vietnamese</th>
-                        <td>Google Translate</td>
-                    </tr>   
-                    <tr>
-                        <th>Tagalog</th>
-                        <td>Google Translate</td>
-                    </tr> 
-                </tbody>                
-            </table>
-
+            The application primarily uses Google Translate (via the <a href="https://py-googletrans.readthedocs.io/en/latest/">googletrans python library</a>) 
+            and supports translations across 15 different languages. Please note that the UI is currently only available in English.
             <br>
-            Application UI currently only designed with desktop browsers in mind, and is not mobile-friendly.
+        </p>
+        <br>
+
+        <table align="center" class="table table-bordered" style="width:40%">
+            <thead>
+                <tr>
+                    <th>Supported Languages:</th>
+                    <th>Translation API Used: </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>English</th>
+                    <td>Google Translate</td>
+                </tr>
+                <tr>
+                    <th>Esperanto</th>
+                    <td>Google Translate</td>
+                </tr>                
+                <tr>   
+                    <th>Japanese</th>
+                    <td>Google Translate</td>
+                </tr>
+                <tr>   
+                    <th>Latin</th>
+                    <td>Google Translate</td>
+                </tr> 
+                <tr>
+                    <th>Spanish</th>
+                    <td>Google Translate</td>
+                </tr>   
+                <tr>
+                    <th>German</th>
+                    <td>Google Translate</td>
+                </tr>   
+                <tr>
+                    <th>French</th>
+                    <td>Google Translate</td>
+                </tr> 
+                <tr>
+                    <th>Italian</th>
+                    <td>Google Translate</td>
+                </tr>   
+                <tr>
+                    <th>Russian</th>
+                    <td>Google Translate</td>
+                </tr>   
+                <tr>
+                    <th>Arabic</th>
+                    <td>Google Translate</td>
+                </tr> 
+                <tr>
+                    <th>Indonesian</th>
+                    <td>Google Translate</td>
+                </tr>   
+                <tr>
+                    <th>Malaysian</th>
+                    <td>Google Translate</td>
+                </tr> 
+                <tr>
+                    <th>Thai</th>
+                    <td>Google Translate</td>
+                </tr> 
+                <tr>
+                    <th>Vietnamese</th>
+                    <td>Google Translate</td>
+                </tr>   
+                <tr>
+                    <th>Tagalog</th>
+                    <td>Google Translate</td>
+                </tr> 
+            </tbody>                
+        </table>
+        <br>
+        
+        <p>
+            <h5>Known Limitations</h5>
+            <br>
+            The application UI is currently only designed with desktop browsers in mind, and is not mobile-friendly. 
             <br>
         </p>
         <br>
 
         <p>
-            <h5>DISCLAIMER:</h5> 
+            <h5>Current Plans</h5>
+            <br>
+            A mobile-friendly UX is currently part of future development plans. 
+            <br>
+            Similarly, there are some plans to incorporate other translation API's for certain languages, such as <a href="https://jisho.org/">Jisho API</a> for Japanese translations.
+            <br>
+        </p>
+        <br>
+        
+        <p>
+            <h5>Disclaimers</h5> 
+            <br>
             UI elements and underlying code borrow from <a href="https://cs50.harvard.edu/x/2021/">CS50's</a> <a href="https://cs50.harvard.edu/x/2021/psets/9/finance/">Finance problem set</a>.            
         </p>
         <br>
+
+        <table align="center" class="table table-bordered" style="width:40%">
+            <thead>
+                <tr>
+                    <th>Application Component:</th>
+                    <th>Utilized Technologies:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Application Framework</th>
+                    <td><a href="https://palletsprojects.com/p/flask/">Flask</a></td>
+                </tr>
+                <tr>
+                    <th>Translation API</th>
+                    <td><a href="https://py-googletrans.readthedocs.io/en/latest/">googletrans</a></td>
+                </tr>                
+                <tr>   
+                    <th>Other Technologies</th>
+                    <td>
+                        <a href="https://getbootstrap.com/">
+                        Bootstrap
+                        </a>, 
+                        <a href="https://datatables.net//">
+                        Datatable
+                        </a>
+                    </td>
+                </tr>
+            </tbody>                
+        </table>
+        <br>
+
     </div>
+
+    <p>
+        <h5>Contact</h5> 
+        <br>
+        Feel free to leave feedback at the application's <a href="https://github.com/rkjrivero/vocab-memopad">github page</a>.
+        <!--github repo current private-->
+    </p>
     <br>
 
     <div>
