@@ -33,11 +33,6 @@
     <!--
         from: https://levelup.gitconnected.com/automatic-conversion-to-local-time-client-side-with-javascript-1b7c27e8b6f2
     -->
-    <script>
-        for (let time of document.getElementsByTagName('time')) {
-        time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
-        }
-    </script>
 
     <body>
 
@@ -82,7 +77,7 @@
                         -->
                         <li class="nav-item indicated mx-2">
                             <time datetime="{{ session.current_time }}">
-                                {{ session.current_time }} GMT
+                                {{ session.current_time }}
                             </time>
                         </li>
                         <li class="nav-item">
@@ -90,6 +85,11 @@
                                 <a class="nav-link" href="/logout">LOG OUT</a></li>
                             </button>
                     </ul>
+                    <script>
+                        for (let time of document.getElementsByTagName('time')) {
+                        time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
+                        }
+                    </script>
 
                 {% else %}
                     <ul class="navbar-nav mr-auto my-1">
