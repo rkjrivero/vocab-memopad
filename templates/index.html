@@ -6,8 +6,9 @@
 
     {% block main %}
         <script>
-            $(document).ready(function() {                
-                $.fn.dataTable.moment( 'dddd, MMMM Do, YYYY' ); 
+            $(document).ready(function() {                                
+                $.fn.dataTable.moment( 'HH:mm MMM D, YY' );
+                $.fn.dataTable.moment( 'dddd, MMMM Do, YYYY' );
                 $('#toppinned').DataTable( {
                     columnDefs: [
                     // columns 7-9 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
