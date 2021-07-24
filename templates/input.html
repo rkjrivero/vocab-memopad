@@ -26,7 +26,7 @@
                         <h5>Select Input Language</h5>                        
                     </label>
                     <br>
-                    <select class="form-select" aria-label="Input Language" name="originlang" id="originlang">
+                    <select class="form-select firstlang" aria-label="Input Language" name="originlang" id="originlang">
                         <option selected disabled>Default Input Language</option>
                         {% for key in all_languages.keys() %}
                             <option value="{{key}}">{{  all_languages[key]}}</option>
@@ -41,13 +41,29 @@
                 </script>
                 <br>    
                 
+                <!--test swap-->
+                <button class="select-swap">&nbsp;</button>
+                <script>
+                    $(document).ready(function() {
+                    $(".select-swap").on('click', function (ev) {
+                        swaper();
+                    });
+                });
+
+                function swaper () {
+                    var co=$(".firstlang").val();
+                    $(".firstlang").val($(".secondlang").val());
+                    $(".secondlang").val(co);
+                }
+                </script>
+
                 <!--change target language-->
                 <div class="dropdown">
                     <label for="targetlang">
                         <h5>Select Translation Language</h5>                        
                     </label>
                     <br>
-                    <select class="form-select" aria-label="Translation Language" name="targetlang" id="targetlang">
+                    <select class="form-select secondlang" aria-label="Translation Language" name="targetlang" id="targetlang">
                         <option selected disabled>Default Translation Language</option>
                         {% for key in all_languages.keys() %}
                             <option value="{{key}}">{{  all_languages[key]}}</option>
