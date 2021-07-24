@@ -832,7 +832,9 @@ def revision():
                 "UPDATE users SET pincount = ? WHERE userid = ?",
                 usernumbers[0]["pincount"] - 1, session["user_id"]
             )
-            session["user_pincount"] = usernumbers[0]["pincount"] - 1
+            session["user_pincount"] = usernumbers[0]["pincount"] - 1            
+            # Set new pin value (to prevent None value)
+            newpinvalue = False
         elif revisiontable[0]["pin"] == False and request.form.get("editpin") == True:
             # Update user table pincount
             print("log: entry pin status added, increasing pin count")
@@ -841,6 +843,14 @@ def revision():
                 usernumbers[0]["pincount"] + 1, session["user_id"]
             )        
             session["user_pincount"] = usernumbers[0]["pincount"] + 1
+            # Set new pin value (to prevent None value)
+            newpinvalue = True
+        elif revisiontable[0]["pin"] == True and request.form.get("editpin") == True:
+            # Set new pin value (to prevent None value)
+            newpinvalue = True
+        elif revisiontable[0]["pin"] == False and request.form.get("editpin") == None:
+            # Set new pin value (to prevent None value)
+            newpinvalue = False
         else:
             # No updates
             pass
@@ -854,7 +864,7 @@ def revision():
             WHERE wordid = ?
             """,
             revisiondata["input"], revisiondata["output"],revisiondata["org"], revisiondata["tgt"], 
-            datetime.now(pytz.utc), revisiondata["rating"], request.form.get("editpin"), True,
+            datetime.now(pytz.utc), revisiondata["rating"], newpinvalue, True,
             revisiontable[0]["wordid"]
         )
         
