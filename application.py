@@ -236,6 +236,8 @@ def login():
         session["user_indexunpinned"] = usertable[0]["indexunpinned"]
         session["user_recallall"] = usertable[0]["recallall"]
         session["user_recallpinned"] = usertable[0]["recallpinned"]
+        # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+        session["last_page"] = "/login"
 
         # Update current display time - display format: dd/mm/YY H:M:S
         session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -279,6 +281,9 @@ def profile():
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
+
+    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    session["last_page"] = "profile"
 
     return render_template("profile.html", all_languages=all_languages)
 
@@ -398,6 +403,8 @@ def index():
     # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
     session["user_wordcount"] = usertable[0]["wordcount"]
     session["user_pincount"] = usertable[0]["pincount"]
+    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    session["last_page"] = "/"
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -477,7 +484,7 @@ def index():
                 #print("log: function break due to pincount at ", pincount)
                 break  
     #print("test, pinvocabtable (after): ", pinvocabtable)
-
+    
     return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable, all_languages=all_languages)
 
 @app.route("/recallpin")
@@ -501,6 +508,8 @@ def recallpin():
     # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
     session["user_wordcount"] = usertable[0]["wordcount"]
     session["user_pincount"] = usertable[0]["pincount"]
+    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    session["last_page"] = "/recallpin"
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -555,6 +564,8 @@ def recallall():
     # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
     session["user_wordcount"] = usertable[0]["wordcount"]
     session["user_pincount"] = usertable[0]["pincount"]
+    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    session["last_page"] = "/recallall"
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
