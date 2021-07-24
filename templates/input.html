@@ -40,20 +40,22 @@
                 </script>
                 
                 <!-- swap language, script from: https://stackoverflow.com/questions/46018835/how-to-swap-selected-option-in-2-select-elements/46019430 -->
-                <button class="select-swap btn-sm btn-primary my-3">
+                <button class="select-swap btn-sm btn-primary my-3" id="swapbox">
                     ▲▼               
                 </button>
                 <script>
-                    $(document).ready(function() {
-                    $(".select-swap").on('click', function (ev) {
-                        swaper();
-                    });
-                });
+                    const swapbox = document.getElementById('swapbox');
+                    checkbox.addEventListener("change", swaplang);
+                    function swaplang() {
+                        $(".select-swap").on('click', function (ev) {
+                            swapper();
+                        });
+                };
 
-                function swaper () {
-                    var co=$(".firstlang").val();
-                    $(".firstlang").val($(".secondlang").val());
-                    $(".secondlang").val(co);
+                    function swapper () {
+                        var co=$(".firstlang").val();
+                        $(".firstlang").val($(".secondlang").val());
+                        $(".secondlang").val(co);
                 }
                 </script>
                 <br>
