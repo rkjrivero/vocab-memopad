@@ -165,9 +165,9 @@
                 <td> {{ allvocabtable.edit }} </td>
                 <td>  
                     <form action="/pinentry" method="post">
-                        <button type="button" name="pinword" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#{{allvocabtable.wordid}}pinmodal">+</button>                        
+                        <button type="button" name="pinword" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#pinmodal{{allvocabtable.wordid}}">+</button>                        
                         <!-- Pop-up Modal -->
-                        <div class="modal fade" id="{{allvocabtable.wordid}}pinmodal" tabindex="-1" aria-labelledby="pinmodallabel" aria-hidden="true">
+                        <div class="modal fade" id="pinmodal{{allvocabtable.wordid}}" tabindex="-1" aria-labelledby="pinmodallabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
