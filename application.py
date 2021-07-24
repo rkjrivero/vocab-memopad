@@ -11,7 +11,7 @@ from datetime import datetime
 # Import googletrans (https://pypi.org/project/googletrans/ , https://py-googletrans.readthedocs.io/en/latest/)
 from googletrans import Translator
 # Import SQLAlchemy NOTE: currently vestigial due to CS50 reliance
-from sqlalchemy.sql.expression import false
+from sqlalchemy.sql.expression import false, null
 # Import pytz for timezone conversion
 import pytz
 
@@ -823,8 +823,9 @@ def revision():
         
         # Check if pin value was changed
         print("test, initial pin:", revisiontable[0]["pin"])
-        print("test, edited pin:", request.form.get("editpin"))
-        if revisiontable[0]["pin"] == True and request.form.get("editpin") == False:
+        print("test, edited pin:", request.form.get("editpin"))    
+        # NOTE: "editpin" should be either True or None
+        if revisiontable[0]["pin"] == True and request.form.get("editpin") == None:            
             # Update user table pincount
             print("log: entry pin status removed, reducing pin count")
             db.execute(
