@@ -9,9 +9,9 @@
         $(document).ready(function() {
             $('#allsaved').DataTable( {
                 columnDefs: [
-                    // columns 8-10 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
-                    { orderable: false, targets: [8,9,10] },
-                    { "width": "7%", "targets": [8,9,10] }                      
+                    // columns 7-9 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    { orderable: false, targets: [7,8,9] },
+                    { "width": "7%", "targets": [7,8,9] }                      
                 ]   
             } );
         } );
@@ -41,7 +41,9 @@
                 <th>Entry Pinned?</th>
                 <th>Entry Edited?</th>
                 <th>PIN/ UNPIN</th>
+                <!--
                 <th>EDIT</th>
+                -->
                 <th>DELETE</th>
             </tr>
         </thead>

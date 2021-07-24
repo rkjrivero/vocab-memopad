@@ -9,9 +9,9 @@
             $(document).ready(function() {                                
                 $('#toppinned').DataTable( {
                     columnDefs: [
-                    // columns 7-9 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
-                    { orderable: false, targets: [7,8,9] },
-                    { "width": "7%", "targets": [7,8,9] }                    
+                    // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    { orderable: false, targets: [6,7,8] },
+                    { "width": "7%", "targets": [6,7,8] }                      
                     ]   
                 } );
             } );
@@ -19,9 +19,9 @@
             $(document).ready(function() {
                 $('#topsaved').DataTable( {
                     columnDefs: [
-                    // columns 7-9 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
-                    { orderable: false, targets: [7,8,9] },
-                    { "width": "7%", "targets": [7,8,9] }    
+                    // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    { orderable: false, targets: [6,7,8] },
+                    { "width": "7%", "targets": [6,7,8] }      
                     ]   
                 } );
             } );
@@ -57,7 +57,9 @@
                 <th>Difficulty Rating</th>
                 <th>Entry Edited?</th>
                 <th>UNPIN</th>
+                <!--
                 <th>EDIT</th>
+                -->
                 <th>DELETE</th>
             </tr>
         </thead>
@@ -74,7 +76,9 @@
                     </time>
                 </td>
                 <td> {{ pinvocabtable.rating }} </td>
+                <!--
                 <td> {{ pinvocabtable.edit }} </td>
+                -->
                 <td>  
                     <form action="/unpinentry" method="post">
                         <button type="button" name="unpinword" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#unpinmodal{{pinvocabtable.wordid}}">-</button>                        
@@ -145,7 +149,9 @@
                 <th>Difficulty Rating</th>
                 <th>Entry Edited?</th>
                 <th>PIN</th>
+                <!--
                 <th>EDIT</th>
+                -->
                 <th>DELETE</th>
             </tr>
         </thead>
@@ -162,7 +168,9 @@
                     </time>
                 </td>
                 <td> {{ allvocabtable.rating }} </td>
+                <!--
                 <td> {{ allvocabtable.edit }} </td>
+                -->
                 <td>  
                     <form action="/pinentry" method="post">
                         <button type="button" name="pinword" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#pinmodal{{allvocabtable.wordid}}">+</button>                        
