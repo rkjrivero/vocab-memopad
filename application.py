@@ -186,10 +186,12 @@ def login():
         # Purge shadow table to ensure no errant entries
         db.execute("DELETE FROM shadow") 
 
+        """
         # NOTE: temporary code to block none "tester" accounts
         # TODO: remove during transfer to main branch
         if not request.form.get("username") == "tester":
             return apology("Unauthorized Access", 401)
+        """
 
         # Ensure username was submitted
         if not request.form.get("username"):
@@ -235,12 +237,7 @@ def login():
         # Update current display time - display format: dd/mm/YY H:M:S
         session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
         print("test, datetime.now(pytz.utc): ", datetime.now(pytz.utc))
-        
-        """ NOTE: back up prior datetime setting prior to experiment
-        # Update current display time - display format: dd/mm/YY H:M:S
-        session["current_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-        """
-
+ 
         # Redirect user to home page
         return redirect("/")
 
@@ -948,19 +945,6 @@ def deletion():
 
 ########## PIN ENTRY / UNPIN ENTRY ##########
 
-"""
-NOTE: index/recallall/recallpin should have different redirects
-index.html
-<button type="submit" class="btn btn-outline-danger" name="indexunpinentry" value="{{pinvocabtable.wordid}}">Unpin Entry</button>
-<button type="submit" class="btn btn-outline-success" name="indexpinentry" value="{{allvocabtable.wordid}}">Pin Entry</button> 
-recallall.html
-<button type="submit" class="btn btn-outline-danger" name="recallallunpinentry" value="{{fullvocabtable.wordid}}">Unpin Entry</button>
-<button type="submit" class="btn btn-outline-success" name="recallallpinentry" value="{{fullvocabtable.wordid}}">Pin Entry</button>  
-recallpin.html
-<button type="submit" class="btn btn-outline-danger" name="recallpinunpinentry" value="{{pinnedvocabtable.wordid}}">Unpin Entry</button>
-"""
-
-#TODO - PIN ENTRY
 @app.route("/pinentry", methods=["GET", "POST"])
 @login_required
 def pinentry():
@@ -1025,7 +1009,6 @@ def pinentry():
         # (/pinentry should not be directly accessible) redirect to homepage
         return redirect("/") 
 
-#TODO - UNPIN ENTRY
 @app.route("/unpinentry", methods=["GET", "POST"])
 @login_required
 def unpinentry():
