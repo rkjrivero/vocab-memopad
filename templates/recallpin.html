@@ -60,9 +60,9 @@
                 <td> {{ pinnedvocabtable.edit }} </td>
                 <td>  
                     <form action="/unpinentry" method="post">
-                        <button type="button" name="unpinword" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#unpinmodal">-</button>                        
+                        <button type="button" name="unpinword" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#{{pinnedvocabtable.wordid}}unpinmodal">-</button>                        
                         <!-- Pop-up Modal -->
-                        <div class="modal fade" id="unpinmodal" tabindex="-1" aria-labelledby="unpinmodallabel" aria-hidden="true">
+                        <div class="modal fade" id="{{pinnedvocabtable.wordid}}unpinmodal" tabindex="-1" aria-labelledby="unpinmodallabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
