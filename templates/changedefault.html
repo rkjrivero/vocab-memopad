@@ -49,7 +49,7 @@
                         <h5>Change Default<br>Input Language</h5>                        
                     </label>
                     <br>
-                    <select class="form-select" aria-label="Input Language" name="originlang" id="originlang">
+                    <select class="form-select firstlang" aria-label="Input Language" name="originlang" id="originlang">
                         <option selected disabled>Default Input Language</option>
                         {% for key in all_languages.keys() %}
                             <option value="{{key}}">{{  all_languages[key]}}</option>
@@ -62,6 +62,24 @@
                     }
                 </script>
             </div>
+                            
+            <!-- swap language, script from: https://stackoverflow.com/questions/46018835/how-to-swap-selected-option-in-2-select-elements/46019430 -->
+            <button class="select-swap btn-sm btn-primary my-3">
+                ▲▼               
+            </button>
+            <script>
+                $(document).ready(function() {
+                $(".select-swap").on('click', function (ev) {
+                    swaper();
+                });
+            });
+
+            function swaper () {
+                var co=$(".firstlang").val();
+                $(".firstlang").val($(".secondlang").val());
+                $(".secondlang").val(co);
+            }
+            </script>
             <br>
 
             <!--change target language-->
@@ -70,7 +88,7 @@
                     <label for="targetlang">
                         <h5>Change Default<br>Translation Language</h5>
                     </label>
-                    <select class="form-select" aria-label="Translation Language" name="targetlang" id="targetlang">
+                    <select class="form-select secondlang" aria-label="Translation Language" name="targetlang" id="targetlang">
                         <option selected disabled>Default Translation Language</option>
                         {% for key in all_languages.keys() %}
                             <option value="{{key}}">{{  all_languages[key]}}</option>
@@ -82,7 +100,6 @@
                         document.getElementById("targetlang").value = "{{session.user_tgtlang}}";
                     }
                 </script>
-
             </div>
             <br>
 
