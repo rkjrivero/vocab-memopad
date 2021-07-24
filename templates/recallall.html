@@ -63,7 +63,7 @@
                 {% if fullvocabtable.pin %}
                 <td>  
                     <form action="/unpinentry" method="post">
-                        <button type="button" name="unpinword" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#unpinmodal{fullvocabtable.wordid}}">-</button>                        
+                        <button type="button" name="unpinword" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#unpinmodal{{fullvocabtable.wordid}}">-</button>                        
                         <!-- Pop-up Modal -->
                         <div class="modal fade" id="unpinmodal{{fullvocabtable.wordid}}" tabindex="-1" aria-labelledby="unpinmodallabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
