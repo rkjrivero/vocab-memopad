@@ -929,8 +929,8 @@ def revision():
             time = ?, rating = ?, pin = ?, edit = ?
             WHERE wordid = ?
             """,
-            shadowcopy[0]["input"], shadowcopy[0]["output"],shadowcopy[0]["org"], shadowcopy[0]["tgt"], 
-            datetime.now(pytz.utc), shadowcopy[0]["rating"], shadowcopy[0]["pin"], True,
+            shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"],shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], 
+            datetime.now(pytz.utc), shadowcopy[0]["sharating"], shadowcopy[0]["shapin"], True,
             shadowcopy[0]["wordidprior"]
         )
         
