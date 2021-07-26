@@ -1,4 +1,4 @@
-#################### APPLICATION SETUP ####################
+######################################## APPLICATION SETUP ########################################
 ##### NOTE / DISCLAIMER: GENERAL APPLICATION FOUNDATION IS BUILT UPON THE APPLICATION.PY FILE OF CS50 PSET 9 #####
 import os
 from cs50 import SQL
@@ -97,9 +97,9 @@ all_languages = {
 'tl': 'Tagalog',
 }
 
-#################### ROUTE DECLARATIONS ####################
+######################################## ROUTE DECLARATIONS ########################################
 
-########## REGISTER / LOGIN / LOGOUT ##########
+#################### REGISTER / LOGIN / LOGOUT ####################
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -269,7 +269,7 @@ def logout():
     # Redirect user to login form
     return redirect("/login")
 
-########## PROFILE / CHANGE PASSWORD / CHANGE DEFAULT SETTINGS ##########
+#################### PROFILE / CHANGE PASSWORD / CHANGE DEFAULT SETTINGS ####################
 
 @app.route("/profile")
 @login_required
@@ -379,7 +379,7 @@ def changedefault():
     else:
         return render_template("changedefault.html", all_languages=all_languages)
 
-########## INDEX / SHOW PINNED / SHOW ALL ##########
+#################### INDEX / SHOW PINNED / SHOW ALL ####################
 
 @app.route("/")
 @login_required
@@ -596,7 +596,7 @@ def recallall():
 
     return render_template("recallall.html", fullvocabtable=fullvocabtable, all_languages=all_languages)
 
-########## INPUT / REVIEW ##########
+#################### INPUT / REVIEW ####################
 
 @app.route("/input", methods=["GET", "POST"])
 @login_required
@@ -659,8 +659,11 @@ def input():
         # NOTE: shadow table = shawordid, shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin
         # NOTE: "rating" value set to 0 to distinguish it from form-submitted ratings of 1-3
         db.execute(
-            "INSERT INTO shadow (shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(pytz.utc), 0, False
+            """
+            INSERT INTO shadow (shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin, shaedit, shapinchange, shawordidprior) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            session["user_id"], translation["input"], translation["output"], translation["org"], translation["tgt"], datetime.now(pytz.utc), 0, False, False, 0, 0
         )
         
         # Redirect to review.html
@@ -678,7 +681,7 @@ def review():
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
-    # NOTE: only /review route should not purge shadow table
+    # NOTE: only /review and /preview route should not purge shadow table
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -731,7 +734,7 @@ def review():
         # /review should not be directly accessible (redirect to /input instead)
         return redirect("/input") 
 
-########## EDIT ENTRY / REVISION  ##########
+#################### EDIT ENTRY / PREVIEW EDIT REVISION  ####################
 
 @app.route("/editentry", methods=["GET", "POST"])
 @login_required
@@ -750,36 +753,41 @@ def editentry():
         revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("editword"))
         print("test, revisiontable[0]: ", revisiontable[0])
 
-        # Redirect to /revision
+        # Brings up edit page
         return render_template("edit.html", revisiontable=revisiontable, all_languages=all_languages)
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        print("log: /revision-GET reached")
-        # /deletion should not be directly accessible (redirect to /input instead)
-        return redirect("/input") 
+        print("log: /editentry-GET reached")
+        # /editentry should not be directly accessible (redirect to / instead)
+        return redirect("/") 
 
-@app.route("/revision", methods=["GET", "POST"])
+@app.route("/preview", methods=["GET", "POST"])
 @login_required
-def revision():
-    """Enact revision (behind the scenes)"""
+def preview():
+    """Show PREVIEW.html"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
-    # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    # NOTE: only /review and /preview route should not purge shadow table
 
-    # User reached route via POST (as by submitting a form via POST)
+# User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        print("log: /revision-POST reached")
-        revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmedit"))
-        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
+        print("log: /preview-POST reached")
+        revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("previewedit"))
+        #usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
         print("test, pre-edit revisiontable[0]: ", revisiontable[0])
 
         # Initialize an empty dictionary
         revisiondata = {}
-        
+
+        # Include basic data
+        revisiondata["wordid"] = request.form.get("previewedit")
+        revisiondata["userlink"] = session["user_id"]
+        revisiondata["time"] = datetime.now(pytz.utc)
+        revisiondata["edit"] = True
+
         # PRINT TEST BLOCK        
         print("test, form input: ", request.form.get("inputedit"))
         print("test, form output: ", request.form.get("outputedit"))
@@ -788,7 +796,7 @@ def revision():
 
         # Lookup translation if check-box selected
         if request.form.get("retrans"):
-            print("log: /revision: auto-retranslation option selected")
+            print("log: /previewedit: auto-retranslation option selected")
 
             # Use googletrans library
             # NOTE: class googletrans.models.Translated(src, dest, origin, text, pronunciation, extra_data=None, **kwargs)            
@@ -798,10 +806,10 @@ def revision():
             retranslated = retranslator.translate(request.form.get("inputedit"), src = request.form.get("inputlang"), dest = request.form.get("outputlang"))
             
             # Add values to translation dictionry (to pass to review.html)
-            revisiondata["input"] = request.form.get("inputedit")
-            revisiondata["output"] = retranslated.text
-            revisiondata["org"] = retranslated.src
-            revisiondata["tgt"] = retranslated.dest
+            revisiondata["strinput"] = request.form.get("inputedit")
+            revisiondata["strtrans"] = retranslated.text
+            revisiondata["langinput"] = retranslated.src
+            revisiondata["langtrans"] = retranslated.dest
             revisiondata["rating"] = request.form.get("difficulty")
 
             # PRINT TEST BLOCK        
@@ -814,20 +822,20 @@ def revision():
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
 
         else:
-            print("log: /revision: manual revision option selected")
+            print("log: /previewedit: manual revision option selected")
 
             # Add values to revisiondata dictionary
-            revisiondata["input"] = request.form.get("inputedit")
-            revisiondata["output"] = request.form.get("outputedit")
-            revisiondata["org"] = request.form.get("inputlang")
-            revisiondata["tgt"] = request.form.get("outputlang")
+            revisiondata["strinput"] = request.form.get("inputedit")
+            revisiondata["strtrans"] = request.form.get("outputedit")
+            revisiondata["langinput"] = request.form.get("inputlang")
+            revisiondata["langtrans"] = request.form.get("outputlang")
             revisiondata["rating"] = request.form.get("difficulty")
 
             # PRINT TEST BLOCK        
-            print("test, input: ", revisiondata["input"])
-            print("test, output: ", revisiondata["output"])
-            print("test, orglang: ", revisiondata["org"])
-            print("test, tgtlang: ", revisiondata["tgt"])
+            print("test, input: ", revisiondata["strinput"])
+            print("test, output: ", revisiondata["strtrans"])
+            print("test, orglang: ", revisiondata["langinput"])
+            print("test, tgtlang: ", revisiondata["langtrans"])
             print("log: autoretranslation option is not selected, manual output entry")
             print("test, rating: ", revisiondata["rating"])
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
@@ -837,36 +845,79 @@ def revision():
         print("test, edited pin:", request.form.get("editpin"))    
         # NOTE: "editpin" should be either True or None
         if revisiontable[0]["pin"] == True and request.form.get("editpin") == None:            
-            # Update user table pincount
-            print("log: entry pin status removed, reducing pin count")
-            db.execute(
-                "UPDATE users SET pincount = ? WHERE userid = ?",
-                usernumbers[0]["pincount"] - 1, session["user_id"]
-            )
-            session["user_pincount"] = usernumbers[0]["pincount"] - 1            
-            # Set new pin value (to prevent None value)
-            newpinvalue = False
+            revisiondata["pin"] = False  
+            revisiondata["pinchange"] = -1
+            
         elif revisiontable[0]["pin"] == False and request.form.get("editpin") == True:
-            # Update user table pincount
-            print("log: entry pin status added, increasing pin count")
-            db.execute(
-                "UPDATE users SET pincount = ? WHERE userid = ?",
-                usernumbers[0]["pincount"] + 1, session["user_id"]
-            )        
-            session["user_pincount"] = usernumbers[0]["pincount"] + 1
-            # Set new pin value (to prevent None value)
-            newpinvalue = True
+            revisiondata["pin"] = True
+            revisiondata["pinchange"] = 1
+
         elif revisiontable[0]["pin"] == True and request.form.get("editpin") == True:
-            # Set new pin value (to prevent None value)
-            newpinvalue = True
+            revisiondata["pin"] = True
+            revisiondata["pinchange"] = 0
+           
         elif revisiontable[0]["pin"] == False and request.form.get("editpin") == None:
-            # Set new pin value (to prevent None value)
-            newpinvalue = False
+            revisiondata["pin"] = False
+            revisiondata["pinchange"] = 0
+
         else:
             # No updates
-            pass
+            pass        
+                    
+        # Create shadow table entry with revisiondata dictionary         
+        db.execute(
+            """
+            INSERT INTO shadow (shauserlink, shastrinput, shastrtrans, shalanginput, shalangtrans, shatime, sharating, shapin, shaedit, shapinchange, shawordidprior) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            revisiondata["userlink"], revisiondata["strinput"], revisiondata["strtrans"], 
+            revisiondata["langinput"], revisiondata["langtrans"], revisiondata["time"], 
+            revisiondata["rating"], revisiondata["pin"], revisiondata["edit"], 
+            revisiondata["pinchange"] , revisiondata["wordid"]
+        )
+        
+        # Get a copy of revision data in shadow table
+        shadowcopy = db.execute("SELECT * FROM shadow WHERE shauserlink = ?", session["user_id"])   
+        
+        # Brings up preview page
+        return render_template("preview.html", shadowcopy=shadowcopy, all_languages=all_languages)
 
-        # Update vocab table with revisiondata dictionary         
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        print("log: /preview-GET reached")
+        # /preview should not be directly accessible (redirect to / instead)
+        return redirect("/") 
+
+@app.route("/revision", methods=["GET", "POST"])
+@login_required
+def revision():
+    """Enact revision (behind the scenes)"""
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
+
+    # Obtain copy of shadowtable before purging
+    shadowcopy = db.execute("SELECT * FROM shadow WHERE shauserlink = ?", session["user_id"])   
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        print("log: /revision-POST reached")
+        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
+        print("test, shadowcopy[0]: ", shadowcopy[0])
+             
+        # Update user table pincount with shapinchange (+1/-1/0 value)
+        print("log: updating pin count based on shapinchange = ", shadowcopy[0]["shapinchange"])
+        db.execute(
+            "UPDATE users SET pincount = ? WHERE userid = ?",
+            usernumbers[0]["pincount"] + shadowcopy[0]["shapinchange"], session["user_id"]
+        )
+        session["user_pincount"] = usernumbers[0]["pincount"] + shadowcopy[0]["shapinchange"]            
+
+
+        # Update vocab table with shadowcopy dictionary         
         db.execute(
             """
             UPDATE vocab 
@@ -874,9 +925,9 @@ def revision():
             time = ?, rating = ?, pin = ?, edit = ?
             WHERE wordid = ?
             """,
-            revisiondata["input"], revisiondata["output"],revisiondata["org"], revisiondata["tgt"], 
-            datetime.now(pytz.utc), revisiondata["rating"], newpinvalue, True,
-            revisiontable[0]["wordid"]
+            shadowcopy[0]["input"], shadowcopy[0]["output"],shadowcopy[0]["org"], shadowcopy[0]["tgt"], 
+            datetime.now(pytz.utc), shadowcopy[0]["rating"], shadowcopy[0]["pin"], True,
+            shadowcopy[0]["wordidprior"]
         )
         
         # Redirect to index.html
@@ -888,7 +939,7 @@ def revision():
         # /deletion should not be directly accessible (redirect to /input instead)
         return redirect("/input") 
 
-########## DELETE CHECK / DELETION ##########
+#################### DELETE CHECK / DELETION ####################
 
 @app.route("/deletecheck", methods=["GET", "POST"])
 @login_required
@@ -965,7 +1016,7 @@ def deletion():
         # /deletion should not be directly accessible (redirect to /input instead)
         return redirect("/input") 
 
-########## PIN ENTRY / UNPIN ENTRY ##########
+#################### PIN ENTRY / UNPIN ENTRY ####################
 
 @app.route("/pinentry", methods=["GET", "POST"])
 @login_required
@@ -1116,7 +1167,7 @@ def unpinentry():
         # (/unpinentry should not be directly accessible) redirect to homepage
         return redirect("/") 
 
-########## ABOUT ##########
+#################### ABOUT ####################
 
 @app.route("/about")
 def about():
@@ -1125,7 +1176,7 @@ def about():
     # Redirect user to login form
     return render_template("about.html", all_languages=all_languages)
 
-#################### ERROR CHECKING (INHERITED FROM CS50 PSET9 BASE CODE) ####################
+######################################## ERROR CHECKING (INHERITED FROM CS50 PSET9 BASE CODE) ########################################
 
 def errorhandler(e):
     """Handle error"""
