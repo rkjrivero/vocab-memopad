@@ -32,7 +32,7 @@
 
     <body>
 
-        <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
+        <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
             <a class="navbar-brand" href="/">VOCAB-<span class="green">ME</span><span class="blue">MO</span><span class="red">PAD</span>
             </a>
                   
@@ -96,7 +96,7 @@
                 {% endif %}
             </div>
         </nav>
-        <!-- disabled header, code retained as backup
+        
         {% if get_flashed_messages() %}
             <header>
                 <div class="alert alert-primary border text-center" role="alert">
@@ -104,9 +104,9 @@
                 </div>
             </header>
         {% endif %}
-        -->
+        
         <main class="container p-5">
-            <br><br>
+            
             {% block main %}{% endblock %}
             <!--
                 script to convert server time (UTC) to client local time
