@@ -813,11 +813,11 @@ def preview():
             revisiondata["rating"] = request.form.get("difficulty")
 
             # PRINT TEST BLOCK        
-            print("test, input: ", revisiondata["input"])
-            print("test, orglang: ", revisiondata["org"])
-            print("test, tgtlang: ", revisiondata["tgt"])
+            print("test, input: ", revisiondata["strinput"])
+            print("test, orglang: ", revisiondata["strtrans"])
+            print("test, tgtlang: ", revisiondata["langinput"])
             print("test, output(object): ", revisiondata)
-            print("test, output(word): ", revisiondata["output"])
+            print("test, output(word): ", revisiondata["langtrans"])
             print("test, rating: ", revisiondata["rating"])
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
 
