@@ -931,7 +931,7 @@ def revision():
             """,
             shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"],shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], 
             datetime.now(pytz.utc), shadowcopy[0]["sharating"], shadowcopy[0]["shapin"], True,
-            shadowcopy[0]["wordidprior"]
+            shadowcopy[0]["shawordidprior"]
         )
         
         # Redirect to index.html
