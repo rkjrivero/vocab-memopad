@@ -939,8 +939,8 @@ def revision():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        print("log: /deletion-GET reached")
-        # /deletion should not be directly accessible (redirect to /input instead)
+        print("log: /revision-GET reached")
+        # /revision should not be directly accessible (redirect to /input instead)
         return redirect("/input") 
 
 #################### DELETE CHECK / DELETION ####################

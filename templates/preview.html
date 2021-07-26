@@ -26,19 +26,19 @@
         <tbody>
             {% for shadowcopy in shadowcopy %}
             <tr>
-                <td> {{ shadowcopy.strinput }}  </td>
-                <td> {{ shadowcopy.langinput }} </td>
-                <td> {{ shadowcopy.strtrans }} </td>
-                <td> {{ shadowcopy.langtrans }} </td>                
+                <td> {{ shadowcopy.shastrinput }}  </td>
+                <td> {{ shadowcopy.shalanginput }} </td>
+                <td> {{ shadowcopy.shastrtrans }} </td>
+                <td> {{ shadowcopy.shalangtrans }} </td>                
                 <td> 
-                    <time datetime="{{ shadowcopy.time }}">
-                        {{ shadowcopy.time }}                          
+                    <time datetime="{{ shadowcopy.shatime }}">
+                        {{ shadowcopy.shatime }}                          
                     </time>
                 </td>
-                <td> {{ shadowcopy.rating }} </td>                
-                <td> {{ shadowcopy.pin }} </td>
+                <td> {{ shadowcopy.sharating }} </td>                
+                <td> {{ shadowcopy.shapin }} </td>
                 <!--
-                <td> {{ shadowcopy.edit }} </td>
+                <td> {{ shadowcopy.shaedit }} </td>
                 -->
             </tr>         
         </tbody>
@@ -46,7 +46,7 @@
     <br><br>
 
     <form action="/revision" method="post">
-        <button type="submit" name="confirmedit" class="btn btn-info" value="{{shadowcopy.wordid}}">Confirm Edit Entry</button>
+        <button type="submit" name="confirmedit" class="btn btn-info" value="{{shadowcopy.shawordid}}">Confirm Edit Entry</button>
     </form>
     {% endfor %}
     <br>
