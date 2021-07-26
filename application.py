@@ -842,21 +842,25 @@ def preview():
         
         # Check if pin value was changed
         print("test, initial pin:", revisiontable[0]["pin"])
-        print("test, edited pin:", request.form.get("editpin"))    
-        # NOTE: "editpin" should be either True or None
-        if revisiontable[0]["pin"] == True and request.form.get("editpin") == None:            
+        print("test, edited pin:", request.form.get("editpin"))
+        # NOTE: "editpin" variable to ensure true/false value
+        if request.form.get("editpin"):
+            editpin = True
+        else:
+            editpin = False            
+        if revisiontable[0]["pin"] == True and editpin == False:            
             revisiondata["pin"] = False  
             revisiondata["pinchange"] = -1
             
-        elif revisiontable[0]["pin"] == False and request.form.get("editpin") == True:
+        elif revisiontable[0]["pin"] == False and editpin == True:
             revisiondata["pin"] = True
             revisiondata["pinchange"] = 1
 
-        elif revisiontable[0]["pin"] == True and request.form.get("editpin") == True:
+        elif revisiontable[0]["pin"] == True and editpin == True:
             revisiondata["pin"] = True
             revisiondata["pinchange"] = 0
            
-        elif revisiontable[0]["pin"] == False and request.form.get("editpin") == None:
+        elif revisiontable[0]["pin"] == False and editpin == False:
             revisiondata["pin"] = False
             revisiondata["pinchange"] = 0
 
