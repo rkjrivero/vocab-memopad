@@ -35,7 +35,9 @@
         <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
             <a class="navbar-brand" href="/">VOCAB-<span class="green">ME</span><span class="blue">MO</span><span class="red">PAD</span>
             </a>
-                  
+            <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>                  
             <div class="collapse navbar-collapse" id="navbar">
                 {% if session.user_id %}
                     <ul class="navbar-nav ml-auto my-1">
