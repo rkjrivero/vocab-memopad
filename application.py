@@ -421,7 +421,7 @@ def deleteentries():
         
         # Ensure password is correct
         if not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteentries")):
-            return apology("invalid username and/or password", 403)
+            return apology("invalid password", 403)
 
         # PRINT TEST (FOR LOGGING)
         recorddeletiontable = db.execute("SELECT * FROM vocab where userlink = ?", request.form.get("confirmdeleteentries"))
@@ -470,7 +470,7 @@ def deleteaccount():
 
         # Ensure  password is correct
         if not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteaccount")):
-            return apology("invalid username and/or password", 403)
+            return apology("invalid password", 403)
 
         # PRINT TEST (FOR LOGGING)
         recorddeletiontable = db.execute("SELECT * FROM vocab where userlink = ?", request.form.get("confirmdeleteaccount"))
