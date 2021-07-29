@@ -394,7 +394,7 @@ def clearrecords():
 
     return render_template("clearrecords.html", all_languages=all_languages)
 
-@app.route("/deleteentries")
+@app.route("/deleteentries", methods=["GET", "POST"])
 @login_required
 def deleteentries():
     """Deletes all vocab table recods for user"""
@@ -458,7 +458,7 @@ def deleteentries():
         return redirect("/clearrecords") 
 
 
-@app.route("/deleteaccount")
+@app.route("/deleteaccount", methods=["GET", "POST"])
 @login_required
 def deleteaccount():
     """Deletes all data for user"""
