@@ -206,11 +206,11 @@ def login():
         # PRINT TEST BLOCK
         print("test, query-usertable: ", usertable)
         print("test, query-username: ", request.form.get("username"))
-        print("test, password-hash: ", generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8))
-        print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
+        print("test, password-hash: ", generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8))        
 
         # Ensure username exists and password is correct
         if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("password")):
+            print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
             return apology("invalid username and/or password", 403)
 
         # Establish session[] array based on "user" table on database
