@@ -397,7 +397,7 @@ def clearrecords():
 @app.route("/deleteentries")
 @login_required
 def deleteentries():
-    """Clears all vocab table recods for user"""
+    """Deletes all vocab table recods for user"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -408,23 +408,28 @@ def deleteentries():
     # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
     session["last_page"] = "profile"
 
-    return render_template("profile.html", all_languages=all_languages)
+    #TODO
+
+    return render_template("index.html", all_languages=all_languages)
 
 @app.route("/deleteaccount")
 @login_required
 def deleteaccount():
     """Deletes all data for user"""
 
-    # Update current display time - display format: dd/mm/YY H:M:S
-    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    #TODO
+
+    # Forget any userid
+    session.clear()
 
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
-    session["last_page"] = "profile"
-
-    return render_template("profile.html", all_languages=all_languages)
+    # Redirect user to login form
+    return redirect("/login")
 
 #################### INDEX / SHOW PINNED / SHOW ALL ####################
 

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Confirmation of Deletion of Records for User:</h1>
+    <h1>Recods Deletion Confirmation for User:</h1>
     <h2>{{ session.user_name }}</h2>
     <br>
     
@@ -61,13 +61,13 @@
     <br>
 
     <form action="/deleteentries" method="post">
-        <button type="button" name="deleteentriesbutton" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#deleteentriesmodal{{session.user_id}}">Clear All Saved Entries</button>                        
+        <button type="button" name="deleteentriesbutton" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#deleteentriesmodal{{session.user_id}}">Delete All Saved Entries</button>                        
         <!-- Pop-up Modal -->
-        <div class="modal fade" id="cdeleteentriesmodal{{session.user_id}}" tabindex="-1" aria-labelledby="deleteentriesmodallabel" aria-hidden="true">
+        <div class="modal fade" id="deleteentriesmodal{{session.user_id}}" tabindex="-1" aria-labelledby="deleteentriesmodallabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteentriesheader">Confirm Saved Entries Deletion</h5>
+                        <h5 class="modal-title" id="deleteentriesheader">Confirm All Saved Entries Deletion</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -110,13 +110,13 @@
     <br>
 
     <form action="/deleteaccount" method="post">
-        <button type="button" name="deleteaccountbutton" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#deleteaccountmodal{{session.user_id}}">Delete Account</button>                        
+        <button type="button" name="deleteaccountbutton" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#deleteaccountmodal{{session.user_id}}">Delete Account</button>                        
         <!-- Pop-up Modal -->
         <div class="modal fade" id="deleteaccountmodal{{session.user_id}}" tabindex="-1" aria-labelledby="deleteaccountlabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteaccountheader">Confirm Saved Entries Deletion</h5>
+                        <h5 class="modal-title" id="deleteaccountheader">Confirm Account and All Data Deletion</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -136,6 +136,15 @@
                                     <th>Total Word/Phrase Entry Count: </th>
                                     <th> {{ session.user_wordcount }} </th>
                                 </tr>    
+                                <tr>
+                                    <th>Default Original Language: </th>
+                                    <th> {{ all_languages[session.user_orglang] }} </th>
+                                </tr>
+                    
+                                <tr>
+                                    <th>Default Target Language: </th>
+                                    <th> {{ all_languages[session.user_tgtlang] }} </th>
+                                </tr>
                             </thead>
                         </table>
                         <br>
