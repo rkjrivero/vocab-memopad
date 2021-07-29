@@ -376,11 +376,27 @@ def changedefault():
         return render_template("changedefault.html", all_languages=all_languages)
 
 
-#################### CLEAR RECORDS / DELETE ACCOUNT ####################
+#################### CLEAR RECORDS / DELETE ENTRIES / DELETE ACCOUNT ####################
 
 @app.route("/clearrecords")
 @login_required
 def clearrecords():
+    """Show CLEARRECORDS.html"""
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    session["last_page"] = "profile"
+
+    return render_template("clearrecords.html", all_languages=all_languages)
+
+@app.route("/deleteentries")
+@login_required
+def deleteentries():
     """Clears all vocab table recods for user"""
 
     # Update current display time - display format: dd/mm/YY H:M:S

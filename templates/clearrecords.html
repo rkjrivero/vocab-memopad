@@ -60,19 +60,19 @@
     </table>
     <br>
 
-    <form action="/clearrecords" method="post">
-        <button type="button" name="clearrecordsbutton" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#clearrecordsmodal{{session.user_id}}">Clear All Saved Entries</button>                        
+    <form action="/deleteentries" method="post">
+        <button type="button" name="deleteentriesbutton" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#deleteentriesmodal{{session.user_id}}">Clear All Saved Entries</button>                        
         <!-- Pop-up Modal -->
-        <div class="modal fade" id="clearrecordsmodal{{session.user_id}}" tabindex="-1" aria-labelledby="clearrecordsmodallabel" aria-hidden="true">
+        <div class="modal fade" id="cdeleteentriesmodal{{session.user_id}}" tabindex="-1" aria-labelledby="deleteentriesmodallabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="clearrecordsheader">Confirm Saved Entries Deletion</h5>
+                        <h5 class="modal-title" id="deleteentriesheader">Confirm Saved Entries Deletion</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h5>
-                            Confirm deletion of all entries saved under active user {{ session.user_name }} ?
+                            Confirm deletion of all saved entries saved under active user {{ session.user_name }} ?
                         </h5>
                         <br>
 
@@ -88,10 +88,20 @@
                                 </tr>    
                             </thead>
                         </table>
+                        <br>
+
+                        <div class="form-group">
+                            <label for="checkpw">
+                                <h5>Verify Password to Confirm Action</h5>                    
+                            </label>
+                            <br>
+                            <input autocomplete="off" class="form-control" id="checkpw" name="checkpw" placeholder="Verify Password" type="password" required>
+                        </div>
+                        <br>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
-                        <button type="submit" class="btn btn-outline-danger" name="clearrecords" value="{{session.user_id}}">Clear All Saved Entries</button>                                        
+                        <button type="submit" class="btn btn-outline-danger" name="deleteentries" value="{{session.user_id}}">Delete All Saved Entries</button>                                        
                     </div>
                 </div>
             </div>
@@ -112,6 +122,7 @@
                     <div class="modal-body">
                         <h5>
                             Confirm deletion of all associated data (both saved entries and user account) for active user {{ session.user_name }} ?
+                            <b style="color:red;">User will be automatically logged out upon confirmation!</b>
                         </h5>
                         <br>
 
