@@ -413,7 +413,7 @@ def deleteentries():
         print("log: /deleteentries-POST reached")
         
         # Ensure username was submitted
-        if not request.form.get("checkpw"):
+        if not request.form.get("checkpwdeleteentries"):
             return apology("must verify password", 400)
 
         if request.form.get("confirmdeleteentries") != session["user_id"]:
@@ -429,7 +429,7 @@ def deleteentries():
         print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
 
         # Ensure username exists and password is correct
-        if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("checkpw")):
+        if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteentries")):
             return apology("invalid username and/or password", 403)
 
         # PRINT TEST (FOR LOGGING)
@@ -471,7 +471,7 @@ def deleteaccount():
         print("log: /deleteaccount-POST reached")
         
         # Ensure username was submitted
-        if not request.form.get("checkpw"):
+        if not request.form.get("checkpwdeleteaccount"):
             return apology("must verify password", 400)
 
         if request.form.get("confirmdeleteaccount") != session["user_id"]:
@@ -487,7 +487,7 @@ def deleteaccount():
         print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
 
         # Ensure username exists and password is correct
-        if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("checkpw")):
+        if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteaccount")):
             return apology("invalid username and/or password", 403)
 
         # PRINT TEST (FOR LOGGING)
