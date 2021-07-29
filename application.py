@@ -486,7 +486,7 @@ def deleteaccount():
         # Delete the user's account entry from user table        
         db.execute("DELETE FROM users WHERE userid = ?", request.form.get("confirmdeleteaccount"))  
 
-        flash("Account Deleted", category="message")
+        #flash("Account Deleted", category="message")
 
         # Forget any userid
         session.clear()
