@@ -71,8 +71,8 @@
                     </ul>
 
                     <ul class="navbar-nav ms-auto my-1">
-                        <li class="nav-item indicator">Active User: </li>
-                        <li class="nav-item indicated mx-1">{{ session.user_name }}</li>
+                        <li class="nav-item indicator m-1">Active User: </li>
+                        <li class="nav-item indicated m-1">{{ session.user_name }}</li>
                         <!-- disabled for brevity, code retained as backup
                         <li class="nav-item indicator">Total Pinned: </li>
                         <li class="nav-item indicated">{{ session.user_pincount }}</li>
@@ -85,15 +85,15 @@
                         <li class="nav-item indicator">Auto-translate: </li>
                         <li class="nav-item indicated">{{ session.user_autotrans }}</li>                        
                         -->
-                        <li class="nav-item indicator">Date/Time: </li>
-                        <li class="nav-item indicated mx-1">
+                        <li class="nav-item indicator m-1">Date/Time: </li>
+                        <li class="nav-item indicated m-1">
                             <time datetime="{{ session.current_time }}">
                                 {{ session.current_time }}                          
                             </time>
                         </li>
 
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-danger m-2">
+                            <button type="button" class="btn btn-sm btn-danger m-1">
                                 <a class="nav-link" href="/logout">LOG OUT</a></li>
                             </button>
                     </ul>
