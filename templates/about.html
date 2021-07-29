@@ -171,9 +171,15 @@
     </div>
     
     <!--dynamic return action-->
+    {% if session.user_id %}
     <form action="{{session.last_page}}" method="get">
         <button type="submit" class="btn btn-secondary">Return</button>
     </form>  
+    {% else %}
+    <div>
+        <a class="btn btn-secondary" href="/">Return</a>
+    </div>
+    {% endif %}
     <br>
 
 {% endblock %}
