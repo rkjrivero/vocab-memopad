@@ -27,17 +27,7 @@
             <tr>
                 <th>Auto-Translate: </th>
                 <th> {{ session.user_autotrans }} </th>
-            </tr> 
-            
-            <tr>
-                <th>Default Visible Pinned Entries : </th>
-                <th> {{ session.user_recallpinned }} </th>
-            </tr> 
-            
-            <tr>
-                <th>Default Visible All Entries : </th>
-                <th> {{ session.user_recallall }} </th>
-            </tr>   
+            </tr>              
         </thead>
     </table>
     <br>
@@ -102,7 +92,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
-                        <button type="submit" class="btn btn-outline-danger" name="deleteentries" value="{{session.user_id}}">Delete All Saved Entries</button>                                        
+                        <button type="submit" class="btn btn-outline-danger" name="confirmdeleteentries" value="{{session.user_id}}">Delete All Saved Entries</button>                                        
                     </div>
                 </div>
             </div>
@@ -124,7 +114,7 @@
                         <h5>
                             Confirm deletion of <b>all user data</b> <br>
                             <i>(this includes all saved entries and user account)</i> <br>
-                            for active user <u>{{ session.user_name }}</u> ?
+                            for active user <u>{{ session.user_name }}</u> ? <br>
                             <b style="color:red;">User will be automatically logged out upon confirmation!</b>
                         </h5>
                         <br>
@@ -148,6 +138,10 @@
                                     <th>Default Target Language: </th>
                                     <th> {{ all_languages[session.user_tgtlang] }} </th>
                                 </tr>
+                                <tr>
+                                    <th>Auto-Translate: </th>
+                                    <th> {{ session.user_autotrans }} </th>
+                                </tr>
                             </thead>
                         </table>
                         <br>
@@ -165,7 +159,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
-                        <button type="submit" class="btn btn-outline-danger" name="deleteaccount" value="{{session.user_id}}">Delete Account</button>                                        
+                        <button type="submit" class="btn btn-outline-danger" name="confirmdeleteaccount" value="{{session.user_id}}">Delete Account</button>                                        
                     </div>
                 </div>
             </div>

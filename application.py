@@ -410,39 +410,44 @@ def deleteentries():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        """
-        print("log: /deletion-POST reached")
-        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmdelete"))
-        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
-        print("test, deletiontable[0]: ", deletiontable[0])
+        print("log: /deleteentries-POST reached")
+        
+        # Ensure username was submitted
+        if not request.form.get("checkpw"):
+            return apology("must verify password", 400)
 
-        # Check if deleted entry is pinned/not
-        if deletiontable[0]["pin"] == True:
-            # Update user table wordcount and pincount
-            db.execute(
-                "UPDATE users SET wordcount = ?, pincount = ? WHERE userid = ?",
-                usernumbers[0]["wordcount"] - 1, usernumbers[0]["pincount"] - 1, session["user_id"]
-            )
-        else:
-            # Update user table wordcount only
-            db.execute(
-                "UPDATE users SET wordcount = ? WHERE userid = ?",
-                usernumbers[0]["wordcount"] - 1, session["user_id"]
-            ) 
-        """    
+        if request.form.get("confirmdeleteentries") != session["user_id"]:
+            return apology("User ID mismatch detected", 400)
 
-        # Update session[] array based on "user" table on database (directly copied from /login route)
+        # Query database for username
+        usertable = db.execute("SELECT * FROM users WHERE username = ?", session["user_name"])
+        
+        # PRINT TEST BLOCK
+        print("test, query-usertable: ", usertable)
+        print("test, query-username: ", request.form.get("username"))
+        print("test, password-hash: ", generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8))
+        print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
+
+        # Ensure username exists and password is correct
+        if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("checkpw")):
+            return apology("invalid username and/or password", 403)
+
+        # PRINT TEST (FOR LOGGING)
+        recorddeletiontable = db.execute("SELECT * FROM vocab where userlink = ?", request.form.get("confirmdeleteentries"))
+        print("test, recorddeletiontable:", recorddeletiontable)
+
+        # Delete all user entries from vocab table        
+        db.execute("DELETE FROM vocab WHERE userlink = ?", request.form.get("confirmdeleteentries"))  
+        
+        # Update user table wordcount and pincount
+        db.execute(
+            "UPDATE users SET wordcount = ?, pincount = ? WHERE userid = ?",
+            0, 0 , session["user_id"]
+        )    
         # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
-        """
-        session["user_wordcount"] = usernumbers[0]["wordcount"] - 1
-        session["user_pincount"] = usernumbers[0]["pincount"] - 1
-        """
-        
-        # Delete entry from vocab table
-        """
-        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
-        """
-        
+        session["user_wordcount"] = 0
+        session["user_pincount"] = 0
+
         # Redirect to index.html
         return redirect("/")
 
@@ -463,49 +468,41 @@ def deleteaccount():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        """
-        print("log: /deletion-POST reached")
-        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmdelete"))
-        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
-        print("test, deletiontable[0]: ", deletiontable[0])
-
-        # Check if deleted entry is pinned/not
-        if deletiontable[0]["pin"] == True:
-            # Update user table wordcount and pincount
-            db.execute(
-                "UPDATE users SET wordcount = ?, pincount = ? WHERE userid = ?",
-                usernumbers[0]["wordcount"] - 1, usernumbers[0]["pincount"] - 1, session["user_id"]
-            )
-        else:
-            # Update user table wordcount only
-            db.execute(
-                "UPDATE users SET wordcount = ? WHERE userid = ?",
-                usernumbers[0]["wordcount"] - 1, session["user_id"]
-            )     
-
-        # Update session[] array based on "user" table on database (directly copied from /login route)
-        # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+        print("log: /deleteaccount-POST reached")
         
-        session["user_wordcount"] = usernumbers[0]["wordcount"] - 1
-        session["user_pincount"] = usernumbers[0]["pincount"] - 1
-        """
-        
-        # Delete entry from vocab table
-        """
-        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
-        """
+        # Ensure username was submitted
+        if not request.form.get("checkpw"):
+            return apology("must verify password", 400)
 
-        # Delete entry from user table
-        """
-        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
-        """
+        if request.form.get("confirmdeleteaccount") != session["user_id"]:
+            return apology("User ID mismatch detected", 400)
+
+        # Query database for username
+        usertable = db.execute("SELECT * FROM users WHERE username = ?", session["user_name"])
         
+        # PRINT TEST BLOCK
+        print("test, query-usertable: ", usertable)
+        print("test, query-username: ", request.form.get("username"))
+        print("test, password-hash: ", generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8))
+        print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
+
+        # Ensure username exists and password is correct
+        if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("checkpw")):
+            return apology("invalid username and/or password", 403)
+
+        # PRINT TEST (FOR LOGGING)
+        recorddeletiontable = db.execute("SELECT * FROM vocab where userlink = ?", request.form.get("confirmdeleteaccount"))
+        print("test, recorddeletiontable:", recorddeletiontable)
+
+        # Delete all user entries from vocab table        
+        db.execute("DELETE FROM vocab WHERE userlink = ?", request.form.get("confirmdeleteaccount"))  
+        
+        # Delete the user's account entry from user table        
+        db.execute("DELETE FROM users WHERE userid = ?", request.form.get("confirmdeleteaccount"))  
+
         # Forget any userid
         session.clear()
-
-        # Purge shadow table to ensure no errant entries
-        db.execute("DELETE FROM shadow") 
-
+   
         # Redirect user to login form
         return redirect("/login")
 
@@ -514,10 +511,6 @@ def deleteaccount():
         print("log: /deleteaccount-GET reached")
         # /deleteaccount should not be directly accessible (redirect to /clearrecords instead)
         return redirect("/clearrecords") 
-
-    
-
-    
 
 #################### INDEX / SHOW PINNED / SHOW ALL ####################
 
