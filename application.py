@@ -8,47 +8,22 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required
 from datetime import datetime
+
 # Import googletrans (https://pypi.org/project/googletrans/ , https://py-googletrans.readthedocs.io/en/latest/)
 from googletrans import Translator
-# Import SQLAlchemy NOTE: currently vestigial due to CS50 reliance
-from sqlalchemy.sql.expression import false, null
 # Import pytz for timezone conversion
 import pytz
 
-
-# TODO - INSPECT IMPORT LIST BELOW AND REMOVE THOSE NOT RELEVANT EVENTUALLY !!!
+# TRANSITION TO SQLALCHEMY ONCE MAIN FUNCTIONALITY IS ESTABLISHED - NOTE: IMPLEMENTATION ABANDONED, RELYING ON CS50.SQL FOR SIMPLICITY
 """
+# Import SQLAlchemy NOTE: currently vestigial due to CS50 reliance
+from sqlalchemy.sql.expression import false, null
 import sqlalchemy # provisional
 # https://www.learndatasci.com/tutorials/using-databases-python-postgres-sqlalchemy-and-alembic/
-import re # UNUSED RN
-from tempfile import mkdtemp #UNUSED RN
-import secrets #UNUSED RN
 """
 
 # Configure application
 app = Flask(__name__)
-
-# Session setup
-"""
-# stolen from https://stackoverflow.com/questions/34902378/where-do-i-get-a-secret-key-for-flask/34903502 because ... eh, cbf
-himitsu_key = secrets.token_hex(16)
-print("secret key is: ",himitsu_key)
-app.config['SECRET_KEY'] = himitsu_key
-app.config['SECRET_KEY'] = 'f3cfe9ed8fae309f02079dbf' # set as fixed
-"""
-# NOTE TO SELF - DISABLED THE ENTIRE BLOCK ABOVE DUE TO WORKAROUND BY DISABLING MKDTEMP() ALONE GETS THE APP TO WORK 
-# NOTE: read up on jwt authentication
-# REFACTOR TO A BETTER SESSION-HANDLING METHOD ONCE PRIMARY FUNCTIONALITY IS ESTABLISHED
-#   https://stackoverflow.com/questions/44769152/difficulty-implementing-server-side-session-storage-using-redis-and-flask
-# FOR HEROKU, YOU NEED TO SAVE SESSIONS SOMEWHERE BECAUSE SESSION IS NOT SHARED BETWEEN GUNICORN 'WORKERS'
-#   THIS MEANS SESSION DICTIONARY ENDS UP EMPTY
-# STUDY NOTES:
-#   https://stackoverflow.com/questions/30984622/flask-session-not-persistent-across-requests-in-flask-app-with-gunicorn-on-herok
-#   https://devcenter.heroku.com/articles/java-session-handling-on-heroku
-#   https://devcenter.heroku.com/articles/php-sessions
-#   https://devcenter.heroku.com/articles/flask-memcache
-#   https://devcenter.heroku.com/articles/getting-started-with-python?singlepage=true
-#   https://flask-session.readthedocs.io/en/latest/
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -62,7 +37,7 @@ def after_request(response):
     return response
 
 # Configure session to use filesystem (instead of signed cookies)
-# app.config["SESSION_FILE_DIR"] = mkdtemp()
+# app.config["SESSION_FILE_DIR"] = mkdtemp() # NOTE: disabled, session now saved as cookie instead
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 # Commented-out 'app.config["SESSION_FILE_DIR"] = mkdtemp()' for heroku compatibility
@@ -70,8 +45,29 @@ app.config["SESSION_TYPE"] = "filesystem"
 
 Session(app)
 
+# Session Setup - NOTE: IMPLEMENTATION ABANDONED, RELYING ON COOKIES (SEE ABOVE) FOR SIMPLICITY
+""" DISABLED
+# from https://stackoverflow.com/questions/34902378/where-do-i-get-a-secret-key-for-flask/34903502 because ... eh, cbf
+himitsu_key = secrets.token_hex(16)
+print("secret key is: ",himitsu_key)
+app.config['SECRET_KEY'] = himitsu_key
+app.config['SECRET_KEY'] = 'f3cfe9ed8fae309f02079dbf' # set as fixed
+"""
+# DISABLED THE ENTIRE BLOCK ABOVE DUE TO WORKAROUND BY DISABLING MKDTEMP() ALONE GETS THE APP TO WORK 
+# REFACTOR TO A BETTER SESSION-HANDLING METHOD ONCE PRIMARY FUNCTIONALITY IS ESTABLISHED
+#   https://stackoverflow.com/questions/44769152/difficulty-implementing-server-side-session-storage-using-redis-and-flask
+# FOR HEROKU, YOU NEED TO SAVE SESSIONS SOMEWHERE BECAUSE SESSION IS NOT SHARED BETWEEN GUNICORN 'WORKERS'
+#   THIS MEANS SESSION DICTIONARY ENDS UP EMPTY
+# STUDY NOTES:
+#   https://stackoverflow.com/questions/30984622/flask-session-not-persistent-across-requests-in-flask-app-with-gunicorn-on-herok
+#   https://devcenter.heroku.com/articles/java-session-handling-on-heroku
+#   https://devcenter.heroku.com/articles/php-sessions
+#   https://devcenter.heroku.com/articles/flask-memcache
+#   https://devcenter.heroku.com/articles/getting-started-with-python?singlepage=true
+#   https://flask-session.readthedocs.io/en/latest/
+#   misc: read up on jwt authentication
+
 # Configure CS50 Library to use postgresql (heroku integration)
-# NOTE TO SELF: TRANSITION TO SQLALCHEMY ONCE MAIN FUNCTIONALITY IS ESTABLISHED
 db_uri = os.getenv("DATABASE_URL")
 # https://help.heroku.com/ZKNTJQSK/why-is-sqlalchemy-1-4-x-not-connecting-to-heroku-postgres
 if db_uri.startswith("postgres://"):
