@@ -1,0 +1,153 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Clear Records Confirmation
+{% endblock %}
+
+{% block main %}
+    <h1>Confirmation of Deletion of Records for User:</h1>
+    <h2>{{ session.user_name }}</h2>
+    <br>
+    
+    <h2>
+        User Profile Settings
+    </h2>
+    <table align="center" class="table table-bordered" style="width:40%">
+        <thead>
+            <tr>
+                <th>Default Original Language: </th>
+                <th> {{ all_languages[session.user_orglang] }} </th>
+            </tr>
+
+            <tr>
+                <th>Default Target Language: </th>
+                <th> {{ all_languages[session.user_tgtlang] }} </th>
+            </tr>
+            
+            <tr>
+                <th>Auto-Translate: </th>
+                <th> {{ session.user_autotrans }} </th>
+            </tr> 
+            
+            <tr>
+                <th>Default Visible Pinned Entries : </th>
+                <th> {{ session.user_recallpinned }} </th>
+            </tr> 
+            
+            <tr>
+                <th>Default Visible All Entries : </th>
+                <th> {{ session.user_recallall }} </th>
+            </tr>   
+        </thead>
+    </table>
+    <br>
+
+    <h2>
+        User Memopad Statistics
+    </h2>
+    <br>
+    <table align="center" class="table table-bordered" style="width:40%">
+        <thead>
+            <tr>
+                <th>Pinned Word/Phrase Entry Count: </th>
+                <th> {{ session.user_pincount }} </th>
+            </tr>
+            <tr>
+                <th>Total Word/Phrase Entry Count: </th>
+                <th> {{ session.user_wordcount }} </th>
+            </tr>    
+        </thead>
+    </table>
+    <br>
+
+    <form action="/clearrecords" method="post">
+        <button type="button" name="clearrecordsbutton" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#clearrecordsmodal{{session.user_id}}">Clear All Saved Entries</button>                        
+        <!-- Pop-up Modal -->
+        <div class="modal fade" id="clearrecordsmodal{{session.user_id}}" tabindex="-1" aria-labelledby="clearrecordsmodallabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="clearrecordsheader">Confirm Saved Entries Deletion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>
+                            Confirm deletion of all entries saved under active user {{ session.user_name }} ?
+                        </h5>
+                        <br>
+
+                        <table align="center" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Pinned Word/Phrase Entry Count: </th>
+                                    <th> {{ session.user_pincount }} </th>
+                                </tr>
+                                <tr>
+                                    <th>Total Word/Phrase Entry Count: </th>
+                                    <th> {{ session.user_wordcount }} </th>
+                                </tr>    
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
+                        <button type="submit" class="btn btn-outline-danger" name="clearrecords" value="{{session.user_id}}">Clear All Saved Entries</button>                                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br>
+
+    <form action="/deleteaccount" method="post">
+        <button type="button" name="deleteaccountbutton" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#deleteaccountmodal{{session.user_id}}">Delete Account</button>                        
+        <!-- Pop-up Modal -->
+        <div class="modal fade" id="deleteaccountmodal{{session.user_id}}" tabindex="-1" aria-labelledby="deleteaccountlabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteaccountheader">Confirm Saved Entries Deletion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>
+                            Confirm deletion of all associated data (both saved entries and user account) for active user {{ session.user_name }} ?
+                        </h5>
+                        <br>
+
+                        <table align="center" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Pinned Word/Phrase Entry Count: </th>
+                                    <th> {{ session.user_pincount }} </th>
+                                </tr>
+                                <tr>
+                                    <th>Total Word/Phrase Entry Count: </th>
+                                    <th> {{ session.user_wordcount }} </th>
+                                </tr>    
+                            </thead>
+                        </table>
+                        <br>
+
+                        <div class="form-group">
+                            <label for="checkpw">
+                                <h5>Verify Password to Confirm Action</h5>                    
+                            </label>
+                            <br>
+                            <input autocomplete="off" class="form-control" id="checkpw" name="checkpw" placeholder="Verify Password" type="password" required>
+                        </div>
+                        <br>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
+                        <button type="submit" class="btn btn-outline-danger" name="deleteaccount" value="{{session.user_id}}">Delete Account</button>                                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br>
+
+{% endblock %}

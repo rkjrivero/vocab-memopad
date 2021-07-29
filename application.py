@@ -375,6 +375,41 @@ def changedefault():
     else:
         return render_template("changedefault.html", all_languages=all_languages)
 
+
+#################### CLEAR RECORDS / DELETE ACCOUNT ####################
+
+@app.route("/clearrecords")
+@login_required
+def clearrecords():
+    """Clears all vocab table recods for user"""
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    session["last_page"] = "profile"
+
+    return render_template("profile.html", all_languages=all_languages)
+
+@app.route("/deleteaccount")
+@login_required
+def deleteaccount():
+    """Deletes all data for user"""
+
+    # Update current display time - display format: dd/mm/YY H:M:S
+    session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
+
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow") 
+
+    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    session["last_page"] = "profile"
+
+    return render_template("profile.html", all_languages=all_languages)
+
 #################### INDEX / SHOW PINNED / SHOW ALL ####################
 
 @app.route("/")
