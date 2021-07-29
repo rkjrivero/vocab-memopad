@@ -416,20 +416,11 @@ def deleteentries():
         if not request.form.get("checkpwdeleteentries"):
             return apology("must verify password", 400)
 
-        if request.form.get("confirmdeleteentries") != session["user_id"]:
-            return apology("User ID mismatch detected", 400)
-
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?", session["user_name"])
         
-        # PRINT TEST BLOCK
-        print("test, query-usertable: ", usertable)
-        print("test, query-username: ", request.form.get("username"))
-        print("test, password-hash: ", generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8))
-        print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
-
-        # Ensure username exists and password is correct
-        if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteentries")):
+        # Ensure password is correct
+        if not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteentries")):
             return apology("invalid username and/or password", 403)
 
         # PRINT TEST (FOR LOGGING)
@@ -474,20 +465,11 @@ def deleteaccount():
         if not request.form.get("checkpwdeleteaccount"):
             return apology("must verify password", 400)
 
-        if request.form.get("confirmdeleteaccount") != session["user_id"]:
-            return apology("User ID mismatch detected", 400)
-
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?", session["user_name"])
-        
-        # PRINT TEST BLOCK
-        print("test, query-usertable: ", usertable)
-        print("test, query-username: ", request.form.get("username"))
-        print("test, password-hash: ", generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8))
-        print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
 
-        # Ensure username exists and password is correct
-        if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteaccount")):
+        # Ensure  password is correct
+        if not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteaccount")):
             return apology("invalid username and/or password", 403)
 
         # PRINT TEST (FOR LOGGING)
