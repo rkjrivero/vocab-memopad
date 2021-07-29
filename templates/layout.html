@@ -43,7 +43,7 @@
 
     <body>
 
-        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light border nav-pills" style="background-color: #e3f2fd;">
+        <nav class="navbar sticky-top navbar-expand-sm navbar-light bg-light border nav-pills" style="background-color: #e3f2fd;">
             <a class="navbar-brand" href="/">
                 VOCAB-<span class="green">ME</span><span class="blue">MO</span><span class="red">PAD</span>
             </a>
@@ -57,16 +57,16 @@
                 {% if session.user_id %}
                     <ul class="navbar-nav ml-auto my-1">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-success mx-2"><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
+                            <button type="button" class="btn btn-sm btn-success m-1"><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
                         </li>                                       
                         <li class="nav-item">   
-                            <button type="button" class="btn btn-sm btn-primary mx-2"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
+                            <button type="button" class="btn btn-sm btn-primary m-1"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-primary mx-2"><a class="nav-link" href="/recallall">VIEW ALL SAVED ENTRIES</a></button>
+                            <button type="button" class="btn btn-sm btn-primary m-1"><a class="nav-link" href="/recallall">VIEW ALL SAVED ENTRIES</a></button>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-secondary mx-2"><a class="nav-link" href="/profile">PROFILE SETTINGS</a></button>
+                            <button type="button" class="btn btn-sm btn-secondary m-1"><a class="nav-link" href="/profile">PROFILE SETTINGS</a></button>
                         </li>
                     </ul>
 
@@ -93,7 +93,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-danger mx-3">
+                            <button type="button" class="btn btn-sm btn-danger m-2">
                                 <a class="nav-link" href="/logout">LOG OUT</a></li>
                             </button>
                     </ul>
@@ -101,11 +101,11 @@
                 {% else %}
                     <ul class="navbar-nav mr-auto my-1">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-success mx-2">
+                            <button type="button" class="btn btn-sm btn-success m-1">
                                 <a class="nav-link" href="/register">REGISTER</a></li>
                             </button>
                         <li class="nav-item">                            
-                            <button type="button" class="btn btn-sm btn-primary mx-2">
+                            <button type="button" class="btn btn-sm btn-primary m-1">
                                 <a class="nav-link" href="/login">LOGIN</a>
                             </button>
                         </li>
