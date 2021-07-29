@@ -408,9 +408,50 @@ def deleteentries():
     # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
     session["last_page"] = "profile"
 
-    #TODO
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        """
+        print("log: /deletion-POST reached")
+        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmdelete"))
+        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
+        print("test, deletiontable[0]: ", deletiontable[0])
 
-    return render_template("index.html", all_languages=all_languages)
+        # Check if deleted entry is pinned/not
+        if deletiontable[0]["pin"] == True:
+            # Update user table wordcount and pincount
+            db.execute(
+                "UPDATE users SET wordcount = ?, pincount = ? WHERE userid = ?",
+                usernumbers[0]["wordcount"] - 1, usernumbers[0]["pincount"] - 1, session["user_id"]
+            )
+        else:
+            # Update user table wordcount only
+            db.execute(
+                "UPDATE users SET wordcount = ? WHERE userid = ?",
+                usernumbers[0]["wordcount"] - 1, session["user_id"]
+            ) 
+        """    
+
+        # Update session[] array based on "user" table on database (directly copied from /login route)
+        # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+        """
+        session["user_wordcount"] = usernumbers[0]["wordcount"] - 1
+        session["user_pincount"] = usernumbers[0]["pincount"] - 1
+        """
+        
+        # Delete entry from vocab table
+        """
+        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
+        """
+        
+        # Redirect to index.html
+        return redirect("/")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        print("log: /deleteentries-GET reached")
+        # /deleteentries should not be directly accessible (redirect to /clearrecords instead)
+        return redirect("/clearrecords") 
+
 
 @app.route("/deleteaccount")
 @login_required
@@ -420,16 +461,63 @@ def deleteaccount():
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    #TODO
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        """
+        print("log: /deletion-POST reached")
+        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmdelete"))
+        usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
+        print("test, deletiontable[0]: ", deletiontable[0])
 
-    # Forget any userid
-    session.clear()
+        # Check if deleted entry is pinned/not
+        if deletiontable[0]["pin"] == True:
+            # Update user table wordcount and pincount
+            db.execute(
+                "UPDATE users SET wordcount = ?, pincount = ? WHERE userid = ?",
+                usernumbers[0]["wordcount"] - 1, usernumbers[0]["pincount"] - 1, session["user_id"]
+            )
+        else:
+            # Update user table wordcount only
+            db.execute(
+                "UPDATE users SET wordcount = ? WHERE userid = ?",
+                usernumbers[0]["wordcount"] - 1, session["user_id"]
+            )     
 
-    # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+        # Update session[] array based on "user" table on database (directly copied from /login route)
+        # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
+        
+        session["user_wordcount"] = usernumbers[0]["wordcount"] - 1
+        session["user_pincount"] = usernumbers[0]["pincount"] - 1
+        """
+        
+        # Delete entry from vocab table
+        """
+        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
+        """
 
-    # Redirect user to login form
-    return redirect("/login")
+        # Delete entry from user table
+        """
+        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
+        """
+        
+        # Forget any userid
+        session.clear()
+
+        # Purge shadow table to ensure no errant entries
+        db.execute("DELETE FROM shadow") 
+
+        # Redirect user to login form
+        return redirect("/login")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        print("log: /deleteaccount-GET reached")
+        # /deleteaccount should not be directly accessible (redirect to /clearrecords instead)
+        return redirect("/clearrecords") 
+
+    
+
+    
 
 #################### INDEX / SHOW PINNED / SHOW ALL ####################
 
