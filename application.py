@@ -249,7 +249,9 @@ def login():
     # User reached route via GET (as by clicking a link or via redirect)
     else:   
         # Show page if no user is not logged-in     
-        if not session:                    
+        if not session:
+            # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+            session["last_page"] = "/login"                    
             return render_template("login.html")
         # Redirect user to home page if already logged in
         else:            
@@ -267,6 +269,8 @@ def logout():
     db.execute("DELETE FROM shadow") 
 
     # Redirect user to login form
+    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    session["last_page"] = "/login"
     return redirect("/login")
 
 #################### PROFILE / CHANGE PASSWORD / CHANGE DEFAULT SETTINGS ####################
