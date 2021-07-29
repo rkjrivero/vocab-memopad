@@ -170,9 +170,10 @@
         
     </div>
     
-    <div>
-        <a class="btn btn-secondary" href="/">Return</a>
-    </div>
+    <!--dynamic return action-->
+    <form action="{{session.last_page}}" method="get">
+        <button type="submit" class="btn btn-secondary">Return</button>
+    </form>  
     <br>
 
 {% endblock %}
