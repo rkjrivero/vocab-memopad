@@ -318,7 +318,7 @@ def changepw():
             changepass = generate_password_hash(request.form.get("newpw"), method='pbkdf2:sha256', salt_length=8)
             db.execute("UPDATE users SET hash = ? WHERE id = ?", changepass, session["user_id"])
             flash("Password Changed", category="message")
-
+            
         # Redirect user to profile page
         return redirect("/profile")
 
@@ -367,6 +367,8 @@ def changedefault():
         session["user_autotrans"] = request.form.get("autotrans")
         session["user_recallall"] = request.form.get("visiblesaved")
         session["user_recallpinned"] = request.form.get("visiblepinned")
+
+        flash("Settings Updated", category="message")
 
         # Redirect user to profile page
         return redirect("/profile")
@@ -439,6 +441,8 @@ def deleteentries():
         session["user_wordcount"] = 0
         session["user_pincount"] = 0
 
+        flash("Records Deleted", category="message")
+
         # Redirect to index.html
         return redirect("/")
 
@@ -485,6 +489,8 @@ def deleteaccount():
         # Forget any userid
         session.clear()
    
+        flash("Account Deleted", category="message")
+
         # Redirect user to login form
         return redirect("/login")
 
@@ -1125,6 +1131,8 @@ def deletion():
         
         # Delete entry from vocab table
         db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
+        
+        flash("Entry Deleted", category="message")
         
         # Redirect to index.html
         return redirect("/")
