@@ -8,22 +8,29 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
 
-        <!-- JQUERY FROM https://code.jquery.com/jquery/-->
+        <!-- JQUERY INCORPORATION -->
+        <!-- https://code.jquery.com/jquery/-->
         <script
-        src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>     
-        <!-- UPDATED TO BOOTSTRAP 5.0 -->
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script> 
+
+        <!-- BOOTSTRAP 5.0 INCORPORATION -->
         <!-- https://getbootstrap.com/docs/5.0/getting-started/introduction/ -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+            rel="stylesheet" 
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+            crossorigin="anonymous">        
         <!-- LINK STYLESHEET-->
-        <link href="/static/styles.css" rel="stylesheet">
+        <link href="/static/styles.css" rel="stylesheet">        
         <!-- ADD JS (5.0 VERSION)-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        
-        
-        <!--BOOTSTRAP DATATABLE LINKING ATTEMPT -->
-        <!-- based from https://datatables.net/examples/styling/bootstrap5.html -->
+        <script 
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+            crossorigin="anonymous"></script>
+                
+        <!--BOOTSTRAP DATATABLE INCORPORATION -->
+        <!-- https://datatables.net/examples/styling/bootstrap5.html -->
         <!-- JS FILES -->
         <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
@@ -36,10 +43,11 @@
 
     <body>
 
-        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
-            <a class="navbar-brand" href="/">VOCAB-<span class="green">ME</span><span class="blue">MO</span><span class="red">PAD</span>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light border nav-pills" style="background-color: #e3f2fd;">
+            <a class="navbar-brand" href="/">
+                VOCAB-<span class="green">ME</span><span class="blue">MO</span><span class="red">PAD</span>
             </a>
-            <!--
+            <!-- disabled container collapse button, issue with getting it able to work (javascript not working properly), code retained as backup
             <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
             </button>                  
@@ -117,10 +125,8 @@
         <main class="container p-5">
             
             {% block main %}{% endblock %}
-            <!--
-                script to convert server time (UTC) to client local time
-                from: https://levelup.gitconnected.com/automatic-conversion-to-local-time-client-side-with-javascript-1b7c27e8b6f2
-            -->
+            <!-- script to convert server time (UTC) to client local time -->
+            <!-- https://levelup.gitconnected.com/automatic-conversion-to-local-time-client-side-with-javascript-1b7c27e8b6f2 -->
             <script>
                 for (let time of document.getElementsByTagName('time')) {
                 time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
