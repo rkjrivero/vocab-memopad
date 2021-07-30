@@ -215,7 +215,8 @@ def login():
         # Ensure username exists and password is correct
         if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("password")):
             #print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
-            return apology("invalid username and/or password", 403)
+            flash("invalid username and/or password", category="warning")
+            #return apology("invalid username and/or password", 403)
 
         # Establish session[] array based on "user" table on database
         # NOTE: usertable = userid, username, hash, tgtlang, orglang, autotrans, pincount, wordcount
