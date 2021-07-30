@@ -2,9 +2,7 @@
 from flask import redirect, render_template, request, session
 from functools import wraps
 
-
-# TODO RETAIN CS50 APOLOGY FUNCTIONALITY, BUT REPLACE LINKED IMAGE IN APOLOGY.HTML !!!
-def apology(message, code=400):
+def apology(message, code=400):    
     # NOTE - APOLOGY DEFINITION ORIGINALLY FROM CS50PSET9, WITHOUT MODIFICATIONS
     """Render message as an apology to user."""    
     
@@ -20,8 +18,7 @@ def apology(message, code=400):
         return s
     return render_template("apology.html", top=code, bottom=escape(message)), code
 
-
-def login_required(f):
+def login_required(f):    
     # NOTE - LOGIN_REQUIRED DEFINITION ORIGINALLY FROM CS50PSET9, WITHOUT MODIFICATIONS
     """
     Decorate routes to require login.

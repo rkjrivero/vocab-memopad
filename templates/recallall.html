@@ -9,9 +9,9 @@
         $(document).ready(function() {
             $('#allsaved').DataTable( {
                 columnDefs: [
-                    // columns 8-10 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
-                    { orderable: false, targets: [8,9,10] },
-                    { "width": "7%", "targets": [8,9,10] }                      
+                    // columns 7-9 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    { orderable: false, targets: [7,8,9] },
+                    { "width": "7%", "targets": [7,8,9] }                      
                 ]   
             } );
         } );
@@ -39,8 +39,10 @@
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
                 <th>Entry Pinned?</th>
+                <!--
                 <th>Entry Edited?</th>
-                <th>PIN/ UNPIN</th>
+                -->
+                <th>UNPIN</th>                
                 <th>EDIT</th>
                 <th>DELETE</th>
             </tr>
@@ -59,13 +61,15 @@
                 </td>
                 <td> {{ fullvocabtable.rating }} </td>
                 <td> {{ fullvocabtable.pin }} </td>
+                <!--
                 <td> {{ fullvocabtable.edit }} </td>
+                -->
                 {% if fullvocabtable.pin %}
                 <td>  
                     <form action="/unpinentry" method="post">
-                        <button type="button" name="unpinword" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#unpinmodal">-</button>                        
+                        <button type="button" name="unpinword" class="btn btn-outline-danger"  data-bs-toggle="modal" data-bs-target="#unpinmodal{{fullvocabtable.wordid}}">-</button>                        
                         <!-- Pop-up Modal -->
-                        <div class="modal fade" id="unpinmodal" tabindex="-1" aria-labelledby="unpinmodallabel" aria-hidden="true">
+                        <div class="modal fade" id="unpinmodal{{fullvocabtable.wordid}}" tabindex="-1" aria-labelledby="unpinmodallabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -104,9 +108,9 @@
                 {% else %}
                 <td>  
                     <form action="/pinentry" method="post">
-                        <button type="button" name="pinword" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#pinmodal">+</button>                        
+                        <button type="button" name="pinword" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#pinmodal{{fullvocabtable.wordid}}">+</button>                        
                         <!-- Pop-up Modal -->
-                        <div class="modal fade" id="pinmodal" tabindex="-1" aria-labelledby="pinmodallabel" aria-hidden="true">
+                        <div class="modal fade" id="pinmodal{{fullvocabtable.wordid}}" tabindex="-1" aria-labelledby="pinmodallabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">

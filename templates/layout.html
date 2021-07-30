@@ -8,18 +8,29 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
 
-        <!-- UPDATED TO BOOTSTRAP 5.0 -->
+        <!-- JQUERY INCORPORATION -->
+        <!-- https://code.jquery.com/jquery/-->
+        <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script> 
+
+        <!-- BOOTSTRAP 5.0 INCORPORATION -->
         <!-- https://getbootstrap.com/docs/5.0/getting-started/introduction/ -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+            rel="stylesheet" 
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+            crossorigin="anonymous">        
         <!-- LINK STYLESHEET-->
-        <link href="/static/styles.css" rel="stylesheet">
+        <link href="/static/styles.css" rel="stylesheet">        
         <!-- ADD JS (5.0 VERSION)-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <!-- JQUERY PLUGIN FROM 4.5 VERSION, RETAINED FOR NOW-->        
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        
-        <!--BOOTSTRAP DATATABLE LINKING ATTEMPT -->
-        <!-- based from https://datatables.net/examples/styling/bootstrap5.html -->
+        <script 
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+            crossorigin="anonymous"></script>
+                
+        <!--BOOTSTRAP DATATABLE INCORPORATION -->
+        <!-- https://datatables.net/examples/styling/bootstrap5.html -->
         <!-- JS FILES -->
         <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
@@ -27,36 +38,42 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
-        <title>VOCAB-MEMOPAD: {% block title %}{% endblock %}</title>
+        <title class="notranslate">VOCAB-MEMOPAD: {% block title %}{% endblock %}</title>
     </head>
 
     <body>
 
-        <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light border nav-pills nav-fill" style="background-color: #e3f2fd;">
-            <a class="navbar-brand" href="/">VOCAB-<span class="green">ME</span><span class="blue">MO</span><span class="red">PAD</span>
+        <nav class="navbar sticky-top navbar-expand-sm navbar-light bg-light border nav-pills" style="background-color: #e3f2fd;">
+            <a class="navbar-brand notranslate" href="/" >
+                VOCAB-<span class="green">ME</span><span class="blue">MO</span><span class="red">PAD</span>
             </a>
-                  
+            <!-- disabled container collapse button, issue with getting it able to work (javascript not working properly), code retained as backup
+            <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>                  
             <div class="collapse navbar-collapse" id="navbar">
+            -->
+            <div class="container-fluid" id="navbar">
                 {% if session.user_id %}
                     <ul class="navbar-nav ml-auto my-1">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-success mx-2"><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
+                            <button type="button" class="btn btn-sm btn-success m-1"><a class="nav-link" href="/input">ADD NEW ENTRY</a></button>
                         </li>                                       
                         <li class="nav-item">   
-                            <button type="button" class="btn btn-sm btn-primary mx-2"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
+                            <button type="button" class="btn btn-sm btn-primary m-1"><a class="nav-link" href="/recallpin">VIEW PINNED ENTRIES</a></button>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-primary mx-2"><a class="nav-link" href="/recallall">VIEW ALL SAVED ENTRIES</a></button>
+                            <button type="button" class="btn btn-sm btn-primary m-1"><a class="nav-link" href="/recallall">VIEW ALL SAVED ENTRIES</a></button>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-secondary mx-2"><a class="nav-link" href="/profile">PROFILE SETTINGS</a></button>
+                            <button type="button" class="btn btn-sm btn-secondary m-1"><a class="nav-link" href="/profile">PROFILE SETTINGS</a></button>
                         </li>
                     </ul>
 
                     <ul class="navbar-nav ms-auto my-1">
-                        <li class="nav-item indicator">Active User: </li>
-                        <li class="nav-item indicated mx-1">{{ session.user_name }}</li>
-                        <!-- disabled for brevity, code retained as backup
+                        <li class="nav-item indicator m-1">Active User: </li>
+                        <li class="nav-item indicated m-1">{{ session.user_name }}</li>
+                        <!-- disabled for navbar brevity, code retained as backup
                         <li class="nav-item indicator">Total Pinned: </li>
                         <li class="nav-item indicated">{{ session.user_pincount }}</li>
                         <li class="nav-item indicator">Total Saved: </li>
@@ -68,15 +85,15 @@
                         <li class="nav-item indicator">Auto-translate: </li>
                         <li class="nav-item indicated">{{ session.user_autotrans }}</li>                        
                         -->
-                        <li class="nav-item indicator">Date/Time: </li>
-                        <li class="nav-item indicated mx-1">
+                        <li class="nav-item indicator m-1">Date/Time: </li>
+                        <li class="nav-item indicated m-1">
                             <time datetime="{{ session.current_time }}">
                                 {{ session.current_time }}                          
                             </time>
                         </li>
 
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-danger mx-3">
+                            <button type="button" class="btn btn-sm btn-danger m-1">
                                 <a class="nav-link" href="/logout">LOG OUT</a></li>
                             </button>
                     </ul>
@@ -84,11 +101,11 @@
                 {% else %}
                     <ul class="navbar-nav mr-auto my-1">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-sm btn-success mx-2">
+                            <button type="button" class="btn btn-sm btn-success m-1">
                                 <a class="nav-link" href="/register">REGISTER</a></li>
                             </button>
                         <li class="nav-item">                            
-                            <button type="button" class="btn btn-sm btn-primary mx-2">
+                            <button type="button" class="btn btn-sm btn-primary m-1">
                                 <a class="nav-link" href="/login">LOGIN</a>
                             </button>
                         </li>
@@ -96,7 +113,7 @@
                 {% endif %}
             </div>
         </nav>
-        <!-- disabled header, code retained as backup
+        
         {% if get_flashed_messages() %}
             <header>
                 <div class="alert alert-primary border text-center" role="alert">
@@ -104,14 +121,12 @@
                 </div>
             </header>
         {% endif %}
-        -->
+        
         <main class="container p-5">
-            <br><br>
+            
             {% block main %}{% endblock %}
-            <!--
-                script to convert server time (UTC) to client local time
-                from: https://levelup.gitconnected.com/automatic-conversion-to-local-time-client-side-with-javascript-1b7c27e8b6f2
-            -->
+            <!-- script to convert server time (UTC) to client local time -->
+            <!-- https://levelup.gitconnected.com/automatic-conversion-to-local-time-client-side-with-javascript-1b7c27e8b6f2 -->
             <script>
                 for (let time of document.getElementsByTagName('time')) {
                 time.textContent = new Date(time.getAttribute('datetime')).toLocaleString();
@@ -125,7 +140,18 @@
             translations of words/phrases and review them online.
             <br>
             For more information, visit the <a href="/about">about</a> page.
-            <br><br><br>
+            <br><br>
+            <p>Translate this page:</p>
+
+            <div id="google_translate_element"></div>
+
+            <script type="text/javascript">
+            function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+            }
+            </script>
+            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+            <br><br>
         </footer>
  
     </body>

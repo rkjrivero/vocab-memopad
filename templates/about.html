@@ -16,11 +16,11 @@
             just like a small memopad to jot down vocabulary entries when studying a language.
             <br>
             <br>
-            The application primarily uses Google Translate (via the <a href="https://py-googletrans.readthedocs.io/en/latest/">googletrans</a> python library) 
+            The application primarily uses Google Translate (via the <a href="https://py-googletrans.readthedocs.io/en/latest/" target="_blank" rel="noopener noreferrer">googletrans</a> python library) 
             and supports translations across 15 different languages. 
             <br>
             <br>
-            Please note that the UI is currently only available in English.
+            Please note that the UI is currently only designed in English, although a google translate option is available in the bottom of the page.
             <br>
         </p>
         <br>
@@ -100,70 +100,102 @@
 
         <h5>Known Limitations</h5>
         <p align="justify">
-            The application UI is currently only designed with desktop browsers in mind, and is not mobile-friendly. 
+            The application UI is currently only designed with desktop browsers in mind, and is not particularly mobile-friendly, primarily due to current navigation bar and table wrapping setup.
             <br>
         </p>
         <br>
 
-        <h5>Current Plans</h5>
+        <h5>Future Plans</h5>
         <p align="justify">
-            A mobile-friendly UX is currently part of future development plans. 
+            A more mobile-friendly UX is part of future development plans. 
             <br>
-            Similarly, there are some plans to incorporate other translation API's for certain languages, such as <a href="https://jisho.org/">Jisho API</a> for Japanese translations.
+            There are also future plans to incorporate other translation API's for certain languages, such as <a href="https://jisho.org/" target="_blank" rel="noopener noreferrer">Jisho API</a> for Japanese translations.
             <br>
         </p>
         <br>
         
         <h5>Disclaimers</h5> 
         <p align="justify">
-            UI elements and underlying code borrow from <a href="https://cs50.harvard.edu/x/2021/">CS50x's</a> <a href="https://cs50.harvard.edu/x/2021/psets/9/finance/">Finance problem set</a>.
+            UI elements and underlying code borrow from <a href="https://cs50.harvard.edu/x/2021/" target="_blank" rel="noopener noreferrer">CS50x's</a> <a href="https://cs50.harvard.edu/x/2021/psets/9/finance/" target="_blank" rel="noopener noreferrer">Finance problem set</a>.
             <br>
-            This application project was initially created in fulfillment of CS50x's <a href="https://cs50.harvard.edu/x/2021/project/">Final Projet</a> requirments.
+            This web application was initially created in fulfillment of CS50x's <a href="https://cs50.harvard.edu/x/2021/project/" target="_blank" rel="noopener noreferrer">Final Projet</a> requirments.
         </p>
         <br>
 
         <table align="center" class="table table-bordered" style="width:80%">
             <thead>
                 <tr>
-                    <th>Application Component:</th>
+                    <th>Application Components:</th>
                     <th>Utilized Technologies:</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <th>Application Framework</th>
-                    <td><a href="https://palletsprojects.com/p/flask/">Flask</a></td>
+                    <td><a href="https://palletsprojects.com/p/flask/" target="_blank" rel="noopener noreferrer">Flask</a></td>
                 </tr>
                 <tr>
                     <th>Translation API</th>
-                    <td><a href="https://py-googletrans.readthedocs.io/en/latest/">Googletrans</a></td>
+                    <td><a href="https://py-googletrans.readthedocs.io/en/latest/" target="_blank" rel="noopener noreferrer">Googletrans</a></td>
                 </tr>                
-                <tr>   
-                    <th>Other Technologies</th>
+                <tr>
+                    <th>Platform</th>
                     <td>
-                        <a href="https://getbootstrap.com/">
-                        Bootstrap
-                        </a>, 
-                        <a href="https://datatables.net//">
-                        Datatable
-                        </a>
+                        <a href="https://www.heroku.com/" target="_blank" rel="noopener noreferrer">
+                            Heroku</a>, 
+                        <a href="https://www.heroku.com/postgres" target="_blank" rel="noopener noreferrer">
+                            PostgreSQL</a>
+                    </td>
+                </tr>                   
+                <tr>   
+                    <th>Others</th>
+                    <td>                        
+                        <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer">
+                        Bootstrap</a>, 
+                        <a href="https://datatables.net//" target="_blank" rel="noopener noreferrer">
+                        Datatable</a>, 
+                        <a href="https://cs50.readthedocs.io/libraries/cs50/python/#cs50.SQL.execute" target="_blank" rel="noopener noreferrer">
+                        CS50.SQL</a>
                     </td>
                 </tr>
             </tbody>                
         </table>
         <br>
-        <!-- commented out for now
-        <h5>Contact</h5> 
+
+        <h5>Cookies</h5> 
         <p align="justify">
-            Feel free to leave feedback at the application's <a href="https://github.com/rkjrivero/vocab-memopad">github page</a>.
+            This application creates a session cookie in the user's client solely for session management purposes.
         </p>
         <br>
-        -->
+
+        <h5>Privacy</h5> 
+        <p align="justify">
+            Due to the small scale of the project, all user data (aside from passwords, which are 
+            <a href="https://werkzeug.palletsprojects.com/en/2.0.x/utils/#werkzeug.security.generate_password_hash"  target="_blank" rel="noopener noreferrer">hashed</a> 
+            by default) are stored in plain text in a PostgreSQL database attached to the heroku application. 
+            <br>
+            The options to either delete all saved entries or delete the user's account and all associated data are available in the Profile Settings page.
+        </p>
+        <br>
+        
+        <h5>Contact</h5> 
+        <p align="justify">
+            Feel free to leave feedback at the application's <a href="https://github.com/rkjrivero/vocab-memopad" target="_blank" rel="noopener noreferrer">github page</a>.
+        </p>
+        <br>
+        
     </div>
     
+    <!--dynamic return action-->
+    {% if session.user_id %}
+    <form action="{{session.last_page}}" method="get">
+        <button type="submit" class="btn btn-secondary">Return</button>
+    </form>  
+    {% else %}
     <div>
         <a class="btn btn-secondary" href="/">Return</a>
     </div>
+    {% endif %}
     <br>
 
 {% endblock %}

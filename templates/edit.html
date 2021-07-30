@@ -18,7 +18,9 @@
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>                
                 <th>Entry Pinned?</th>
-                <th>Entry Edited?</th>
+                <!--
+                    <th>Entry Edited?</th>
+                -->
             </tr>
         </thead>
         <tbody>
@@ -33,16 +35,18 @@
                         {{ revisiontable.time }}                          
                     </time>
                 </th>
-                <th> {{ revisiontable.rating }} </th>                
+                <th> {{ revisiontable.rating }} </th>                                
                 <th> {{ revisiontable.pin }} </th>
+                <!--
                 <th> {{ revisiontable.edit }} </th>
+                -->
             </tr>
 
         </tbody>
     </table>
     <br><br>
 
-    <form action="/revision" method="post" class="row row-cols-lg-auto g-3 align-items-center">
+    <form action="/preview" method="post" class="row row-cols-lg-auto g-3 align-items-center">
         
         <div class="container-sm align-items-center">
             
@@ -184,7 +188,7 @@
             {% endif %}
 
         <br><br>
-        <button type="submit" name="confirmedit" class="btn btn-info" value="{{revisiontable.wordid}}">Confirm Edits</button>
+        <button type="submit" name="previewedit" class="btn btn-primary" value="{{revisiontable.wordid}}">Preview Edit</button>
         </div>        
     </form>
     {% endfor %}

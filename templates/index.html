@@ -9,9 +9,9 @@
             $(document).ready(function() {                                
                 $('#toppinned').DataTable( {
                     columnDefs: [
-                    // columns 7-9 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
-                    { orderable: false, targets: [7,8,9] },
-                    { "width": "7%", "targets": [7,8,9] }                    
+                    // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    { orderable: false, targets: [6,7,8] },
+                    { "width": "7%", "targets": [6,7,8] }                      
                     ]   
                 } );
             } );
@@ -19,9 +19,9 @@
             $(document).ready(function() {
                 $('#topsaved').DataTable( {
                     columnDefs: [
-                    // columns 7-9 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
-                    { orderable: false, targets: [7,8,9] },
-                    { "width": "7%", "targets": [7,8,9] }    
+                    // columns 6-8 : PIN/UNPIN ENTRY, EDIT ENTRY, DELETE ENTRY
+                    { orderable: false, targets: [6,7,8] },
+                    { "width": "7%", "targets": [6,7,8] }      
                     ]   
                 } );
             } );
@@ -55,8 +55,10 @@
                 <th>Translated Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
+                <!--
                 <th>Entry Edited?</th>
-                <th>UNPIN</th>
+                -->
+                <th>UNPIN</th>                
                 <th>EDIT</th>
                 <th>DELETE</th>
             </tr>
@@ -74,12 +76,14 @@
                     </time>
                 </td>
                 <td> {{ pinvocabtable.rating }} </td>
+                <!--
                 <td> {{ pinvocabtable.edit }} </td>
+                -->
                 <td>  
                     <form action="/unpinentry" method="post">
-                        <button type="button" name="unpinword" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#unpinmodal">-</button>                        
+                        <button type="button" name="unpinword" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#unpinmodal{{pinvocabtable.wordid}}">-</button>                        
                         <!-- Pop-up Modal -->
-                        <div class="modal fade" id="unpinmodal" tabindex="-1" aria-labelledby="unpinmodallabel" aria-hidden="true">
+                        <div class="modal fade" id="unpinmodal{{pinvocabtable.wordid}}" tabindex="-1" aria-labelledby="unpinmodallabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -143,8 +147,10 @@
                 <th>Translated Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
+                <!--
                 <th>Entry Edited?</th>
-                <th>PIN</th>
+                -->
+                <th>UNPIN</th>                
                 <th>EDIT</th>
                 <th>DELETE</th>
             </tr>
@@ -162,12 +168,14 @@
                     </time>
                 </td>
                 <td> {{ allvocabtable.rating }} </td>
+                <!--
                 <td> {{ allvocabtable.edit }} </td>
+                -->
                 <td>  
                     <form action="/pinentry" method="post">
-                        <button type="button" name="pinword" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#pinmodal">+</button>                        
+                        <button type="button" name="pinword" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#pinmodal{{allvocabtable.wordid}}">+</button>                        
                         <!-- Pop-up Modal -->
-                        <div class="modal fade" id="pinmodal" tabindex="-1" aria-labelledby="pinmodallabel" aria-hidden="true">
+                        <div class="modal fade" id="pinmodal{{allvocabtable.wordid}}" tabindex="-1" aria-labelledby="pinmodallabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">

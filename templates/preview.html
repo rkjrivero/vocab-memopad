@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Delete Entry
+    Preview Edit
 {% endblock %}
 
 {% block main %}
@@ -24,34 +24,36 @@
             </tr>
         </thead>
         <tbody>
-            {% for deletiontable in deletiontable %}
+            {% for shadowcopy in shadowcopy %}
             <tr>
-                <td> {{ deletiontable.strinput }}  </td>
-                <td> {{ deletiontable.langinput }} </td>
-                <td> {{ deletiontable.strtrans }} </td>
-                <td> {{ deletiontable.langtrans }} </td>                
+                <td> {{ shadowcopy.shastrinput }}  </td>
+                <td> {{ shadowcopy.shalanginput }} </td>
+                <td> {{ shadowcopy.shastrtrans }} </td>
+                <td> {{ shadowcopy.shalangtrans }} </td>                
                 <td> 
-                    <time datetime="{{ deletiontable.time }}">
-                        {{ deletiontable.time }}                          
+                    <time datetime="{{ shadowcopy.shatime }}">
+                        {{ shadowcopy.shatime }}                          
                     </time>
                 </td>
-                <td> {{ deletiontable.rating }} </td>                
-                <td> {{ deletiontable.pin }} </td>
+                <td> {{ shadowcopy.sharating }} </td>                
+                <td> {{ shadowcopy.shapin }} </td>
                 <!--
-                <td> {{ deletiontable.edit }} </td>
+                <td> {{ shadowcopy.shaedit }} </td>
                 -->
             </tr>         
         </tbody>
     </table>
     <br><br>
 
-    <form action="/deletion" method="post">
-        <button type="submit" name="confirmdelete" class="btn btn-danger" value="{{deletiontable.wordid}}">Confirm Delete Entry</button>
+    <form action="/revision" method="post">
+        <button type="submit" name="confirmedit" class="btn btn-info" value="{{shadowcopy.shawordid}}">Confirm Edit Entry</button>
     </form>
     {% endfor %}
     <br>
     
-    <form action="/" method="get">
+    <!--dynamic cancel action-->
+    <form action="{{session.last_page}}" method="get">
         <button type="submit" class="btn btn-secondary">Cancel Action</button>
-    </form>        
+    </form> 
+        
 {% endblock %}

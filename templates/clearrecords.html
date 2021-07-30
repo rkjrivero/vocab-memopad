@@ -1,0 +1,171 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Clear Records Confirmation
+{% endblock %}
+
+{% block main %}
+    <h1>Recods Deletion Confirmation for User:</h1>
+    <h2>{{ session.user_name }}</h2>
+    <br>
+    
+    <h2>
+        User Profile Settings
+    </h2>
+    <table align="center" class="table table-bordered" style="width:40%">
+        <thead>
+            <tr>
+                <th>Default Original Language: </th>
+                <th> {{ all_languages[session.user_orglang] }} </th>
+            </tr>
+
+            <tr>
+                <th>Default Target Language: </th>
+                <th> {{ all_languages[session.user_tgtlang] }} </th>
+            </tr>
+            
+            <tr>
+                <th>Auto-Translate: </th>
+                <th> {{ session.user_autotrans }} </th>
+            </tr>              
+        </thead>
+    </table>
+    <br>
+
+    <h2>
+        User Memopad Statistics
+    </h2>
+    <br>
+    <table align="center" class="table table-bordered" style="width:40%">
+        <thead>
+            <tr>
+                <th>Pinned Word/Phrase Entry Count: </th>
+                <th> {{ session.user_pincount }} </th>
+            </tr>
+            <tr>
+                <th>Total Word/Phrase Entry Count: </th>
+                <th> {{ session.user_wordcount }} </th>
+            </tr>    
+        </thead>
+    </table>
+    <br>
+
+    <form action="/deleteentries" method="post">
+        <button type="button" name="deleteentriesbutton" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#deleteentriesmodal{{session.user_id}}">Delete All Saved Entries</button>                        
+        <!-- Pop-up Modal -->
+        <div class="modal fade" id="deleteentriesmodal{{session.user_id}}" tabindex="-1" aria-labelledby="deleteentriesmodallabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteentriesheader">Confirm All Saved Entries Deletion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>
+                            Confirm deletion of <b>all saved entries</b> <br>
+                            for active user <u>{{ session.user_name }}</u> ?
+                        </h5>
+                        <br>
+
+                        <table align="center" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Pinned Word/Phrase Entry Count: </th>
+                                    <th> {{ session.user_pincount }} </th>
+                                </tr>
+                                <tr>
+                                    <th>Total Word/Phrase Entry Count: </th>
+                                    <th> {{ session.user_wordcount }} </th>
+                                </tr>    
+                            </thead>
+                        </table>
+                        <br>
+
+                        <div class="form-group">
+                            <label for="checkpw">
+                                <h5>Verify Password to Confirm Action</h5>                    
+                            </label>
+                            <br>
+                            <input autocomplete="off" class="form-control" id="checkpwdeleteentries" name="checkpwdeleteentries" placeholder="Verify Password" type="password" required>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
+                        <button type="submit" class="btn btn-outline-danger" name="confirmdeleteentries" value="{{session.user_id}}">Delete All Saved Entries</button>                                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br>
+
+    <form action="/deleteaccount" method="post">
+        <button type="button" name="deleteaccountbutton" class="btn btn-danger"  data-bs-toggle="modal" data-bs-target="#deleteaccountmodal{{session.user_id}}">Delete Account</button>                        
+        <!-- Pop-up Modal -->
+        <div class="modal fade" id="deleteaccountmodal{{session.user_id}}" tabindex="-1" aria-labelledby="deleteaccountlabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteaccountheader">Confirm Account and All Data Deletion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>
+                            Confirm deletion of <b>all user data</b> <br>
+                            <i>(this includes all saved entries and user account)</i> <br>
+                            for active user <u>{{ session.user_name }}</u> ? <br>
+                            <br>
+                            <b style="color:red;">User will be automatically logged out upon confirmation!</b>
+                        </h5>
+                        <br>
+
+                        <table align="center" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Pinned Word/Phrase Entry Count: </th>
+                                    <th> {{ session.user_pincount }} </th>
+                                </tr>
+                                <tr>
+                                    <th>Total Word/Phrase Entry Count: </th>
+                                    <th> {{ session.user_wordcount }} </th>
+                                </tr>    
+                                <tr>
+                                    <th>Default Original Language: </th>
+                                    <th> {{ all_languages[session.user_orglang] }} </th>
+                                </tr>
+                    
+                                <tr>
+                                    <th>Default Target Language: </th>
+                                    <th> {{ all_languages[session.user_tgtlang] }} </th>
+                                </tr>
+                                <tr>
+                                    <th>Auto-Translate: </th>
+                                    <th> {{ session.user_autotrans }} </th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <br>
+
+                        <div class="form-group">
+                            <label for="checkpw">
+                                <h5>Verify Password to Confirm Action</h5>                    
+                            </label>
+                            <br>
+                            <input autocomplete="off" class="form-control" id="checkpwdeleteaccount" name="checkpwdeleteaccount" placeholder="Verify Password" type="password" required>
+                        </div>
+                        <br>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
+                        <button type="submit" class="btn btn-outline-danger" name="confirmdeleteaccount" value="{{session.user_id}}">Delete Account</button>                                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br>
+
+{% endblock %}
