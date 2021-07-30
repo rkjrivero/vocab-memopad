@@ -1087,6 +1087,8 @@ def revision():
             shadowcopy[0]["shawordidprior"]
         )
         
+        flash("Entry Edited", category="message")
+
         # Redirect to index.html
         return redirect("/")
 
