@@ -20,7 +20,7 @@
             and supports translations across 15 different languages. 
             <br>
             <br>
-            Please note that the UI is currently only available in English.
+            Please note that the UI is currently only designed in English, although a google translate option is available in the bottom of the page.
             <br>
         </p>
         <br>
@@ -107,7 +107,7 @@
 
         <h5>Future Plans</h5>
         <p align="justify">
-            A more mobile-friendly UX is part of future development aims. 
+            A more mobile-friendly UX is part of future development plans. 
             <br>
             There are also future plans to incorporate other translation API's for certain languages, such as <a href="https://jisho.org/" target="_blank" rel="noopener noreferrer">Jisho API</a> for Japanese translations.
             <br>
@@ -164,15 +164,17 @@
 
         <h5>Cookies</h5> 
         <p align="justify">
-            The application creates a session cookie solely for session management purposes only.
+            This application creates a session cookie in the user's client solely for session management purposes.
         </p>
         <br>
 
         <h5>Privacy</h5> 
         <p align="justify">
-            Due to the small scale of the project, all user data (aside from passwords which are hashed by default) are plainly stored in a PostgreSQL database attached to the heroku application. 
+            Due to the small scale of the project, all user data (aside from passwords, which are 
+            <a href="https://werkzeug.palletsprojects.com/en/2.0.x/utils/#werkzeug.security.generate_password_hash"  target="_blank" rel="noopener noreferrer">hashed</a> 
+            by default) are stored in plain text in a PostgreSQL database attached to the heroku application. 
             <br>
-            The options to either clear all saved records or delete user account and all associated data exists in the Profile Settings page.
+            The options to either delete all saved entries or delete the user's account and all associated data are available in the Profile Settings page.
         </p>
         <br>
         

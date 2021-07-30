@@ -38,13 +38,13 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
-        <title>VOCAB-MEMOPAD: {% block title %}{% endblock %}</title>
+        <title class="notranslate">VOCAB-MEMOPAD: {% block title %}{% endblock %}</title>
     </head>
 
     <body>
 
         <nav class="navbar sticky-top navbar-expand-sm navbar-light bg-light border nav-pills" style="background-color: #e3f2fd;">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand notranslate" href="/" >
                 VOCAB-<span class="green">ME</span><span class="blue">MO</span><span class="red">PAD</span>
             </a>
             <!-- disabled container collapse button, issue with getting it able to work (javascript not working properly), code retained as backup
@@ -141,6 +141,17 @@
             <br>
             For more information, visit the <a href="/about">about</a> page.
             <br><br><br>
+            <p>Translate this page:</p>
+
+            <div id="google_translate_element"></div>
+
+            <script type="text/javascript">
+            function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+            }
+            </script>
+
+            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
         </footer>
  
     </body>
