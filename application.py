@@ -110,27 +110,39 @@ def register():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 400)
+            flash("MUST PROVIDE USERNAME!", category="error")
+            return render_template("register.html")
+            #return apology("must provide username", 400)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 400)
+            flash("MUST PROVIDE PASSWORD!", category="error")
+            return render_template("register.html")
+            #return apology("must provide password", 400)
 
         # Ensure confirmation password was submitted
         elif not request.form.get("confirmation"):
-            return apology("must repeat password", 400)
+            flash("MUST REPEAT PASSWORD!", category="error")
+            return render_template("register.html")
+            #return apology("must repeat password", 400)
 
         elif not request.form.get("confirmation") == request.form.get("password"):
-            return apology("passwords must match", 400)
+            flash("PASSWORDS MUST MATCH!", category="error")
+            return render_template("register.html")
+            #return apology("passwords must match", 400)
 
         # Ensure target language was selected
         if not request.form.get("targetlang"):
-            return apology("must select target Language", 400)
+            flash("MUST SELECT DEFAULT TRANSLATION LANGUAGE!", category="error")
+            return render_template("register.html")
+            #return apology("must select target Language", 400)
         tgtlang = request.form.get("targetlang")
     
         # Ensure origin language was selected
         if not request.form.get("originlang"):
-            return apology("must select origin Language", 400)
+            flash("MUST SELECT DEFAULT INPUT LANGUAGE!", category="error")
+            return render_template("register.html")
+            #return apology("must select origin Language", 400)
         orglang = request.form.get("originlang")
 
         # Assign boolean value based on auto-translate checkbox
@@ -145,7 +157,9 @@ def register():
 
         # Check if username exists
         if len(usertable) != 0:
-            return apology("existing user detected", 400)
+            flash("EXISTING USER DETECTED!", category="error")
+            return render_template("register.html")
+            #return apology("existing user detected", 400)
 
         else:
             newpass = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8)
@@ -194,11 +208,15 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            flash("MUST PROVIDE USERNAME!", category="error")
+            return render_template("login.html")
+            #return apology("must provide username", 403)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            flash("MUST PROVIDE PASSWORD!", category="error")
+            return render_template("login.html")
+            #return apology("must provide password", 403)
 
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
@@ -211,7 +229,9 @@ def login():
         # Ensure username exists and password is correct
         if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("password")):
             #print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
-            return apology("invalid username and/or password", 403)
+            flash("INVALID USERNAME AND/OR PASSWORD!", category="error")
+            return render_template("login.html")
+            #return apology("invalid username and/or password", 403)
 
         # Establish session[] array based on "user" table on database
         # NOTE: usertable = userid, username, hash, tgtlang, orglang, autotrans, pincount, wordcount
@@ -296,27 +316,35 @@ def changepw():
 
         # Ensure username was submitted
         if not request.form.get("oldpw"):
-            return apology("must provide old password", 403)
+            flash("MUST PROVIDE OLD PASSWORD!", category="error")
+            return render_template("changepw.html")
+            #return apology("must provide old password", 403)
 
         # Ensure password was submitted
         elif not request.form.get("newpw"):
-            return apology("must provide new password", 403)
+            flash("MUST PROVIDE NEW PASSWORD!", category="error")
+            return render_template("changepw.html")
+            #return apology("must provide new password", 403)
 
         # Ensure confirmation password matches
         elif not request.form.get("confirmnewpw") == request.form.get("newpw"):
-            return apology("ensure new password matches", 403)
+            flash("ENSURE NEW PASSWORD MATCHES!", category="error")
+            return render_template("changepw.html")
+            #return apology("ensure new password matches", 403)
 
         # Query database for username
-        userdb = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
+        userdb = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
         print("userdb[0][hash]:", userdb[0]["hash"])
 
         # Ensure old password is correct
         if check_password_hash(userdb[0]["hash"], request.form.get("oldpw")) == False:
-            return apology("invalid old password", 403)
+            flash("INVALID OLD PASSWORD!", category="error")
+            return render_template("changepw.html")
+            #return apology("invalid old password", 403)            
 
         else:
             changepass = generate_password_hash(request.form.get("newpw"), method='pbkdf2:sha256', salt_length=8)
-            db.execute("UPDATE users SET hash = ? WHERE id = ?", changepass, session["user_id"])
+            db.execute("UPDATE users SET hash = ? WHERE userid = ?", changepass, session["user_id"])
             flash("Password Changed", category="message")
             
         # Redirect user to profile page
@@ -546,7 +574,6 @@ def index():
     
     # Filter out for allvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
-    # TODO: limit to 25
     for vocabtable_list in vocabtable:
         #print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
         testvtlist = vocabtable_list.items()                        
@@ -734,7 +761,9 @@ def input():
     if request.method == "POST":
         # Ensure word/phrase was submitted
         if not request.form.get("textinput"):
-            return apology("must provide word/phrase to record and/or translate", 400)
+            flash("MUST PROVIDE WORD/PHRASE TO RECORD AND/OR TRANSLATE!", category="error")
+            return render_template("input.html", all_languages=all_languages)
+            #return apology("must provide word/phrase to record and/or translate", 400)
         
         # Initialize an empty dictionary
         translation = {}
@@ -841,9 +870,13 @@ def review():
         db.execute(
             "INSERT INTO vocab (userlink, strinput, strtrans, langinput, langtrans, time, rating, pin, edit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             shadowcopy[0]["shauserlink"], shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"], 
-            shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"], 
+            shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"],  
             request.form.get("difficulty"), varinputpin, False
-        )
+        ) 
+        #TODO debug user index out of range, unable to reproduce - suspected issue to be purged shadow table due to out-of-order operation
+        #2021-07-30T08:19:31.367632+00:00 app[web.1]:   File "/app/application.py", line 843, in review
+        #2021-07-30T08:19:31.367633+00:00 app[web.1]:     shadowcopy[0]["shauserlink"], shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"],
+        #2021-07-30T08:19:31.367633+00:00 app[web.1]: [33mIndexError: list index out of range[0m
 
         # Purge shadow table after every successful insertion to vocab table
         db.execute("DELETE FROM shadow") 
@@ -1054,6 +1087,8 @@ def revision():
             shadowcopy[0]["shawordidprior"]
         )
         
+        flash("Entry Edited", category="message")
+
         # Redirect to index.html
         return redirect("/")
 
@@ -1068,6 +1103,7 @@ def revision():
 @app.route("/deletecheck", methods=["GET", "POST"])
 @login_required
 def deletecheck():
+    # NOTE - VESTIGIAL ROUTE, IS NOT CALLED (NEW DELETION MODAL CALLS /DELETION DIRECTLY), ONLY RETAINED FOR BACKUP
     """Show Delete Entry Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -1105,7 +1141,7 @@ def deletion():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         print("log: /deletion-POST reached")
-        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmdelete"))
+        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("deleteword"))
         usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
         print("test, deletiontable[0]: ", deletiontable[0])
 
@@ -1129,7 +1165,7 @@ def deletion():
         session["user_pincount"] = usernumbers[0]["pincount"] - 1
         
         # Delete entry from vocab table
-        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
+        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("deleteword"))  
         
         flash("Entry Deleted", category="message")
         

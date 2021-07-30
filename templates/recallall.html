@@ -97,7 +97,7 @@
                                         </table>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>                                        
                                         <button type="submit" class="btn btn-outline-danger" name="recallallunpinentry" value="{{fullvocabtable.wordid}}">Unpin Entry</button>                                        
                                     </div>
                                 </div>
@@ -138,7 +138,7 @@
                                         </table>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel Action</button>                                        
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>                                        
                                         <button type="submit" class="btn btn-outline-success" name="recallallpinentry" value="{{fullvocabtable.wordid}}">Pin Entry</button>                                        
                                     </div>
                                 </div>
@@ -151,10 +151,45 @@
                     <form action="/editentry" method="post">
                         <button type="submit" name="editword" class="btn btn-info" value="{{fullvocabtable.wordid}}">!</button>
                     </form>
-                </td>
+                </td>                
                 <td>  
-                    <form action="/deletecheck" method="post">
-                        <button type="submit" name="deleteword" class="btn btn-danger" value="{{fullvocabtable.wordid}}">X</button>
+                    <form action="/deletion" method="post">
+                        <button type="button" name="pinword" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteallsavedmodal{{fullvocabtable.wordid}}">X</button>                        
+                        <!-- Pop-up Modal -->
+                        <div class="modal fade" id="deleteallsavedmodal{{fullvocabtable.wordid}}" tabindex="-1" aria-labelledby="deleteallsavedmodallabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="pinmodalheader">Confirm Delete</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Input Word/Phrase</th>
+                                                    <th>Input Language</th>
+                                                    <th>Translated Word/Phrase</th>
+                                                    <th>Translated Language</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td> {{ fullvocabtable.strinput }}  </td>
+                                                    <td> {{ all_languages[fullvocabtable.langinput] }} </td>
+                                                    <td> {{ fullvocabtable.strtrans }} </td>
+                                                    <td> {{ all_languages[fullvocabtable.langtrans] }} </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-danger" name="deleteword" value="{{fullvocabtable.wordid}}">Delete Entry</button>                                                                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </td>
             </tr>
