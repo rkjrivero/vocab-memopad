@@ -761,7 +761,9 @@ def input():
     if request.method == "POST":
         # Ensure word/phrase was submitted
         if not request.form.get("textinput"):
-            return apology("must provide word/phrase to record and/or translate", 400)
+            flash("MUST PROVIDE WORD/PHRASE TO RECORD AND/OR TRANSLATE!", category="error")
+            return render_template("input.html", all_languages=all_languages)
+            #return apology("must provide word/phrase to record and/or translate", 400)
         
         # Initialize an empty dictionary
         translation = {}
