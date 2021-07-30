@@ -203,7 +203,7 @@ def login():
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
         
-        # PRINT TEST BLOCK
+        # PRINT TESTS (FOR DEBUGGING)
         print("test, query-usertable: ", usertable)
         print("test, query-username: ", request.form.get("username"))
         print("test, password-hash: ", generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8))        
@@ -270,7 +270,7 @@ def logout():
 @app.route("/profile")
 @login_required
 def profile():
-    """Profile Page"""
+    """Show Profile Page With Options"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -343,7 +343,7 @@ def changedefault():
         else:
             varautotrans = False   
 
-        # PRINT TEST BLOCK        
+        # PRINT TESTS (FOR DEBUGGING)        
         print("log: current default orglang is ", session["user_orglang"], ", new default orglang is ", request.form.get("originlang"))       
         print("log: current default tgtlang is ", session["user_tgtlang"], ",  new default tgtlang is ", request.form.get("targetlang"))
         print("log: current default autotrans is ", session["user_autotrans"], ", new default autotrans is ", varautotrans)
@@ -383,7 +383,7 @@ def changedefault():
 @app.route("/clearrecords")
 @login_required
 def clearrecords():
-    """Show CLEARRECORDS.html"""
+    """Show Clear Records Confirmation Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -425,9 +425,9 @@ def deleteentries():
         if not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteentries")):
             return apology("invalid password", 403)
 
-        # PRINT TEST (FOR LOGGING)
-        recorddeletiontable = db.execute("SELECT * FROM vocab where userlink = ?", request.form.get("confirmdeleteentries"))
-        print("test, recorddeletiontable:", recorddeletiontable)
+        # PRINT TEST (FOR DEBUGGING)
+        #recorddeletiontable = db.execute("SELECT * FROM vocab where userlink = ?", request.form.get("confirmdeleteentries"))
+        #print("test, recorddeletiontable:", recorddeletiontable)
 
         # Delete all user entries from vocab table        
         db.execute("DELETE FROM vocab WHERE userlink = ?", request.form.get("confirmdeleteentries"))  
@@ -506,7 +506,7 @@ def deleteaccount():
 @login_required
 def index():
     # NOTE - INDEX DEFINITION ORIGINALLY FROM CS50PSET9, WITH MODIFICATIONS
-    """Show INDEX.html"""
+    """Show Index/Homepage"""
     
     # RETRIEVE FROM DATABASE
     # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
@@ -539,7 +539,7 @@ def index():
     allcount = 25
     pincount = 10
 
-    # PRINT TEST BLOCK
+    # PRINT TESTS (FOR DEBUGGING)
     #print("test, vocabtable[{}]: ", vocabtable)
     #print("test, allvocabtable (before): ", allvocabtable)
     #print("test, pinvocabtable (before): ", pinvocabtable)
@@ -611,7 +611,7 @@ def index():
 @app.route("/recallpin")
 @login_required
 def recallpin():
-    """Show RECALLPIN.html"""
+    """Show Recall Pinned Entries Page"""
 
     # RETRIEVE FROM DATABASE
     # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
@@ -641,7 +641,7 @@ def recallpin():
     # Create empty list, to populate with *list of dictionaries*
     pinnedvocabtable = []
 
-    # PRINT TEST BLOCK
+    # PRINT TESTS (FOR DEBUGGING)
     #print("test, vocabtable[{}]: ", vocabtable)
     #print("test, pinnedvocabtable (before): ", pinnedvocabtable)
     
@@ -667,7 +667,7 @@ def recallpin():
 @app.route("/recallall")
 @login_required
 def recallall():
-    """Show RECALLALL.html"""
+    """Show Recall All Entries Page"""
 
     # RETRIEVE FROM DATABASE
     # CS50 EXECUTE METHOD NOTE: If str is a SELECT, then execute returns a list of zero or more dict objects, 
@@ -697,7 +697,7 @@ def recallall():
     # Create empty list, to populate with *list of dictionaries*
     fullvocabtable = []
 
-    # PRINT TEST BLOCK
+    # PRINT TESTS (FOR DEBUGGING)
     #print("test, vocabtable[{}]: ", vocabtable)
     #print("test, fullvocabtable (before): ", fullvocabtable)
     
@@ -722,7 +722,7 @@ def recallall():
 @app.route("/input", methods=["GET", "POST"])
 @login_required
 def input():
-    """Show INPUT.html"""
+    """Show Input Entry"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -754,11 +754,11 @@ def input():
             translation["org"] = translated.src
             translation["tgt"] = translated.dest
 
-            # PRINT TEST BLOCK        
+            # PRINT TESTS (FOR DEBUGGING)        
             print("test, input: ", translation["input"])
-            print("test, orglang: ", translation["org"])
-            print("test, tgtlang: ", translation["tgt"])
-            print("test, output(object): ", translated)
+            #print("test, orglang: ", translation["org"])
+            #print("test, tgtlang: ", translation["tgt"])
+            #print("test, output(object): ", translated)
             print("test, output(word): ", translation["output"])
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
 
@@ -769,10 +769,10 @@ def input():
             translation["org"] = request.form.get("originlang")
             translation["tgt"] = "n/a"
 
-            # PRINT TEST BLOCK        
+            # PRINT TESTS (FOR DEBUGGING)        
             print("test, input: ", translation["input"])
-            print("test, orglang: ", translation["org"])
-            print("test, tgtlang: ", translation["tgt"])
+            #print("test, orglang: ", translation["org"])
+            #print("test, tgtlang: ", translation["tgt"])
             print("log: autotranslation option is not selected, ignoring input string '", request.form.get("textinput"), "'")
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
         
@@ -797,7 +797,7 @@ def input():
 @app.route("/review", methods=["GET", "POST"])
 @login_required
 def review():
-    """Show REVIEW.html"""
+    """Show Review Entry Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -831,9 +831,9 @@ def review():
         session["user_wordcount"] = usernumbers[0]["wordcount"] + 1
         session["user_pincount"] = usernumbers[0]["pincount"] + 1
 
-        # Print Test
-        print("test, shadowcopy[0]: ", shadowcopy[0])
-        print("test, difficulty: ", request.form.get("difficulty"))
+        # PRINT TESTS (FOR DEBUGGING)        
+        #print("test, shadowcopy[0]: ", shadowcopy[0])
+        #print("test, difficulty: ", request.form.get("difficulty"))
         print("test, inputpin (raw):", request.form.get("inputpin"))
         print("test, inputpin (cleaned):", varinputpin)
         
@@ -860,7 +860,7 @@ def review():
 @app.route("/editentry", methods=["GET", "POST"])
 @login_required
 def editentry():
-    """Show EDIT.html"""
+    """Show Edit Entry Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -886,7 +886,7 @@ def editentry():
 @app.route("/preview", methods=["GET", "POST"])
 @login_required
 def preview():
-    """Show PREVIEW.html"""
+    """Show Preview Edits Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -909,7 +909,7 @@ def preview():
         revisiondata["time"] = datetime.now(pytz.utc)
         revisiondata["edit"] = True
 
-        # PRINT TEST BLOCK        
+        # PRINT TESTS (FOR DEBUGGING)        
         print("test, form input: ", request.form.get("inputedit"))
         print("test, form output: ", request.form.get("outputedit"))
         print("test, form orglang: ", request.form.get("inputlang"))
@@ -933,13 +933,13 @@ def preview():
             revisiondata["langtrans"] = retranslated.dest
             revisiondata["rating"] = request.form.get("difficulty")
 
-            # PRINT TEST BLOCK        
+            # PRINT TESTS (FOR DEBUGGING)        
             print("test, input: ", revisiondata["strinput"])
-            print("test, orglang: ", revisiondata["strtrans"])
-            print("test, tgtlang: ", revisiondata["langinput"])
-            print("test, output(object): ", revisiondata)
+            #print("test, orglang: ", revisiondata["strtrans"])
+            #print("test, tgtlang: ", revisiondata["langinput"])
+            #print("test, output(object): ", revisiondata)
             print("test, output(word): ", revisiondata["langtrans"])
-            print("test, rating: ", revisiondata["rating"])
+            #print("test, rating: ", revisiondata["rating"])
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
 
         else:
@@ -952,13 +952,13 @@ def preview():
             revisiondata["langtrans"] = request.form.get("outputlang")
             revisiondata["rating"] = request.form.get("difficulty")
 
-            # PRINT TEST BLOCK        
+            # PRINT TESTS (FOR DEBUGGING)        
             print("test, input: ", revisiondata["strinput"])
             print("test, output: ", revisiondata["strtrans"])
-            print("test, orglang: ", revisiondata["langinput"])
-            print("test, tgtlang: ", revisiondata["langtrans"])
+            #print("test, orglang: ", revisiondata["langinput"])
+            #print("test, tgtlang: ", revisiondata["langtrans"])
             print("log: autoretranslation option is not selected, manual output entry")
-            print("test, rating: ", revisiondata["rating"])
+            #print("test, rating: ", revisiondata["rating"])
             print("log: default orglang is ", session["user_orglang"], "and default tgtlang is ", session["user_tgtlang"])       
         
         # Check if pin value was changed
@@ -1016,7 +1016,7 @@ def preview():
 @app.route("/revision", methods=["GET", "POST"])
 @login_required
 def revision():
-    """Enact revision (behind the scenes)"""
+    """Enact revisions (behind the scenes)"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -1040,7 +1040,6 @@ def revision():
             usernumbers[0]["pincount"] + shadowcopy[0]["shapinchange"], session["user_id"]
         )
         session["user_pincount"] = usernumbers[0]["pincount"] + shadowcopy[0]["shapinchange"]            
-
 
         # Update vocab table with shadowcopy dictionary         
         db.execute(
@@ -1069,7 +1068,7 @@ def revision():
 @app.route("/deletecheck", methods=["GET", "POST"])
 @login_required
 def deletecheck():
-    """Show DELETE.html"""
+    """Show Delete Entry Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -1148,7 +1147,8 @@ def deletion():
 @app.route("/pinentry", methods=["GET", "POST"])
 @login_required
 def pinentry():
-    """ENACT pin entry (must refresh the page)"""
+    """Enact pin entry (must refresh the page)"""
+    # NOTE: flash message alert intentionally not incorporated
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -1212,7 +1212,8 @@ def pinentry():
 @app.route("/unpinentry", methods=["GET", "POST"])
 @login_required
 def unpinentry():
-    """ENACT unpin entry (must refresh the page)"""
+    """Enact  unpin entry (must refresh the page)"""
+    # NOTE: flash message alert intentionally not incorporated
 
     # Update current display time - display format: dd/mm/YY H:M:S
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
@@ -1298,7 +1299,7 @@ def unpinentry():
 
 @app.route("/about")
 def about():
-    """Show ABOUT page"""
+    """Show About Page"""
 
     # Redirect user to login form
     return render_template("about.html", all_languages=all_languages)
