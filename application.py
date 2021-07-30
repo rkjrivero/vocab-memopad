@@ -110,27 +110,39 @@ def register():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 400)
+            flash("MUST PROVIDE USERNAME!", category="error")
+            return render_template("register.html")
+            #return apology("must provide username", 400)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 400)
+            flash("MUST PROVIDE PASSWORD!", category="error")
+            return render_template("register.html")
+            #return apology("must provide password", 400)
 
         # Ensure confirmation password was submitted
         elif not request.form.get("confirmation"):
-            return apology("must repeat password", 400)
+            flash("MUST REPEAT PASSWORD!", category="error")
+            return render_template("register.html")
+            #return apology("must repeat password", 400)
 
         elif not request.form.get("confirmation") == request.form.get("password"):
-            return apology("passwords must match", 400)
+            flash("PASSWORDS MUST MATCH!", category="error")
+            return render_template("register.html")
+            #return apology("passwords must match", 400)
 
         # Ensure target language was selected
         if not request.form.get("targetlang"):
-            return apology("must select target Language", 400)
+            flash("MUST SELECT DEFAULT TRANSLATION LANGUAGE!", category="error")
+            return render_template("register.html")
+            #return apology("must select target Language", 400)
         tgtlang = request.form.get("targetlang")
     
         # Ensure origin language was selected
         if not request.form.get("originlang"):
-            return apology("must select origin Language", 400)
+            flash("MUST SELECT DEFAULT INPUT LANGUAGE!", category="error")
+            return render_template("register.html")
+            #return apology("must select origin Language", 400)
         orglang = request.form.get("originlang")
 
         # Assign boolean value based on auto-translate checkbox
@@ -145,7 +157,9 @@ def register():
 
         # Check if username exists
         if len(usertable) != 0:
-            return apology("existing user detected", 400)
+            flash("EXISTING USER DETECTED!", category="error")
+            return render_template("register.html")
+            #return apology("existing user detected", 400)
 
         else:
             newpass = generate_password_hash(request.form.get("password"), method='pbkdf2:sha256', salt_length=8)
@@ -194,13 +208,13 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            flash("must provide username", category="warning")
+            flash("MUST PROVIDE USERNAME!", category="error")
             return render_template("login.html")
             #return apology("must provide username", 403)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            flash("must provide password", category="warning")
+            flash("MUST PROVIDE PASSWORD!", category="error")
             return render_template("login.html")
             #return apology("must provide password", 403)
 
@@ -215,7 +229,7 @@ def login():
         # Ensure username exists and password is correct
         if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("password")):
             #print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
-            flash("invalid username and/or password", category="warning")
+            flash("INVALID USERNAME AND/OR PASSWORD!", category="error")
             return render_template("login.html")
             #return apology("invalid username and/or password", 403)
 
