@@ -194,11 +194,15 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            flash("must provide username", category="error")
+            return render_template("login.html")
+            #return apology("must provide username", 403)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            flash("must provide password", category="warning")
+            return render_template("login.html")
+            #return apology("must provide password", 403)
 
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
