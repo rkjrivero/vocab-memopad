@@ -316,27 +316,35 @@ def changepw():
 
         # Ensure username was submitted
         if not request.form.get("oldpw"):
-            return apology("must provide old password", 403)
+            flash("MUST PROVIDE OLD PASSWORD!", category="error")
+            return render_template("changepw.html")
+            #return apology("must provide old password", 403)
 
         # Ensure password was submitted
         elif not request.form.get("newpw"):
-            return apology("must provide new password", 403)
+            flash("MUST PROVIDE NEW PASSWORD!", category="error")
+            return render_template("changepw.html")
+            #return apology("must provide new password", 403)
 
         # Ensure confirmation password matches
         elif not request.form.get("confirmnewpw") == request.form.get("newpw"):
-            return apology("ensure new password matches", 403)
+            flash("ENSURE NEW PASSWORD MATCHES!", category="error")
+            return render_template("changepw.html")
+            #return apology("ensure new password matches", 403)
 
         # Query database for username
-        userdb = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
+        userdb = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
         print("userdb[0][hash]:", userdb[0]["hash"])
 
         # Ensure old password is correct
         if check_password_hash(userdb[0]["hash"], request.form.get("oldpw")) == False:
-            return apology("invalid old password", 403)
+            flash("INVALID OLD PASSWORD!", category="error")
+            return render_template("changepw.html")
+            #return apology("invalid old password", 403)            
 
         else:
             changepass = generate_password_hash(request.form.get("newpw"), method='pbkdf2:sha256', salt_length=8)
-            db.execute("UPDATE users SET hash = ? WHERE id = ?", changepass, session["user_id"])
+            db.execute("UPDATE users SET hash = ? WHERE userid = ?", changepass, session["user_id"])
             flash("Password Changed", category="message")
             
         # Redirect user to profile page
@@ -566,7 +574,6 @@ def index():
     
     # Filter out for allvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
-    # TODO: limit to 25
     for vocabtable_list in vocabtable:
         #print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
         testvtlist = vocabtable_list.items()                        
@@ -861,9 +868,13 @@ def review():
         db.execute(
             "INSERT INTO vocab (userlink, strinput, strtrans, langinput, langtrans, time, rating, pin, edit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             shadowcopy[0]["shauserlink"], shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"], 
-            shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"], 
+            shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"],  
             request.form.get("difficulty"), varinputpin, False
-        )
+        ) 
+        #TODO debug user index out of range, unable to reproduce - suspected issue to be purged shadow table due to out-of-order operation
+        #2021-07-30T08:19:31.367632+00:00 app[web.1]:   File "/app/application.py", line 843, in review
+        #2021-07-30T08:19:31.367633+00:00 app[web.1]:     shadowcopy[0]["shauserlink"], shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"],
+        #2021-07-30T08:19:31.367633+00:00 app[web.1]: [33mIndexError: list index out of range[0m
 
         # Purge shadow table after every successful insertion to vocab table
         db.execute("DELETE FROM shadow") 
