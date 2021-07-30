@@ -1163,7 +1163,7 @@ def deletion():
         session["user_pincount"] = usernumbers[0]["pincount"] - 1
         
         # Delete entry from vocab table
-        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("confirmdelete"))  
+        db.execute("DELETE FROM vocab WHERE wordid = ?", request.form.get("deleteword"))  
         
         flash("Entry Deleted", category="message")
         
