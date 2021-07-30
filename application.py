@@ -1101,6 +1101,7 @@ def revision():
 @app.route("/deletecheck", methods=["GET", "POST"])
 @login_required
 def deletecheck():
+    # NOTE - VESTIGIAL ROUTE, IS NOT CALLED (NEW DELETION MODAL CALLS /DELETION DIRECTLY), ONLY RETAINED FOR BACKUP
     """Show Delete Entry Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -1138,7 +1139,7 @@ def deletion():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         print("log: /deletion-POST reached")
-        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("confirmdelete"))
+        deletiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("deleteword"))
         usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
         print("test, deletiontable[0]: ", deletiontable[0])
 
