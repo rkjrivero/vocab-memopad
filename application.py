@@ -194,7 +194,7 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            flash("must provide username", category="error")
+            flash("must provide username", category="warning")
             return render_template("login.html")
             #return apology("must provide username", 403)
 
@@ -215,7 +215,7 @@ def login():
         # Ensure username exists and password is correct
         if len(usertable) != 1 or not check_password_hash(usertable[0]["hash"], request.form.get("password")):
             #print("test, check_password_hash: ",check_password_hash(usertable[0]["hash"], request.form.get("password")) )
-            flash("invalid username and/or password", category="error")
+            flash("invalid username and/or password", category="warning")
             return render_template("login.html")
             #return apology("invalid username and/or password", 403)
 
