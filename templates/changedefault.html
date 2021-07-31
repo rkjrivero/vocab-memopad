@@ -123,6 +123,7 @@
             </div>
             <script>
                 function changevisiblepinned() {
+                    alert("changevisiblepinned triggered")
                     document.getElementById("visiblepinned").value = "{{session.user_recallpinned}}";
                 }
             </script>
@@ -144,6 +145,7 @@
             </div>
             <script>
                 function changevisiblesaved() {
+                    alert("changevisiblesaved triggered")
                     document.getElementById("visiblesaved").value = "{{session.user_recallall}}";
                 }
             </script>
