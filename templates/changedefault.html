@@ -57,7 +57,6 @@
                 </div>                
                 <script>
                     function changeoriginlang() {
-                        alert("changeoriginlang triggered")
                         document.getElementById("originlang").value = "{{session.user_orglang}}";
                     }
                 </script>
@@ -91,7 +90,6 @@
                 </div>                                
                 <script>
                     function changetargetlang() {
-                        alert("changetargetlang triggered")
                         document.getElementById("targetlang").value = "{{session.user_tgtlang}}";
                     }
                 </script>
@@ -125,7 +123,6 @@
             </div>
             <script>
                 function changevisiblepinned() {
-                    alert("changevisiblepinned triggered")
                     document.getElementById("visiblepinned").value = "{{session.user_recallpinned}}";
                 }
             </script>
@@ -147,7 +144,6 @@
             </div>
             <script>
                 function changevisiblesaved() {
-                    alert("changevisiblesaved triggered")
                     document.getElementById("visiblesaved").value = "{{session.user_recallall}}";
                 }
             </script>
@@ -169,6 +165,12 @@
     <script>
         function changeautotrans() {
             document.getElementById("autotrans").removeAttribute("checked"); 
+            }
+    </script>
+    {% else %}
+    <script>
+        function changeautotrans() {
+            // pass (added to avoid errors)
             }
     </script>
     {% endif %}
