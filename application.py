@@ -442,16 +442,20 @@ def deleteentries():
     if request.method == "POST":
         print("log: /deleteentries-POST reached")
         
-        # Ensure username was submitted
+        # Ensure password was submitted
         if not request.form.get("checkpwdeleteentries"):
-            return apology("must verify password", 400)
+            flash("MUST VERIFY PASSWORD!", category="error")
+            return redirect("/clearrecords")          
+            #return apology("must verify password", 400)
 
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?", session["user_name"])
         
         # Ensure password is correct
         if not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteentries")):
-            return apology("invalid password", 403)
+            flash("INVALID PASSWORD!", category="error")
+            return redirect("/clearrecords") 
+            #return apology("invalid password", 403)
 
         # PRINT TEST (FOR DEBUGGING)
         #recorddeletiontable = db.execute("SELECT * FROM vocab where userlink = ?", request.form.get("confirmdeleteentries"))
@@ -493,16 +497,20 @@ def deleteaccount():
     if request.method == "POST":
         print("log: /deleteaccount-POST reached")
         
-        # Ensure username was submitted
+        # Ensure password was submitted
         if not request.form.get("checkpwdeleteaccount"):
-            return apology("must verify password", 400)
+            flash("MUST VERIFY PASSWORD!", category="error")
+            return redirect("/clearrecords") 
+            #return apology("must verify password", 400)
 
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?", session["user_name"])
 
-        # Ensure  password is correct
+        # Ensure password is correct
         if not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteaccount")):
-            return apology("invalid password", 403)
+            flash("INVALID PASSWORD!", category="error")
+            return redirect("/clearrecords") 
+            #return apology("invalid password", 403)
 
         # PRINT TEST (FOR LOGGING)
         recorddeletiontable = db.execute("SELECT * FROM vocab where userlink = ?", request.form.get("confirmdeleteaccount"))
