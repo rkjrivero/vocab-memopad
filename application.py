@@ -1274,6 +1274,8 @@ def pinentry():
                 True, request.form.get("indexpinentry")
             )
 
+            flash("Entry Pinned", category="message")
+
             return redirect("/")
 
         # User reached route from recalll all page
@@ -1293,6 +1295,8 @@ def pinentry():
                 "UPDATE vocab SET pin = ? WHERE wordid = ?",
                 True, request.form.get("recallallpinentry")
             )
+
+            flash("Entry Pinned", category="message")
 
             return redirect("/recallall")
 
@@ -1339,6 +1343,8 @@ def unpinentry():
                 False, request.form.get("indexunpinentry")
             )
 
+            flash("Entry Unpinned", category="message")
+
             return redirect("/")
 
         # User reached route from recall pinned page                
@@ -1358,6 +1364,8 @@ def unpinentry():
                 "UPDATE vocab SET pin = ? WHERE wordid = ?",
                 False, request.form.get("recallpinunpinentry")
             ) 
+
+            flash("Entry Unpinned", category="message")
 
             return redirect("/recallpin")  
         
@@ -1379,6 +1387,8 @@ def unpinentry():
                 "UPDATE vocab SET pin = ? WHERE wordid = ?",
                 False, request.form.get("recallallunpinentry")
             ) 
+
+            flash("Entry Unpinned", category="message")
 
             return redirect("/recallall")
 
