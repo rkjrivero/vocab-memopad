@@ -31,7 +31,7 @@
             </tr> 
             
             <tr>
-                <th>Default Visible All Entries : </th>
+                <th>Default Visible All Saved Entries : </th>
                 <th> {{ session.user_recallall }} </th>
             </tr> 
         </thead>
@@ -114,8 +114,8 @@
                         <h5>Default Visible Pinned Entries </h5>
                     </label>                        
                     <select class="form-select" aria-label="Visible Pinned" id="visiblepinned" name="visiblepinned" required>
-                        <option selected value="10">10</option>
-                        <option value="25">25</option>
+                        <option value="10">10</option>
+                        <option selected value="25">25</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
@@ -144,7 +144,7 @@
             </div>
             <script>
                 function changevisiblesaved() {
-                    document.getElementById("visiblesaved").value = "{{session.user_recallsaved}}";
+                    document.getElementById("visiblesaved").value = "{{session.user_recallall}}";
                 }
             </script>
             <br>
@@ -167,6 +167,12 @@
             document.getElementById("autotrans").removeAttribute("checked"); 
             }
     </script>
+    {% else %}
+    <script>
+        function changeautotrans() {
+            // pass (added to avoid errors)
+            }
+    </script>
     {% endif %}
 
     <!--implement swap to user default settings-->
@@ -174,9 +180,9 @@
         window.onload=function(){
             changeoriginlang();
             changetargetlang();
-            changeautotrans();
             changevisiblepinned();
             changevisiblesaved();
+            changeautotrans();            
             }
     </script>
 

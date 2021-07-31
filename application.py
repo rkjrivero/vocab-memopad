@@ -15,8 +15,8 @@ from googletrans import Translator
 import pytz
 
 # TRANSITION TO SQLALCHEMY ONCE MAIN FUNCTIONALITY IS ESTABLISHED - NOTE: IMPLEMENTATION ABANDONED, RELYING ON CS50.SQL FOR SIMPLICITY
-"""
-# Import SQLAlchemy NOTE: currently vestigial due to CS50 reliance
+"""  NOTE: currently vestigial due to CS50 reliance
+# Import SQLAlchemy
 from sqlalchemy.sql.expression import false, null
 import sqlalchemy # provisional
 # https://www.learndatasci.com/tutorials/using-databases-python-postgres-sqlalchemy-and-alembic/
@@ -46,7 +46,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Session Setup - NOTE: IMPLEMENTATION ABANDONED, RELYING ON COOKIES (SEE ABOVE) FOR SIMPLICITY
-""" DISABLED
+""" NOTE: disabled for simplicity, relying only on session cookie
 # from https://stackoverflow.com/questions/34902378/where-do-i-get-a-secret-key-for-flask/34903502 because ... eh, cbf
 himitsu_key = secrets.token_hex(16)
 print("secret key is: ",himitsu_key)
@@ -111,38 +111,38 @@ def register():
         # Ensure username was submitted
         if not request.form.get("username"):
             flash("MUST PROVIDE USERNAME!", category="error")
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
             #return apology("must provide username", 400)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
             flash("MUST PROVIDE PASSWORD!", category="error")
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
             #return apology("must provide password", 400)
 
         # Ensure confirmation password was submitted
         elif not request.form.get("confirmation"):
             flash("MUST REPEAT PASSWORD!", category="error")
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
             #return apology("must repeat password", 400)
 
         elif not request.form.get("confirmation") == request.form.get("password"):
             flash("PASSWORDS MUST MATCH!", category="error")
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
             #return apology("passwords must match", 400)
 
         # Ensure target language was selected
         if not request.form.get("targetlang"):
             flash("MUST SELECT DEFAULT TRANSLATION LANGUAGE!", category="error")
-            return render_template("register.html")
-            #return apology("must select target Language", 400)
+            return render_template("register.html", all_languages=all_languages)
+            #return apology("must select target language", 400)
         tgtlang = request.form.get("targetlang")
     
         # Ensure origin language was selected
         if not request.form.get("originlang"):
             flash("MUST SELECT DEFAULT INPUT LANGUAGE!", category="error")
-            return render_template("register.html")
-            #return apology("must select origin Language", 400)
+            return render_template("register.html", all_languages=all_languages)
+            #return apology("must select origin language", 400)
         orglang = request.form.get("originlang")
 
         # Assign boolean value based on auto-translate checkbox
@@ -158,7 +158,7 @@ def register():
         # Check if username exists
         if len(usertable) != 0:
             flash("EXISTING USER DETECTED!", category="error")
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
             #return apology("existing user detected", 400)
 
         else:
@@ -252,7 +252,7 @@ def login():
         session["user_indexunpinned"] = usertable[0]["indexunpinned"]
         session["user_recallall"] = usertable[0]["recallall"]
         session["user_recallpinned"] = usertable[0]["recallpinned"]
-        # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+        # last_page tracks the last page (either login/index/recallpin/recallall/profile)
         session["last_page"] = "/login"
 
         # Update current display time - display format: dd/mm/YY H:M:S
@@ -298,8 +298,8 @@ def profile():
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
-    session["last_page"] = "profile"
+    # last_page tracks the last page (either login/index/recallpin/recallall/profile)
+    session["last_page"] = "/profile"
 
     return render_template("profile.html", all_languages=all_languages)
 
@@ -313,14 +313,24 @@ def changepw():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+        
+        # Query database for username
+        userdb = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
+        print("userdb[0][hash]:", userdb[0]["hash"])
 
-        # Ensure username was submitted
+        # Ensure old password was submitted
         if not request.form.get("oldpw"):
             flash("MUST PROVIDE OLD PASSWORD!", category="error")
             return render_template("changepw.html")
             #return apology("must provide old password", 403)
 
-        # Ensure password was submitted
+        # Ensure old password is correct
+        if check_password_hash(userdb[0]["hash"], request.form.get("oldpw")) == False:
+            flash("INVALID OLD PASSWORD!", category="error")
+            return render_template("changepw.html")
+            #return apology("invalid old password", 403)  
+
+        # Ensure new password was submitted
         elif not request.form.get("newpw"):
             flash("MUST PROVIDE NEW PASSWORD!", category="error")
             return render_template("changepw.html")
@@ -331,18 +341,9 @@ def changepw():
             flash("ENSURE NEW PASSWORD MATCHES!", category="error")
             return render_template("changepw.html")
             #return apology("ensure new password matches", 403)
-
-        # Query database for username
-        userdb = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
-        print("userdb[0][hash]:", userdb[0]["hash"])
-
-        # Ensure old password is correct
-        if check_password_hash(userdb[0]["hash"], request.form.get("oldpw")) == False:
-            flash("INVALID OLD PASSWORD!", category="error")
-            return render_template("changepw.html")
-            #return apology("invalid old password", 403)            
-
-        else:
+        
+        # Update password
+        if check_password_hash(userdb[0]["hash"], request.form.get("oldpw")) == True:
             changepass = generate_password_hash(request.form.get("newpw"), method='pbkdf2:sha256', salt_length=8)
             db.execute("UPDATE users SET hash = ? WHERE userid = ?", changepass, session["user_id"])
             flash("Password Changed", category="message")
@@ -392,7 +393,7 @@ def changedefault():
        # Update session[] array
         session["user_tgtlang"] = request.form.get("targetlang")
         session["user_orglang"] = request.form.get("originlang")
-        session["user_autotrans"] = request.form.get("autotrans")
+        session["user_autotrans"] = varautotrans
         session["user_recallall"] = request.form.get("visiblesaved")
         session["user_recallpinned"] = request.form.get("visiblepinned")
 
@@ -419,8 +420,8 @@ def clearrecords():
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
-    session["last_page"] = "profile"
+    # last_page tracks the last page (either login/index/recallpin/recallall/profile)
+    session["last_page"] = "/profile"
 
     return render_template("clearrecords.html", all_languages=all_languages)
 
@@ -435,23 +436,27 @@ def deleteentries():
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
-    session["last_page"] = "profile"
+    # last_page tracks the last page (either login/index/recallpin/recallall/profile)
+    session["last_page"] = "/profile"
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         print("log: /deleteentries-POST reached")
         
-        # Ensure username was submitted
+        # Ensure password was submitted
         if not request.form.get("checkpwdeleteentries"):
-            return apology("must verify password", 400)
+            flash("MUST VERIFY PASSWORD!", category="error")
+            return redirect("/clearrecords")          
+            #return apology("must verify password", 400)
 
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?", session["user_name"])
         
         # Ensure password is correct
         if not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteentries")):
-            return apology("invalid password", 403)
+            flash("INVALID PASSWORD!", category="error")
+            return redirect("/clearrecords") 
+            #return apology("invalid password", 403)
 
         # PRINT TEST (FOR DEBUGGING)
         #recorddeletiontable = db.execute("SELECT * FROM vocab where userlink = ?", request.form.get("confirmdeleteentries"))
@@ -493,16 +498,20 @@ def deleteaccount():
     if request.method == "POST":
         print("log: /deleteaccount-POST reached")
         
-        # Ensure username was submitted
+        # Ensure password was submitted
         if not request.form.get("checkpwdeleteaccount"):
-            return apology("must verify password", 400)
+            flash("MUST VERIFY PASSWORD!", category="error")
+            return redirect("/clearrecords") 
+            #return apology("must verify password", 400)
 
         # Query database for username
         usertable = db.execute("SELECT * FROM users WHERE username = ?", session["user_name"])
 
-        # Ensure  password is correct
+        # Ensure password is correct
         if not check_password_hash(usertable[0]["hash"], request.form.get("checkpwdeleteaccount")):
-            return apology("invalid password", 403)
+            flash("INVALID PASSWORD!", category="error")
+            return redirect("/clearrecords") 
+            #return apology("invalid password", 403)
 
         # PRINT TEST (FOR LOGGING)
         recorddeletiontable = db.execute("SELECT * FROM vocab where userlink = ?", request.form.get("confirmdeleteaccount"))
@@ -552,7 +561,7 @@ def index():
     # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
     session["user_wordcount"] = usertable[0]["wordcount"]
     session["user_pincount"] = usertable[0]["pincount"]
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    # last_page tracks the last page (either login/index/recallpin/recallall/profile)
     session["last_page"] = "/"
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -656,7 +665,7 @@ def recallpin():
     # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
     session["user_wordcount"] = usertable[0]["wordcount"]
     session["user_pincount"] = usertable[0]["pincount"]
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    # last_page tracks the last page (either login/index/recallpin/recallall/profile)
     session["last_page"] = "/recallpin"
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -712,7 +721,7 @@ def recallall():
     # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
     session["user_wordcount"] = usertable[0]["wordcount"]
     session["user_pincount"] = usertable[0]["pincount"]
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    # last_page tracks the last page (either login/index/recallpin/recallall/profile)
     session["last_page"] = "/recallall"
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -764,7 +773,41 @@ def input():
             flash("MUST PROVIDE WORD/PHRASE TO RECORD AND/OR TRANSLATE!", category="error")
             return render_template("input.html", all_languages=all_languages)
             #return apology("must provide word/phrase to record and/or translate", 400)
-        
+
+        # Ensure input language was submitted
+        if not request.form.get("originlang"):
+            flash("MUST SELECT INPUT LANGUAGE!", category="error")
+            return render_template("input.html", all_languages=all_languages)
+            #return apology("must select origin language", 400)
+
+        # Ensure output language was submitted
+        if not request.form.get("targetlang"):
+            flash("MUST SELECT TARGET LANGUAGE!", category="error")
+            return render_template("input.html", all_languages=all_languages)
+            #return apology("must select translation language", 400)
+
+        # BUG NOTE: input/output languages should be automatically set, but a rare bug often triggers where 
+        # a None-type value is submitted, triggering an Internal Server Error:
+        """
+        2021-07-31T05:07:50.194025+00:00 app[web.1]: ERROR: Exception on /input [POST]
+        2021-07-31T05:07:50.194026+00:00 app[web.1]: [33mTraceback (most recent call last):[0m
+        2021-07-31T05:07:50.194027+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+        2021-07-31T05:07:50.194027+00:00 app[web.1]:     response = self.full_dispatch_request()
+        2021-07-31T05:07:50.194028+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+        2021-07-31T05:07:50.194029+00:00 app[web.1]:     rv = self.handle_user_exception(e)
+        2021-07-31T05:07:50.194029+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+        2021-07-31T05:07:50.194030+00:00 app[web.1]:     rv = self.dispatch_request()
+        2021-07-31T05:07:50.194030+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+        2021-07-31T05:07:50.194031+00:00 app[web.1]:     return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+        2021-07-31T05:07:50.194031+00:00 app[web.1]:   File "/app/helpers.py", line 32, in decorated_function
+        2021-07-31T05:07:50.194032+00:00 app[web.1]:     return f(*args, **kwargs)
+        2021-07-31T05:07:50.194032+00:00 app[web.1]:   File "/app/application.py", line 778, in input
+        2021-07-31T05:07:50.194033+00:00 app[web.1]:     translated = translator.translate(request.form.get("textinput"), src = request.form.get("originlang"), dest = request.form.get("targetlang"))
+        2021-07-31T05:07:50.194034+00:00 app[web.1]:   File "/app/.heroku/python/lib/python3.9/site-packages/googletrans/client.py", line 222, in translate
+        2021-07-31T05:07:50.194034+00:00 app[web.1]:     translated_parts = list(map(lambda part: TranslatedPart(part[0], part[1] if len(part) >= 2 else []), parsed[1][0][0][5]))
+        2021-07-31T05:07:50.194035+00:00 app[web.1]: [33mTypeError: 'NoneType' object is not iterable[0m
+        """
+
         # Initialize an empty dictionary
         translation = {}
 
@@ -838,6 +881,17 @@ def review():
         # Get a copy of translation data in shadow table and wordcount/pincount from user table
         shadowcopy = db.execute("SELECT * FROM shadow WHERE shauserlink = ?", session["user_id"])      
         usernumbers = db.execute("SELECT pincount, wordcount FROM users WHERE userid = ?", session["user_id"])
+
+        # Check if shadowcopy exists
+        if len(shadowcopy) == 0:
+            flash("Internal Server Error. Kindly Repeat Input.", category="error")
+            return redirect("/input")
+        # BUG NOTE: rare issue where user index out of range, unable to reliably reproduce - suspected issue to be purged shadow table due to out-of-order operation:
+        """
+        2021-07-30T08:19:31.367632+00:00 app[web.1]:   File "/app/application.py", line 843, in review
+        2021-07-30T08:19:31.367633+00:00 app[web.1]:     shadowcopy[0]["shauserlink"], shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"],
+        2021-07-30T08:19:31.367633+00:00 app[web.1]: [33mIndexError: list index out of range[0m
+        """
                 
         # Change inputpin value to true/false        
         if request.form.get("inputpin") == "true":
@@ -873,10 +927,6 @@ def review():
             shadowcopy[0]["shalanginput"], shadowcopy[0]["shalangtrans"], shadowcopy[0]["shatime"],  
             request.form.get("difficulty"), varinputpin, False
         ) 
-        #TODO debug user index out of range, unable to reproduce - suspected issue to be purged shadow table due to out-of-order operation
-        #2021-07-30T08:19:31.367632+00:00 app[web.1]:   File "/app/application.py", line 843, in review
-        #2021-07-30T08:19:31.367633+00:00 app[web.1]:     shadowcopy[0]["shauserlink"], shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"],
-        #2021-07-30T08:19:31.367633+00:00 app[web.1]: [33mIndexError: list index out of range[0m
 
         # Purge shadow table after every successful insertion to vocab table
         db.execute("DELETE FROM shadow") 
@@ -926,7 +976,7 @@ def preview():
 
     # NOTE: only /review and /preview route should not purge shadow table
 
-# User reached route via POST (as by submitting a form via POST)
+    # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         print("log: /preview-POST reached")
         revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("previewedit"))
@@ -1057,6 +1107,17 @@ def revision():
     # Obtain copy of shadowtable before purging
     shadowcopy = db.execute("SELECT * FROM shadow WHERE shauserlink = ?", session["user_id"])   
 
+    # Check if shadowcopy exists
+    if len(shadowcopy) == 0:
+        flash("Internal Server Error. Kindly Repeat Edit.", category="error")
+        return redirect("/")
+    # BUG NOTE: rare issue where user index out of range, unable to reliably reproduce - suspected issue to be purged shadow table due to out-of-order operation:
+    """
+    2021-07-30T08:19:31.367632+00:00 app[web.1]:   File "/app/application.py", line 843, in review
+    2021-07-30T08:19:31.367633+00:00 app[web.1]:     shadowcopy[0]["shauserlink"], shadowcopy[0]["shastrinput"], shadowcopy[0]["shastrtrans"],
+    2021-07-30T08:19:31.367633+00:00 app[web.1]: [33mIndexError: list index out of range[0m
+    """
+
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
@@ -1103,7 +1164,7 @@ def revision():
 @app.route("/deletecheck", methods=["GET", "POST"])
 @login_required
 def deletecheck():
-    # NOTE - VESTIGIAL ROUTE, IS NOT CALLED (NEW DELETION MODAL CALLS /DELETION DIRECTLY), ONLY RETAINED FOR BACKUP
+    # NOTE - VESTIGIAL ROUTE, IS NO LONGER CALLED (NEW DELETION MODAL CALLS /DELETION DIRECTLY), ONLY RETAINED FOR BACKUP
     """Show Delete Entry Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -1169,7 +1230,26 @@ def deletion():
         
         flash("Entry Deleted", category="message")
         
-        # Redirect to index.html
+        # Redirect based on the value of last_page (aside from /login)
+        # last_page tracks the last page (either login/index/recallpin/recallall/profile)        
+        
+        # Redirect to index
+        if session["last_page"] == "/":
+            return redirect("/")
+        
+        # Redirect to recallpinned
+        if session["last_page"] == "/recallpin":
+            return redirect("/recallpin")
+        
+        # Redirect to recallall        
+        if session["last_page"] == "/recallall":
+            return redirect("/recallall")
+        
+        # Redirect to profile        
+        if session["last_page"] == "/profile":
+            return redirect("/profile")        
+        
+        # Redirect to index.html (backup)
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
@@ -1214,6 +1294,8 @@ def pinentry():
                 True, request.form.get("indexpinentry")
             )
 
+            flash("Entry Pinned", category="message")
+
             return redirect("/")
 
         # User reached route from recalll all page
@@ -1233,6 +1315,8 @@ def pinentry():
                 "UPDATE vocab SET pin = ? WHERE wordid = ?",
                 True, request.form.get("recallallpinentry")
             )
+
+            flash("Entry Pinned", category="message")
 
             return redirect("/recallall")
 
@@ -1279,6 +1363,8 @@ def unpinentry():
                 False, request.form.get("indexunpinentry")
             )
 
+            flash("Entry Unpinned", category="message")
+
             return redirect("/")
 
         # User reached route from recall pinned page                
@@ -1298,6 +1384,8 @@ def unpinentry():
                 "UPDATE vocab SET pin = ? WHERE wordid = ?",
                 False, request.form.get("recallpinunpinentry")
             ) 
+
+            flash("Entry Unpinned", category="message")
 
             return redirect("/recallpin")  
         
@@ -1319,6 +1407,8 @@ def unpinentry():
                 "UPDATE vocab SET pin = ? WHERE wordid = ?",
                 False, request.form.get("recallallunpinentry")
             ) 
+
+            flash("Entry Unpinned", category="message")
 
             return redirect("/recallall")
 

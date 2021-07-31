@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    About
+    About Page
 {% endblock %}
 
 {% block main %}
@@ -20,7 +20,7 @@
             and supports translations across 15 different languages. 
             <br>
             <br>
-            Please note that the UI is primarily designed in English, although a google translate option is available in the bottom of the page.
+            Please note that the UI is primarily designed in English, although a Google Translate option is available in the bottom of the page.
             <br>
         </p>
         <br>
@@ -98,10 +98,16 @@
         <br>
         
 
-        <h5>Known Limitations</h5>
-        <p align="justify">
+        <h5>Known Issues and Limitations</h5>
+        <p align="justify">            
+            There is a rare chance for an Internal Server Error to occur while adding a new entry or editing a current entry. 
+            This issue is more likely to occur when multiple instances of the application are active and conflicting processes are triggered. 
+            Pertinent console logs that show the underlying issue can be found in the application issue tracker 
+            <a href ="https://github.com/rkjrivero/vocab-memopad/issues/4"  target="_blank" rel="noopener noreferrer">here</a>.
+            <br>
             The application UI is currently only designed with desktop browsers in mind, and is not particularly mobile-friendly, primarily due to current navigation bar and table wrapping setup.
             <br>
+            Translations may not be fully accurate as only the first translation entry returned by the API is currently used, which is an issue for words with multiple valid situational translations.
         </p>
         <br>
 
@@ -109,8 +115,8 @@
         <p align="justify">
             A more mobile-friendly UX is part of future development plans. 
             <br>
-            There are also future plans to incorporate other translation API's for certain languages, such as <a href="https://jisho.org/" target="_blank" rel="noopener noreferrer">Jisho API</a> for Japanese translations.
-            <br>
+            There are also future plans to incorporate other translation API's for certain languages, such as 
+            <a href="https://jisho.org/" target="_blank" rel="noopener noreferrer">Jisho API</a> for Japanese translations.
         </p>
         <br>
         
@@ -118,7 +124,7 @@
         <p align="justify">
             Some of the application's UI elements and underlying base code have been borrowed from <a href="https://cs50.harvard.edu/x/2021/" target="_blank" rel="noopener noreferrer">CS50x's</a> <a href="https://cs50.harvard.edu/x/2021/psets/9/finance/" target="_blank" rel="noopener noreferrer">Finance problem set</a>.
             <br>
-            This web application was initially created in fulfillment of CS50x's <a href="https://cs50.harvard.edu/x/2021/project/" target="_blank" rel="noopener noreferrer">Final Project</a> requirments.
+            This web application was initially created in fulfillment of CS50x's <a href="https://cs50.harvard.edu/x/2021/project/" target="_blank" rel="noopener noreferrer">Final Project</a> requirements.
         </p>
         <br>
 
@@ -180,7 +186,8 @@
         
         <h5>Contact</h5> 
         <p align="justify">
-            Feel free to leave feedback at the application's <a href="https://github.com/rkjrivero/vocab-memopad" target="_blank" rel="noopener noreferrer">github page</a>.
+            Feel free to leave feedback at the application's <a href="https://github.com/rkjrivero/vocab-memopad" target="_blank" rel="noopener noreferrer">github page</a>. 
+            Any remarks are welcome, as the plan is to slowly improve the application over time as a personal pet project.
         </p>
         <br>
         
