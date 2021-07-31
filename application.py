@@ -313,12 +313,22 @@ def changepw():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+        
+        # Query database for username
+        userdb = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
+        print("userdb[0][hash]:", userdb[0]["hash"])
 
         # Ensure old password was submitted
         if not request.form.get("oldpw"):
             flash("MUST PROVIDE OLD PASSWORD!", category="error")
             return render_template("changepw.html")
             #return apology("must provide old password", 403)
+
+        # Ensure old password is correct
+        if check_password_hash(userdb[0]["hash"], request.form.get("oldpw")) == False:
+            flash("INVALID OLD PASSWORD!", category="error")
+            return render_template("changepw.html")
+            #return apology("invalid old password", 403)  
 
         # Ensure new password was submitted
         elif not request.form.get("newpw"):
@@ -331,18 +341,9 @@ def changepw():
             flash("ENSURE NEW PASSWORD MATCHES!", category="error")
             return render_template("changepw.html")
             #return apology("ensure new password matches", 403)
-
-        # Query database for username
-        userdb = db.execute("SELECT * FROM users WHERE userid = ?", session["user_id"])
-        print("userdb[0][hash]:", userdb[0]["hash"])
-
-        # Ensure old password is correct
-        if check_password_hash(userdb[0]["hash"], request.form.get("oldpw")) == False:
-            flash("INVALID OLD PASSWORD!", category="error")
-            return render_template("changepw.html")
-            #return apology("invalid old password", 403)            
-
-        else:
+        
+        # Update password
+        if check_password_hash(userdb[0]["hash"], request.form.get("oldpw")) == True:
             changepass = generate_password_hash(request.form.get("newpw"), method='pbkdf2:sha256', salt_length=8)
             db.execute("UPDATE users SET hash = ? WHERE userid = ?", changepass, session["user_id"])
             flash("Password Changed", category="message")
