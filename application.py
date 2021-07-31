@@ -299,7 +299,7 @@ def profile():
     db.execute("DELETE FROM shadow") 
 
     # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
-    session["last_page"] = "profile"
+    session["last_page"] = "/profile"
 
     return render_template("profile.html", all_languages=all_languages)
 
@@ -420,7 +420,7 @@ def clearrecords():
     db.execute("DELETE FROM shadow") 
 
     # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
-    session["last_page"] = "profile"
+    session["last_page"] = "/profile"
 
     return render_template("clearrecords.html", all_languages=all_languages)
 
@@ -436,7 +436,7 @@ def deleteentries():
     db.execute("DELETE FROM shadow") 
 
     # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
-    session["last_page"] = "profile"
+    session["last_page"] = "/profile"
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -1229,7 +1229,26 @@ def deletion():
         
         flash("Entry Deleted", category="message")
         
-        # Redirect to index.html
+        # Redirect based on the value of last_page (aside from /login)
+        # last_page tracks the last page (either login/index/recallpinned/recallall/profile)        
+        
+        # Redirect to index
+        if session["last_page"] == "/":
+            return redirect("/")
+        
+        # Redirect to recallpinned
+        if session["last_page"] == "/recallpinned":
+            return redirect("/recallpinned")
+        
+        # Redirect to recallall        
+        if session["last_page"] == "/recallall":
+            return redirect("/recallall")
+        
+        # Redirect to profile        
+        if session["last_page"] == "/profile":
+            return redirect("/profile")        
+        
+        # Redirect to index.html (backup)
         return redirect("/")
 
     # User reached route via GET (as by clicking a link or via redirect)
