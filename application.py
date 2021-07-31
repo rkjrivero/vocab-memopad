@@ -111,37 +111,37 @@ def register():
         # Ensure username was submitted
         if not request.form.get("username"):
             flash("MUST PROVIDE USERNAME!", category="error")
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
             #return apology("must provide username", 400)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
             flash("MUST PROVIDE PASSWORD!", category="error")
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
             #return apology("must provide password", 400)
 
         # Ensure confirmation password was submitted
         elif not request.form.get("confirmation"):
             flash("MUST REPEAT PASSWORD!", category="error")
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
             #return apology("must repeat password", 400)
 
         elif not request.form.get("confirmation") == request.form.get("password"):
             flash("PASSWORDS MUST MATCH!", category="error")
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
             #return apology("passwords must match", 400)
 
         # Ensure target language was selected
         if not request.form.get("targetlang"):
             flash("MUST SELECT DEFAULT TRANSLATION LANGUAGE!", category="error")
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
             #return apology("must select target language", 400)
         tgtlang = request.form.get("targetlang")
     
         # Ensure origin language was selected
         if not request.form.get("originlang"):
             flash("MUST SELECT DEFAULT INPUT LANGUAGE!", category="error")
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
             #return apology("must select origin language", 400)
         orglang = request.form.get("originlang")
 
@@ -158,7 +158,7 @@ def register():
         # Check if username exists
         if len(usertable) != 0:
             flash("EXISTING USER DETECTED!", category="error")
-            return render_template("register.html")
+            return render_template("register.html", all_languages=all_languages)
             #return apology("existing user detected", 400)
 
         else:
