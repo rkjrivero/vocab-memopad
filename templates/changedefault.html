@@ -57,6 +57,7 @@
                 </div>                
                 <script>
                     function changeoriginlang() {
+                        alert("changeoriginlang triggered")
                         document.getElementById("originlang").value = "{{session.user_orglang}}";
                     }
                 </script>
@@ -90,6 +91,7 @@
                 </div>                                
                 <script>
                     function changetargetlang() {
+                        alert("changetargetlang triggered")
                         document.getElementById("targetlang").value = "{{session.user_tgtlang}}";
                     }
                 </script>
