@@ -99,11 +99,14 @@
         
 
         <h5>Known Issues and Limitations</h5>
-        <p align="justify">
+        <p align="justify">            
+            There is a rare chance for an Internal Server Error to occur while adding a new entry or editing a current entry. 
+            This issue is more likely to occur when multiple instances of the application are active and conflicting processes are triggered. 
+            Pertinent console logs can be found <a href ="https://github.com/rkjrivero/vocab-memopad/issues/4"  target="_blank" rel="noopener noreferrer">here</a>.
+            <br>
             The application UI is currently only designed with desktop browsers in mind, and is not particularly mobile-friendly, primarily due to current navigation bar and table wrapping setup.
             <br>
-            There is a rare chance for an Internal Server Error to occur while adding a new entry or editing a current entry. 
-            This is more likely to occur when multiple instances of the application are active and conflicting processes are triggered.
+            Translations may not be fully accurate as only the first translation entry returned by the API is currently used, which is an issue for words with multiple valid situational translations.
         </p>
         <br>
 
