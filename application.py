@@ -15,8 +15,8 @@ from googletrans import Translator
 import pytz
 
 # TRANSITION TO SQLALCHEMY ONCE MAIN FUNCTIONALITY IS ESTABLISHED - NOTE: IMPLEMENTATION ABANDONED, RELYING ON CS50.SQL FOR SIMPLICITY
-"""
-# Import SQLAlchemy NOTE: currently vestigial due to CS50 reliance
+"""  NOTE: currently vestigial due to CS50 reliance
+# Import SQLAlchemy
 from sqlalchemy.sql.expression import false, null
 import sqlalchemy # provisional
 # https://www.learndatasci.com/tutorials/using-databases-python-postgres-sqlalchemy-and-alembic/
@@ -46,7 +46,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Session Setup - NOTE: IMPLEMENTATION ABANDONED, RELYING ON COOKIES (SEE ABOVE) FOR SIMPLICITY
-""" DISABLED
+""" NOTE: disabled for simplicity, relying only on session cookie
 # from https://stackoverflow.com/questions/34902378/where-do-i-get-a-secret-key-for-flask/34903502 because ... eh, cbf
 himitsu_key = secrets.token_hex(16)
 print("secret key is: ",himitsu_key)
@@ -314,13 +314,13 @@ def changepw():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        # Ensure username was submitted
+        # Ensure old password was submitted
         if not request.form.get("oldpw"):
             flash("MUST PROVIDE OLD PASSWORD!", category="error")
             return render_template("changepw.html")
             #return apology("must provide old password", 403)
 
-        # Ensure password was submitted
+        # Ensure new password was submitted
         elif not request.form.get("newpw"):
             flash("MUST PROVIDE NEW PASSWORD!", category="error")
             return render_template("changepw.html")
@@ -975,7 +975,7 @@ def preview():
 
     # NOTE: only /review and /preview route should not purge shadow table
 
-# User reached route via POST (as by submitting a form via POST)
+    # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         print("log: /preview-POST reached")
         revisiontable = db.execute("SELECT * FROM vocab where wordid = ?", request.form.get("previewedit"))
@@ -1163,7 +1163,7 @@ def revision():
 @app.route("/deletecheck", methods=["GET", "POST"])
 @login_required
 def deletecheck():
-    # NOTE - VESTIGIAL ROUTE, IS NOT CALLED (NEW DELETION MODAL CALLS /DELETION DIRECTLY), ONLY RETAINED FOR BACKUP
+    # NOTE - VESTIGIAL ROUTE, IS NO LONGER CALLED (NEW DELETION MODAL CALLS /DELETION DIRECTLY), ONLY RETAINED FOR BACKUP
     """Show Delete Entry Page"""
 
     # Update current display time - display format: dd/mm/YY H:M:S
