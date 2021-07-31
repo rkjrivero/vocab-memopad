@@ -252,7 +252,7 @@ def login():
         session["user_indexunpinned"] = usertable[0]["indexunpinned"]
         session["user_recallall"] = usertable[0]["recallall"]
         session["user_recallpinned"] = usertable[0]["recallpinned"]
-        # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+        # last_page tracks the last page (either login/index/recallpin/recallall/profile)
         session["last_page"] = "/login"
 
         # Update current display time - display format: dd/mm/YY H:M:S
@@ -298,7 +298,7 @@ def profile():
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    # last_page tracks the last page (either login/index/recallpin/recallall/profile)
     session["last_page"] = "/profile"
 
     return render_template("profile.html", all_languages=all_languages)
@@ -419,7 +419,7 @@ def clearrecords():
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    # last_page tracks the last page (either login/index/recallpin/recallall/profile)
     session["last_page"] = "/profile"
 
     return render_template("clearrecords.html", all_languages=all_languages)
@@ -435,7 +435,7 @@ def deleteentries():
     # Purge shadow table to ensure no errant entries
     db.execute("DELETE FROM shadow") 
 
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    # last_page tracks the last page (either login/index/recallpin/recallall/profile)
     session["last_page"] = "/profile"
 
     # User reached route via POST (as by submitting a form via POST)
@@ -560,7 +560,7 @@ def index():
     # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
     session["user_wordcount"] = usertable[0]["wordcount"]
     session["user_pincount"] = usertable[0]["pincount"]
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    # last_page tracks the last page (either login/index/recallpin/recallall/profile)
     session["last_page"] = "/"
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -664,7 +664,7 @@ def recallpin():
     # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
     session["user_wordcount"] = usertable[0]["wordcount"]
     session["user_pincount"] = usertable[0]["pincount"]
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    # last_page tracks the last page (either login/index/recallpin/recallall/profile)
     session["last_page"] = "/recallpin"
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -720,7 +720,7 @@ def recallall():
     # user_allcount/pincount are also used for layout display, and are dynamic (automatically increased/decreased)
     session["user_wordcount"] = usertable[0]["wordcount"]
     session["user_pincount"] = usertable[0]["pincount"]
-    # last_page tracks the last page (either login/index/recallpinned/recallall/profile)
+    # last_page tracks the last page (either login/index/recallpin/recallall/profile)
     session["last_page"] = "/recallall"
 
     # Update current display time - display format: dd/mm/YY H:M:S
@@ -1230,15 +1230,15 @@ def deletion():
         flash("Entry Deleted", category="message")
         
         # Redirect based on the value of last_page (aside from /login)
-        # last_page tracks the last page (either login/index/recallpinned/recallall/profile)        
+        # last_page tracks the last page (either login/index/recallpin/recallall/profile)        
         
         # Redirect to index
         if session["last_page"] == "/":
             return redirect("/")
         
         # Redirect to recallpinned
-        if session["last_page"] == "/recallpinned":
-            return redirect("/recallpinned")
+        if session["last_page"] == "/recallpin":
+            return redirect("/recallpin")
         
         # Redirect to recallall        
         if session["last_page"] == "/recallall":
