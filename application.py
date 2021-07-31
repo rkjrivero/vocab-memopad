@@ -392,7 +392,7 @@ def changedefault():
        # Update session[] array
         session["user_tgtlang"] = request.form.get("targetlang")
         session["user_orglang"] = request.form.get("originlang")
-        session["user_autotrans"] = request.form.get("autotrans")
+        session["user_autotrans"] = varautotrans
         session["user_recallall"] = request.form.get("visiblesaved")
         session["user_recallpinned"] = request.form.get("visiblepinned")
 
