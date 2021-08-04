@@ -193,11 +193,11 @@ def login():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         
-        # Forget any userid
-        session.clear()
-
         # Purge shadow table to ensure no errant entries
-        db.execute("DELETE FROM shadow") 
+        db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
+
+        # Forget any userid
+        session.clear()        
 
         """
         # NOTE: temporary code to block none "tester" accounts
@@ -275,12 +275,12 @@ def login():
 def logout():
     # NOTE - LOGOUT DEFINITION ORIGINALLY FROM CS50PSET9, WITHOUT MODIFICATION
     """Log user out"""
+    
+    # Purge shadow table to ensure no errant entries
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # Forget any userid
-    session.clear()
-
-    # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    session.clear()    
 
     # Redirect user to login form
     return redirect("/login")
@@ -296,7 +296,7 @@ def profile():
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # last_page tracks the last page (either login/index/recallpin/recallall/profile)
     session["last_page"] = "/profile"
@@ -418,7 +418,7 @@ def clearrecords():
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # last_page tracks the last page (either login/index/recallpin/recallall/profile)
     session["last_page"] = "/profile"
@@ -434,7 +434,7 @@ def deleteentries():
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # last_page tracks the last page (either login/index/recallpin/recallall/profile)
     session["last_page"] = "/profile"
@@ -492,7 +492,7 @@ def deleteaccount():
     """Deletes all data for user"""
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -568,7 +568,7 @@ def index():
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
     
     # Create empty list, to populate with *list of dictionaries*
     notpinvocabtable = []
@@ -672,7 +672,7 @@ def recallpin():
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # Create empty list, to populate with *list of dictionaries*
     pinnedvocabtable = []
@@ -728,7 +728,7 @@ def recallall():
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # Create empty list, to populate with *list of dictionaries*
     fullvocabtable = []
@@ -764,7 +764,7 @@ def input():
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
     
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -929,7 +929,7 @@ def review():
         ) 
 
         # Purge shadow table after every successful insertion to vocab table
-        db.execute("DELETE FROM shadow") 
+        db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
         return redirect("/")
 
@@ -949,7 +949,7 @@ def editentry():
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -1119,7 +1119,7 @@ def revision():
     """
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -1171,7 +1171,7 @@ def deletecheck():
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -1197,7 +1197,7 @@ def deletion():
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -1270,7 +1270,7 @@ def pinentry():
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
@@ -1339,7 +1339,7 @@ def unpinentry():
     session["current_time"] = datetime.now(pytz.utc) #.strftime("%Y/%m/%d %H:%M:%S")
 
     # Purge shadow table to ensure no errant entries
-    db.execute("DELETE FROM shadow") 
+    db.execute("DELETE FROM shadow WHERE shauserlink = ?", session["user_id"]) 
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
