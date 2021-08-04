@@ -1110,6 +1110,22 @@ def revision():
     # Check if shadowcopy exists
     if len(shadowcopy) == 0:
         flash("Internal Server Error. Kindly Repeat Edit.", category="error")
+        # Redirect based on the value of last_page (aside from /login)
+        # last_page tracks the last page (either login/index/recallpin/recallall/profile)
+        #                 
+        # Redirect to index
+        if session["last_page"] == "/":
+            return redirect("/")
+        
+        # Redirect to recallpinned
+        if session["last_page"] == "/recallpin":
+            return redirect("/recallpin")
+        
+        # Redirect to recallall        
+        if session["last_page"] == "/recallall":
+            return redirect("/recallall")        
+        
+        # Redirect to index.html (backup)
         return redirect("/")
     # BUG NOTE: rare issue where user index out of range, unable to reliably reproduce - suspected issue to be purged shadow table due to out-of-order operation:
     """
