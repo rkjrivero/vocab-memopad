@@ -571,17 +571,17 @@ def index():
     db.execute("DELETE FROM shadow") 
     
     # Create empty list, to populate with *list of dictionaries*
-    allvocabtable = []
+    notpinvocabtable = []
     pinvocabtable = []
     allcount = 25
     pincount = 10
 
     # PRINT TESTS (FOR DEBUGGING)
     #print("test, vocabtable[{}]: ", vocabtable)
-    #print("test, allvocabtable (before): ", allvocabtable)
+    #print("test, notpinvocabtable (before): ", notpinvocabtable)
     #print("test, pinvocabtable (before): ", pinvocabtable)
     
-    # Filter out for allvocabtable
+    # Filter out for notpinvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
     for vocabtable_list in vocabtable:
         #print("test, vocabtable_list (list-of-dict): ", vocabtable_list)
@@ -601,15 +601,15 @@ def index():
                         if vt_key == "pin" and vt_value == False:
                             #print("log: pinned=False match")
                             #print("test, vocabtable_list (dict): ", vocabtable_list)
-                            allvocabtable.append(vocabtable_list)
-                            #print("test, allvocabtable.append: ", allvocabtable)
+                            notpinvocabtable.append(vocabtable_list)
+                            #print("test, notpinvocabtable.append: ", notpinvocabtable)
                             # NOTE: subtract 1 from allcount
                             allcount = allcount - 1
             else:
                 # End loop once 25 entries have been detected
                 #print("log: function break due to allcount at ", allcount)
                 break            
-    #print("test, allvocabtable (after): ", allvocabtable)
+    #print("test, notpinvocabtable (after): ", notpinvocabtable)
 
     # Filter out for pinvocabtable
     # NOTE: go through all dictionary items within the list that db.execute returns
@@ -642,7 +642,7 @@ def index():
                 break  
     #print("test, pinvocabtable (after): ", pinvocabtable)
     
-    return render_template("index.html", vocabtable=vocabtable, allvocabtable=allvocabtable, pinvocabtable=pinvocabtable, all_languages=all_languages)
+    return render_template("index.html", vocabtable=vocabtable, notpinvocabtable=notpinvocabtable, pinvocabtable=pinvocabtable, all_languages=all_languages)
 
 @app.route("/recallpin")
 @login_required
