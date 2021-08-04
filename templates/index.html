@@ -52,7 +52,7 @@
                 <th>Input Word/Phrase</th>
                 <th>Input Language</th>
                 <th>Translated Word/Phrase</th>
-                <th>Translated Language</th>
+                <th>Translation Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
                 <!--
@@ -97,7 +97,7 @@
                                                     <th>Input Word/Phrase</th>
                                                     <th>Input Language</th>
                                                     <th>Translated Word/Phrase</th>
-                                                    <th>Translated Language</th>
+                                                    <th>Translation Language</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -142,7 +142,7 @@
                                                     <th>Input Word/Phrase</th>
                                                     <th>Input Language</th>
                                                     <th>Translated Word/Phrase</th>
-                                                    <th>Translated Language</th>
+                                                    <th>Translation Language</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -179,38 +179,38 @@
                 <th>Input Word/Phrase</th>
                 <th>Input Language</th>
                 <th>Translated Word/Phrase</th>
-                <th>Translated Language</th>
+                <th>Translation Language</th>
                 <th>Date/Time Saved</th>
                 <th>Difficulty Rating</th>
                 <!--
                 <th>Entry Edited?</th>
                 -->
-                <th>UNPIN</th>                
+                <th>PIN</th>                
                 <th>EDIT</th>
                 <th>DELETE</th>
             </tr>
         </thead>
         <tbody>
-            {% for allvocabtable in allvocabtable %}
+            {% for notpinvocabtable in notpinvocabtable %}
             <tr>
-                <td> {{ allvocabtable.strinput }}  </td>
-                <td> {{ all_languages[allvocabtable.langinput] }} </td>
-                <td> {{ allvocabtable.strtrans }} </td>
-                <td> {{ all_languages[allvocabtable.langtrans] }} </td>
+                <td> {{ notpinvocabtable.strinput }}  </td>
+                <td> {{ all_languages[notpinvocabtable.langinput] }} </td>
+                <td> {{ notpinvocabtable.strtrans }} </td>
+                <td> {{ all_languages[notpinvocabtable.langtrans] }} </td>
                 <td> 
-                    <time datetime="{{ allvocabtable.time }}">
-                        {{ allvocabtable.time }}                          
+                    <time datetime="{{ notpinvocabtable.time }}">
+                        {{ notpinvocabtable.time }}                          
                     </time>
                 </td>
-                <td> {{ allvocabtable.rating }} </td>
+                <td> {{ notpinvocabtable.rating }} </td>
                 <!--
-                <td> {{ allvocabtable.edit }} </td>
+                <td> {{ notpinvocabtable.edit }} </td>
                 -->
                 <td>  
                     <form action="/pinentry" method="post">
-                        <button type="button" name="pinword" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#pinmodal{{allvocabtable.wordid}}">+</button>                        
+                        <button type="button" name="pinword" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#pinmodal{{notpinvocabtable.wordid}}">+</button>                        
                         <!-- Pop-up Modal -->
-                        <div class="modal fade" id="pinmodal{{allvocabtable.wordid}}" tabindex="-1" aria-labelledby="pinmodallabel" aria-hidden="true">
+                        <div class="modal fade" id="pinmodal{{notpinvocabtable.wordid}}" tabindex="-1" aria-labelledby="pinmodallabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -224,22 +224,22 @@
                                                     <th>Input Word/Phrase</th>
                                                     <th>Input Language</th>
                                                     <th>Translated Word/Phrase</th>
-                                                    <th>Translated Language</th>
+                                                    <th>Translation Language</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td> {{ allvocabtable.strinput }}  </td>
-                                                    <td> {{ all_languages[allvocabtable.langinput] }} </td>
-                                                    <td> {{ allvocabtable.strtrans }} </td>
-                                                    <td> {{ all_languages[allvocabtable.langtrans] }} </td>
+                                                    <td> {{ notpinvocabtable.strinput }}  </td>
+                                                    <td> {{ all_languages[notpinvocabtable.langinput] }} </td>
+                                                    <td> {{ notpinvocabtable.strtrans }} </td>
+                                                    <td> {{ all_languages[notpinvocabtable.langtrans] }} </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-outline-success" name="indexpinentry" value="{{allvocabtable.wordid}}">Pin Entry</button>                                                                                
+                                        <button type="submit" class="btn btn-outline-success" name="indexpinentry" value="{{notpinvocabtable.wordid}}">Pin Entry</button>                                                                                
                                     </div>
                                 </div>
                             </div>
@@ -248,14 +248,14 @@
                 </td>
                 <td>  
                     <form action="/editentry" method="post">
-                        <button type="submit" name="editword" class="btn btn-info" value="{{allvocabtable.wordid}}">!</button>
+                        <button type="submit" name="editword" class="btn btn-info" value="{{notpinvocabtable.wordid}}">!</button>
                     </form>
                 </td>
                 <td>  
                     <form action="/deletion" method="post">
-                        <button type="button" name="pinword" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteunpinnedmodal{{allvocabtable.wordid}}">X</button>                        
+                        <button type="button" name="pinword" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteunpinnedmodal{{notpinvocabtable.wordid}}">X</button>                        
                         <!-- Pop-up Modal -->
-                        <div class="modal fade" id="deleteunpinnedmodal{{allvocabtable.wordid}}" tabindex="-1" aria-labelledby="deleteunpinnedmodallabel" aria-hidden="true">
+                        <div class="modal fade" id="deleteunpinnedmodal{{notpinvocabtable.wordid}}" tabindex="-1" aria-labelledby="deleteunpinnedmodallabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -269,22 +269,22 @@
                                                     <th>Input Word/Phrase</th>
                                                     <th>Input Language</th>
                                                     <th>Translated Word/Phrase</th>
-                                                    <th>Translated Language</th>
+                                                    <th>Translation Language</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td> {{ allvocabtable.strinput }}  </td>
-                                                    <td> {{ all_languages[allvocabtable.langinput] }} </td>
-                                                    <td> {{ allvocabtable.strtrans }} </td>
-                                                    <td> {{ all_languages[allvocabtable.langtrans] }} </td>
+                                                    <td> {{ notpinvocabtable.strinput }}  </td>
+                                                    <td> {{ all_languages[notpinvocabtable.langinput] }} </td>
+                                                    <td> {{ notpinvocabtable.strtrans }} </td>
+                                                    <td> {{ all_languages[notpinvocabtable.langtrans] }} </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="btn btn-danger" name="deleteword" value="{{allvocabtable.wordid}}">Delete Entry</button>                                                                                
+                                        <button type="submit" class="btn btn-danger" name="deleteword" value="{{notpinvocabtable.wordid}}">Delete Entry</button>                                                                                
                                     </div>
                                 </div>
                             </div>

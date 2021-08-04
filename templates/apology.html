@@ -6,4 +6,16 @@
 
 {% block main %}
     <img alt="Error {{ top }}" class="border" src="http://memegen.link/custom/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg?alt=https://i.imgur.com/aRE80Co.jpg" title=" Error {{ top }}">
+    <br>
+    <!--dynamic return action-->
+    {% if session.user_id %}
+    <form action="{{session.last_page}}" method="get">
+        <button type="submit" class="btn btn-secondary">Return</button>
+    </form>  
+    {% else %}
+    <div>
+        <a class="btn btn-secondary" href="/">Return</a>
+    </div>
+    {% endif %}
+    <br>
 {% endblock %}
